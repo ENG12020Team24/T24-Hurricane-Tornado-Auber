@@ -23,142 +23,136 @@ import com.mygdx.auber.Auber;
 import com.mygdx.auber.ScrollingBackground;
 
 
-public class MainMenuScreen implements Screen {
-
-    private Viewport viewport;
-    Stage stage;
-    TextButton playButton, exitButton, demoButton, tutorialButton;
+public class ChooseDifficultyScreen implements Screen{
+    private final Stage stage;
+    TextButton easyButton, normalButton, hardButton, backButton; 
     TextButton.TextButtonStyle textButtonStyle;
     BitmapFont font;
     Skin skin;
-    TextureAtlas buttonAtlas;
-    Texture title;
-    Image titleCard;
     Texture background;
-    private Auber game;
+    TextureAtlas buttonAtlas;
 
-    public MainMenuScreen(final Auber game){
-        this.game = game;
-
-        viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, new OrthographicCamera());
-        stage = new Stage(viewport, ((Auber) game).batch);
+    /**
+     * Lets the player choose dificulty based on button press.
+     * Calls PlayScreen with a number based on the difficulty:
+     *      0 - Easy
+     *      1 - Normal
+     *      2 - Hard
+     */
+    public ChooseDifficultyScreen(final Auber game){
+        Viewport viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, new OrthographicCamera());
+        stage = new Stage(viewport, game.batch);
         Gdx.input.setInputProcessor(stage);
 
-        font = new BitmapFont();
-        skin = new Skin();
-        title = new Texture("TitleCard.png");
-        buttonAtlas = new TextureAtlas("buttonAtlas.atlas");
         background = new Texture("background.png");
+
+        skin = new Skin();
+        buttonAtlas = new TextureAtlas("buttonAtlas.atlas");
         skin.addRegions(buttonAtlas);
+
+
+        font = new BitmapFont();
         textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.font = font;
         textButtonStyle.up = skin.getDrawable("up-button");
         textButtonStyle.down = skin.getDrawable("down-button");
         textButtonStyle.checked = skin.getDrawable("checked-button");
-        playButton = new TextButton("PLAY", textButtonStyle);
-        demoButton = new TextButton("DEMO", textButtonStyle);
-        exitButton = new TextButton("EXIT", textButtonStyle);
-        tutorialButton = new TextButton("TUTORIAL", textButtonStyle);
-        titleCard = new Image(title);
-        playButton.setSize(200, 190);
 
-        playButton.addListener(new ClickListener(){
+        easyButton = new TextButton("Easy", textButtonStyle);
+        normalButton = new TextButton("Normal", textButtonStyle);
+        hardButton = new TextButton("Hard", textButtonStyle);
+        backButton = new TextButton("Back", textButtonStyle);
+
+        easyButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //System.out.println("Clicked");
-                game.setScreen(new ChooseDifficultyScreen(game)); 
+                game.setScreen(new PlayScreen(game, false, 0));
             }
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                //System.out.println("Hovered");
-                playButton.setChecked(true);
+                easyButton.setChecked(true);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                //System.out.println("Exited");
-                playButton.setChecked(false);
+                easyButton.setChecked(false);
             }
         });
-        exitButton.addListener(new ClickListener(){
+
+        normalButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
+                game.setScreen(new PlayScreen(game, false, 1));
             }
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                //System.out.println("Hovered");
-                exitButton.setChecked(true);
+                normalButton.setChecked(true);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                //System.out.println("Exited");
-                exitButton.setChecked(false);
+                normalButton.setChecked(false);
             }
         });
-        demoButton.addListener(new ClickListener(){
+
+        hardButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //System.out.println("Clicked");
-                game.setScreen(new PlayScreen(game, true, 42));
+                game.setScreen(new PlayScreen(game, false, 2));
             }
-
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                //System.out.println("Hovered");
-                demoButton.setChecked(true);
+                hardButton.setChecked(true);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                //System.out.println("Exited");
-                demoButton.setChecked(false);
+                hardButton.setChecked(false);
             }
         });
-        tutorialButton.addListener(new ClickListener(){
+
+        backButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //System.out.println("Clicked");
-                game.setScreen(new TutorialScreen(game));
+                game.setScreen(new MainMenuScreen(game));
             }
-
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                //System.out.println("Hovered");
-                tutorialButton.setChecked(true);
+                backButton.setChecked(true);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                //System.out.println("Exited");
-                tutorialButton.setChecked(false);
+                backButton.setChecked(false);
             }
         });
 
-        Table menuTable = new Table();
-        menuTable.setTouchable(Touchable.enabled);
-        menuTable.setFillParent(true);
-        menuTable.add(titleCard).padBottom(20);
-        menuTable.row();
-        menuTable.add(playButton).padBottom(20);
-        menuTable.row();
-        menuTable.add(demoButton).padBottom(20);
-        menuTable.row();
-        menuTable.add(tutorialButton).padBottom(20);
-        menuTable.row();
-        menuTable.add(exitButton);
-        //menuTable.debug();
+        Table difficultyTable = new Table();
+        difficultyTable.center();
+        difficultyTable.setFillParent(true);
+        difficultyTable.setTouchable(Touchable.enabled);
 
-        stage.addActor(menuTable);
+        // difficultyTable.add(CHOOSE DIFFILCULTY TEXT).padBottom(20);
+        // difficultyTable.row();
+
+        difficultyTable.add(easyButton).padBottom(20);
+        difficultyTable.row();
+        difficultyTable.add(normalButton).padBottom(20);
+        difficultyTable.row();
+        difficultyTable.add(hardButton).padBottom(50);
+        difficultyTable.row();
+        difficultyTable.add(backButton).padBottom(20);
+
+        stage.addActor(difficultyTable);
+
     }
 
     @Override
     public void show() {
-
+        // TODO Auto-generated method stub
 
     }
 
@@ -174,21 +168,26 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height);
+        // TODO Auto-generated method stub
+
     }
 
     @Override
     public void pause() {
+        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void resume() {
+        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void hide() {
+        // TODO Auto-generated method stub
+
     }
 
     @Override
@@ -199,4 +198,5 @@ public class MainMenuScreen implements Screen {
         buttonAtlas.dispose();
         background.dispose();
     }
+    
 }
