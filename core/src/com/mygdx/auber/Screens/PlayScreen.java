@@ -39,15 +39,18 @@ public class PlayScreen implements Screen {
     public Player player;
 
     public static final int numberOfInfiltrators = 8;
-    public static final int numberOfCrew = 120;
-    public static final int maxIncorrectArrests = 3;
+    public static int numberOfCrew;
+    public static int maxIncorrectArrests;
 
     private static boolean demo;
+    private int difficulty;
 
     public PlayScreen(Auber game, boolean demo, int difficulty){
         this.game = game;
         this.demo = demo;
-
+        this.difficulty = difficulty;
+        this.numberOfCrew = 120*(1/(3-difficulty));
+        this.maxIncorrectArrests = 3*(3-difficulty);
         camera = new OrthographicCamera();
         viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, camera);
         hud = new Hud(game.batch);
