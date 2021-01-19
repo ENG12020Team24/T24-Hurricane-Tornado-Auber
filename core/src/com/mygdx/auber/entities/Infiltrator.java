@@ -71,7 +71,7 @@ public class Infiltrator extends NPC{
 
         //this.collision.checkForCollision(this, layer, this.velocity, collision);
 
-        System.out.println(elapsedTime + " - " + timeToWait);
+        //System.out.println(elapsedTime + " - " + timeToWait);
         if((this.elapsedTime >= timeToWait) && this.pathQueue.isEmpty()) {
             this.elapsedTime = 0;
             reachDestination();
@@ -196,7 +196,7 @@ public class Infiltrator extends NPC{
      */
     private void stopAuberHealing()
     {
-        System.out.println("Stopped healing");
+        //System.out.println("Stopped healing");
         Player.canHeal = false;
         Player.healStopTime = 0;
     }

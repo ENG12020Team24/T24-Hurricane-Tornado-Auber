@@ -44,7 +44,7 @@ public class PlayScreen implements Screen {
 
     private static boolean demo;
 
-    public PlayScreen(Auber game, boolean demo){
+    public PlayScreen(Auber game, boolean demo, int difficulty){
         this.game = game;
         this.demo = demo;
 

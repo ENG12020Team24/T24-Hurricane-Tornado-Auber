@@ -62,18 +62,17 @@ public class GameOverScreen implements Screen {
         menuButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Main menu");
+                //System.out.println("Main menu");
                 game.setScreen(new MainMenuScreen(game));
             }
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                System.out.println("Hovered");
+                //System.out.println("Hovered");
                 menuButton.setChecked(true);
             }
-
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                System.out.println("Exited");
+                //System.out.println("Exited");
                 menuButton.setChecked(false);
             }
         });
