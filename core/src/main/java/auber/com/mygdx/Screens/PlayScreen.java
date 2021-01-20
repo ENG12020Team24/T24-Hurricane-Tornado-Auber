@@ -1,4 +1,4 @@
-package com.mygdx.auber.Screens;
+package auber.com.mygdx.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -16,12 +16,12 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.auber.Auber;
-import com.mygdx.auber.Pathfinding.GraphCreator;
-import com.mygdx.auber.Pathfinding.MapGraph;
-import com.mygdx.auber.Scenes.Hud;
-import com.mygdx.auber.ScrollingBackground;
-import com.mygdx.auber.entities.*;
+import auber.com.mygdx.Auber;
+import auber.com.mygdx.Pathfinding.GraphCreator;
+import auber.com.mygdx.Pathfinding.MapGraph;
+import auber.com.mygdx.Scenes.Hud;
+import auber.com.mygdx.ScrollingBackground;
+import auber.com.mygdx.entities.*;
 
 public class PlayScreen implements Screen {
     private final Auber game;

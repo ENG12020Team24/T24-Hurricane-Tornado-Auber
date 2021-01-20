@@ -1,4 +1,4 @@
-package com.mygdx.auber.Screens;
+package auber.com.mygdx.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -19,8 +19,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.auber.Auber;
-import com.mygdx.auber.ScrollingBackground;
+import auber.com.mygdx.Auber;
+import auber.com.mygdx.ScrollingBackground;
 
 
 public class MainMenuScreen implements Screen {
@@ -142,7 +142,7 @@ public class MainMenuScreen implements Screen {
         Table menuTable = new Table();
         menuTable.setTouchable(Touchable.enabled);
         menuTable.setFillParent(true);
-        menuTable.add(titleCard).padBottom(20);
+        menuTable.add(titleCard).padBottom(0);
         menuTable.row();
         menuTable.add(playButton).padBottom(20);
         menuTable.row();

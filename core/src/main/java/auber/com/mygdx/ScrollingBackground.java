@@ -1,4 +1,4 @@
-package com.mygdx.auber;
+package auber.com.mygdx;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

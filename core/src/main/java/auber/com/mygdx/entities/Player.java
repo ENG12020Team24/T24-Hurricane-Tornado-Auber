@@ -1,4 +1,4 @@
-package com.mygdx.auber.entities;
+package auber.com.mygdx.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -16,11 +16,11 @@ import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.auber.Auber;
-import com.mygdx.auber.Pathfinding.MapGraph;
-import com.mygdx.auber.Pathfinding.Node;
-import com.mygdx.auber.Scenes.Hud;
-import com.mygdx.auber.Screens.PlayScreen;
+import auber.com.mygdx.Auber;
+import auber.com.mygdx.Pathfinding.MapGraph;
+import auber.com.mygdx.Pathfinding.Node;
+import auber.com.mygdx.Scenes.Hud;
+import auber.com.mygdx.Screens.PlayScreen;
 
 
 public class Player extends Sprite implements InputProcessor {

@@ -1,4 +1,4 @@
-package com.mygdx.auber.Scenes;
+package auber.com.mygdx.Scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -12,9 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.auber.Auber;
-import com.mygdx.auber.Screens.PlayScreen;
-import com.mygdx.auber.entities.*;
+import auber.com.mygdx.Auber;
+import auber.com.mygdx.Screens.PlayScreen;
+import auber.com.mygdx.entities.*;
 
 public class Hud {
     public Stage stage;//2D scene graph, handles viewport and distributes input events.

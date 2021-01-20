@@ -1,10 +1,10 @@
-package com.mygdx.auber;
+package auber.com.mygdx;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.auber.Screens.MainMenuScreen;
+import auber.com.mygdx.Screens.MainMenuScreen;
 
 public class Auber extends Game {
 	public static final int VirtualWidth = 800;

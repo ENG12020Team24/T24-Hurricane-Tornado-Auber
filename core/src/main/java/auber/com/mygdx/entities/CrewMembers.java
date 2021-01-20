@@ -1,12 +1,12 @@
-package com.mygdx.auber.entities;
+package auber.com.mygdx.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.auber.Pathfinding.GraphCreator;
-import com.mygdx.auber.Pathfinding.MapGraph;
-import com.mygdx.auber.Pathfinding.Node;
+import auber.com.mygdx.Pathfinding.GraphCreator;
+import auber.com.mygdx.Pathfinding.MapGraph;
+import auber.com.mygdx.Pathfinding.Node;
 
 import java.util.Random;
 
