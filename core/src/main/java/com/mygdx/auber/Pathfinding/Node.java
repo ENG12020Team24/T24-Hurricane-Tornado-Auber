@@ -1,4 +1,4 @@
-package auber.com.mygdx.Pathfinding;
+package com.mygdx.auber.Pathfinding;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

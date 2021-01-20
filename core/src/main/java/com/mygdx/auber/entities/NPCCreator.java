@@ -1,10 +1,10 @@
-package auber.com.mygdx.entities;
+package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.utils.Array;
-import auber.com.mygdx.Pathfinding.MapGraph;
-import auber.com.mygdx.Pathfinding.Node;
+import com.mygdx.auber.Pathfinding.MapGraph;
+import com.mygdx.auber.Pathfinding.Node;
 
 public class NPCCreator {
     public static Array<Infiltrator> infiltrators = new Array<>();

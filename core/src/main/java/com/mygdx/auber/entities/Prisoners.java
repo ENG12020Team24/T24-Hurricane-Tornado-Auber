@@ -1,4 +1,4 @@
-package auber.com.mygdx.entities;
+package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;

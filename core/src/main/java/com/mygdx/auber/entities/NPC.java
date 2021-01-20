@@ -1,4 +1,4 @@
-package auber.com.mygdx.entities;
+package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.ai.pfa.GraphPath;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,9 +10,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Queue;
-import auber.com.mygdx.Pathfinding.GraphCreator;
-import auber.com.mygdx.Pathfinding.MapGraph;
-import auber.com.mygdx.Pathfinding.Node;
+import com.mygdx.auber.Pathfinding.GraphCreator;
+import com.mygdx.auber.Pathfinding.MapGraph;
+import com.mygdx.auber.Pathfinding.Node;
 
 /**
  * NPCs use nodes to walk around and A* to navigate between them, the nodes are generated and stored in GraphCreator, while MapGraph is used to search and manipulate the node graph

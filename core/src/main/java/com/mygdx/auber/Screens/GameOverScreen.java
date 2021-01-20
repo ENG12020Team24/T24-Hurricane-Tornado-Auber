@@ -1,4 +1,4 @@
-package auber.com.mygdx.Screens;
+package com.mygdx.auber.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -18,7 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import auber.com.mygdx.Auber;
+import com.mygdx.auber.Auber;
 
 public class GameOverScreen implements Screen {
     private final Stage stage;

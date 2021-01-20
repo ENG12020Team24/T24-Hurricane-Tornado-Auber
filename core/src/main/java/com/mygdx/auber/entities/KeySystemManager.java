@@ -1,4 +1,4 @@
-package auber.com.mygdx.entities;
+package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;

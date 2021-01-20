@@ -1,4 +1,4 @@
-package auber.com.mygdx.entities;
+package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -6,10 +6,10 @@ import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import auber.com.mygdx.Pathfinding.GraphCreator;
-import auber.com.mygdx.Pathfinding.MapGraph;
-import auber.com.mygdx.Pathfinding.*;
-import auber.com.mygdx.Screens.PlayScreen;
+import com.mygdx.auber.Pathfinding.GraphCreator;
+import com.mygdx.auber.Pathfinding.MapGraph;
+import com.mygdx.auber.Pathfinding.*;
+import com.mygdx.auber.Screens.PlayScreen;
 
 public class Infiltrator extends NPC{
     public boolean isDestroying = false;

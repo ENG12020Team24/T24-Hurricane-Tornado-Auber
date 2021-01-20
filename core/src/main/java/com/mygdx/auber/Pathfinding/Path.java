@@ -1,4 +1,4 @@
-package auber.com.mygdx.Pathfinding;
+package com.mygdx.auber.Pathfinding;
 
 import com.badlogic.gdx.ai.pfa.Connection;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
