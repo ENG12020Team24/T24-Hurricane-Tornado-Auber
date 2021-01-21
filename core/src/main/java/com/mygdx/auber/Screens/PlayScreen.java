@@ -39,8 +39,8 @@ public class PlayScreen implements Screen {
     public Player player;
 
     public static final int numberOfInfiltrators = 8;
-    public static int numberOfCrew;
-    public static int maxIncorrectArrests;
+    public int numberOfCrew;
+    public int maxIncorrectArrests;
 
     private static boolean demo;
     private int difficulty;
@@ -54,7 +54,7 @@ public class PlayScreen implements Screen {
 
         camera = new OrthographicCamera();
         viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, camera);
-        hud = new Hud(game.batch);
+        hud = new Hud(game.batch, this);
         shapeRenderer = new ShapeRenderer();
         scrollingBackground = new ScrollingBackground(); //Creating a new camera, viewport, hud and scrolling background, setting the viewport to camera and virtual height/width
 
@@ -115,7 +115,7 @@ public class PlayScreen implements Screen {
      * @return Boolean if the game is over or not
      */
     public boolean gameOver() {
-        return Player.health <= 0 || Hud.CrewmateCount >= 3 || KeySystemManager.destroyedKeySystemsCount() >= 15 ;
+        return Player.health <= 0 || Hud.CrewmateCount >= this.maxIncorrectArrests || KeySystemManager.destroyedKeySystemsCount() >= 15 ;
     }
 
     /**
@@ -142,13 +142,13 @@ public class PlayScreen implements Screen {
         renderer.setView(camera); //Needed for some reason
 
         if(gameOver()){
-            System.out.println("Win");
+            System.out.println("Lose");
             game.setScreen(new GameOverScreen(game, false));
             return;
         } //If game over, show game over screen and dispose of all assets
         if(gameWin())
         {
-            System.out.println("Lose");
+            System.out.println("Win");
             game.setScreen(new GameOverScreen(game, true));
             return;
         } //If game won, show game win screen and dispose of all assets
