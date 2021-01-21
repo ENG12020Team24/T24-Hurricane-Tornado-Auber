@@ -417,6 +417,18 @@ public class Player extends Sprite implements InputProcessor {
         return teleporters;
     }
 
+    public void speedUp(boolean inUse){
+        if (inUse){
+            SPEED = 2f;
+        } else {
+            SPEED = 1.3f;
+        }
+
+    };
+    public void arrestUp(){
+
+    };
+
     public void dispose()
     {
     }
