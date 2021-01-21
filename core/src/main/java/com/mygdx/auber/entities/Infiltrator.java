@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.auber.Pathfinding.GraphCreator;
 import com.mygdx.auber.Pathfinding.MapGraph;
-import com.mygdx.auber.Pathfinding.Node;
+import com.mygdx.auber.Pathfinding.*;
 import com.mygdx.auber.Screens.PlayScreen;
 
 public class Infiltrator extends NPC{

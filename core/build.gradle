@@ -1,15 +1,21 @@
 sourceCompatibility = 1.7
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-sourceSets.main.java.srcDirs = [ "src/" ]
-project(":core") {
-    dependencies {
-        compile "com.badlogicgames.gdx:gdx-ai:1.8.1"
-        //classpath "com.badlogicgames.gdx:gdx-ai:1.8.1"
-    }
-}
+sourceSets.main.java.srcDirs = [ "src/main/java/" ]
+sourceSets.test.java.srcDirs = [ "src/test/java/" ]
+//sourceSets.test.resources.srcDirs = [ "src/test/res/" ]
+
+// project(":core") {
+//     dependencies {
+//         compile "com.badlogicgames.gdx:gdx-ai:1.8.1"
+//         //classpath "com.badlogicgames.gdx:gdx-ai:1.8.1"
+
+//     }
+// }
+
 repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     maven { url "https://oss.sonatype.org/content/repositories/releases/" }
 }
 eclipse.project.name = appName + "-core"
+test{}

@@ -142,7 +142,7 @@ public class MainMenuScreen implements Screen {
         Table menuTable = new Table();
         menuTable.setTouchable(Touchable.enabled);
         menuTable.setFillParent(true);
-        menuTable.add(titleCard).padBottom(20);
+        menuTable.add(titleCard).padBottom(0);
         menuTable.row();
         menuTable.add(playButton).padBottom(20);
         menuTable.row();
