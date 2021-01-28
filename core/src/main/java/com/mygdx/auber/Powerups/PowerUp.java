@@ -11,11 +11,7 @@ public abstract class PowerUp extends Sprite {
     public static int type;
     public boolean taken;
     public boolean used;
-<<<<<<< HEAD
-    public static final int DIAMETRE = 32;
     public float r,g,b;
-=======
->>>>>>> 00f03b7c80b7afcd324e8f837371a4fff2622ad4
 
     public PowerUp(int type, Vector2 position) {
         this.type = type;
@@ -37,11 +33,7 @@ public abstract class PowerUp extends Sprite {
         return true;
     }
 
-<<<<<<< HEAD
     public void render(ShapeRenderer shapeRenderer){
-=======
-    public void render(ShapeRenderer shapeRenderer, int r, int g, int b) {
->>>>>>> 00f03b7c80b7afcd324e8f837371a4fff2622ad4
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(r, g, b, 1);
