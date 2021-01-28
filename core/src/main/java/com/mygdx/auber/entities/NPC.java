@@ -133,8 +133,8 @@ public class NPC extends Sprite {
      * Moves the NPC based on their movement vector, and sets their sprite in the
      * direction of movement
      */
-    public void moveNPC( float deltaTime) {
-        
+    public void moveNPC(float deltaTime) {
+
         this.setX(this.getX() + this.velocity.x);
         this.setY(this.getY() + this.velocity.y);
 

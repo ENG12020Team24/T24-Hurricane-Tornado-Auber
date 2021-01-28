@@ -6,13 +6,11 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -20,12 +18,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.auber.Auber;
-import com.mygdx.auber.ScrollingBackground;
 
-
-public class ChooseDifficultyScreen implements Screen{
+public class ChooseDifficultyScreen implements Screen {
     private final Stage stage;
-    TextButton easyButton, normalButton, hardButton, backButton; 
+    TextButton easyButton, normalButton, hardButton, backButton;
     TextButton.TextButtonStyle textButtonStyle;
     BitmapFont font;
     Skin skin;
@@ -33,13 +29,10 @@ public class ChooseDifficultyScreen implements Screen{
     TextureAtlas buttonAtlas;
 
     /**
-     * Lets the player choose dificulty based on button press.
-     * Calls PlayScreen with a number based on the difficulty:
-     *      0 - Easy
-     *      1 - Normal
-     *      2 - Hard
+     * Lets the player choose dificulty based on button press. Calls PlayScreen with
+     * a number based on the difficulty: 0 - Easy 1 - Normal 2 - Hard
      */
-    public ChooseDifficultyScreen(final Auber game){
+    public ChooseDifficultyScreen(final Auber game) {
         Viewport viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, new OrthographicCamera());
         stage = new Stage(viewport, game.batch);
         Gdx.input.setInputProcessor(stage);
@@ -49,7 +42,6 @@ public class ChooseDifficultyScreen implements Screen{
         skin = new Skin();
         buttonAtlas = new TextureAtlas("buttonAtlas.atlas");
         skin.addRegions(buttonAtlas);
-
 
         font = new BitmapFont();
         textButtonStyle = new TextButton.TextButtonStyle();
@@ -63,7 +55,7 @@ public class ChooseDifficultyScreen implements Screen{
         hardButton = new TextButton("Hard", textButtonStyle);
         backButton = new TextButton("Back", textButtonStyle);
 
-        easyButton.addListener(new ClickListener(){
+        easyButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new PlayScreen(game, false, 0));
@@ -80,11 +72,12 @@ public class ChooseDifficultyScreen implements Screen{
             }
         });
 
-        normalButton.addListener(new ClickListener(){
+        normalButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new PlayScreen(game, false, 1));
             }
+
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 normalButton.setChecked(true);
@@ -96,7 +89,7 @@ public class ChooseDifficultyScreen implements Screen{
             }
         });
 
-        hardButton.addListener(new ClickListener(){
+        hardButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new PlayScreen(game, false, 2));
@@ -113,7 +106,7 @@ public class ChooseDifficultyScreen implements Screen{
             }
         });
 
-        backButton.addListener(new ClickListener(){
+        backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new MainMenuScreen(game));
@@ -198,5 +191,5 @@ public class ChooseDifficultyScreen implements Screen{
         buttonAtlas.dispose();
         background.dispose();
     }
-    
+
 }

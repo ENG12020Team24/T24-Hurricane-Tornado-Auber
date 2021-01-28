@@ -202,7 +202,8 @@ public class Player extends Sprite implements InputProcessor {
             setY((float) (getY() + Math.sin(angle) * speed * delta)); // Set the player position to current position +
                                                                       // velocity
         }
-        // Make sure there's an input so weird things don't happen, as atan2(0,0) is undefined
+        // Make sure there's an input so weird things don't happen, as atan2(0,0) is
+        // undefined
     }
 
     /**
