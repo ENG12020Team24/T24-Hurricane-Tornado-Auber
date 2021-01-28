@@ -10,12 +10,12 @@ public class Node {
     /** The y coordinate of this Node. */
     private float y;
     /** The index of this Node. */
-    public int index;
+    private int index;
 
     /**
      * The class constructor.
-     * @param x The x coordinate for this Node.
-     * @param y The y coordinate for this Node.
+     * @param nodeX The x coordinate for this Node.
+     * @param nodeY The y coordinate for this Node.
      */
     public Node(final float nodeX, final float nodeY) {
         this.x = nodeX;
@@ -24,10 +24,10 @@ public class Node {
 
     /**
      * Setter for the index of the node, used for A* Indexed search.
-     * @param index The index to assign the node.
+     * @param newIndex The index to assign the node.
      */
-    public void setIndex(final int index) {
-        this.index = index;
+    public void setIndex(final int newIndex) {
+        this.index = newIndex;
     }
 
     /** The red value for rendering if this node is in the path. */

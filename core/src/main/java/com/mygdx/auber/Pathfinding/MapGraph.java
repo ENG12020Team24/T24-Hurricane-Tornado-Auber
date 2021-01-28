@@ -30,7 +30,7 @@ public class MapGraph implements IndexedGraph<Node> {
     public static void addNode(final Node node) {
         /* Sets node index to current lastNodeIndex, increments index by one,
          adds node to the list of nodes. */
-        node.index = lastNodeIndex;
+        node.setIndex(lastNodeIndex);
         lastNodeIndex++;
 
         nodes.add(node);
@@ -102,7 +102,7 @@ public class MapGraph implements IndexedGraph<Node> {
      */
     @Override
     public int getIndex(final Node node) {
-        return node.index;
+        return node.getIndex();
     }
 
     /**
