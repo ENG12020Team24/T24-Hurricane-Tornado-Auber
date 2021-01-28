@@ -27,7 +27,7 @@ public class MainMenuScreen implements Screen {
 
     private Viewport viewport;
     Stage stage;
-    TextButton playButton, exitButton, demoButton, tutorialButton;
+    TextButton playButton, exitButton, demoButton, tutorialButton, loadButton;
     TextButton.TextButtonStyle textButtonStyle;
     BitmapFont font;
     Skin skin;
@@ -59,26 +59,42 @@ public class MainMenuScreen implements Screen {
         demoButton = new TextButton("DEMO", textButtonStyle);
         exitButton = new TextButton("EXIT", textButtonStyle);
         tutorialButton = new TextButton("TUTORIAL", textButtonStyle);
+        loadButton = new TextButton("LOAD", textButtonStyle);
         titleCard = new Image(title);
-        playButton.setSize(200, 190);
+        //playButton.setSize(200, 190);
+        //titleCard.setTransform(true);
+        //titleCard.setScale(0.9f);
 
         playButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //System.out.println("Clicked");
                 game.setScreen(new ChooseDifficultyScreen(game)); 
             }
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                //System.out.println("Hovered");
                 playButton.setChecked(true);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                //System.out.println("Exited");
                 playButton.setChecked(false);
+            }
+        });
+        loadButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //KYLE THIS IS YOURS NOW
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                loadButton.setChecked(true);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                loadButton.setChecked(false);
             }
         });
         exitButton.addListener(new ClickListener(){
@@ -88,53 +104,45 @@ public class MainMenuScreen implements Screen {
             }
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                //System.out.println("Hovered");
                 exitButton.setChecked(true);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                //System.out.println("Exited");
                 exitButton.setChecked(false);
             }
         });
         demoButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //System.out.println("Clicked");
                 game.setScreen(new PlayScreen(game, true, 42));
             }
 
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                //System.out.println("Hovered");
                 demoButton.setChecked(true);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                //System.out.println("Exited");
                 demoButton.setChecked(false);
             }
         });
         tutorialButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //System.out.println("Clicked");
                 game.setScreen(new TutorialScreen(game));
             }
 
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                //System.out.println("Hovered");
                 tutorialButton.setChecked(true);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                //System.out.println("Exited");
                 tutorialButton.setChecked(false);
             }
         });
@@ -142,13 +150,15 @@ public class MainMenuScreen implements Screen {
         Table menuTable = new Table();
         menuTable.setTouchable(Touchable.enabled);
         menuTable.setFillParent(true);
-        menuTable.add(titleCard).padBottom(0);
+        menuTable.add(titleCard);
         menuTable.row();
-        menuTable.add(playButton).padBottom(20);
+        menuTable.add(playButton).padBottom(10);
         menuTable.row();
-        menuTable.add(demoButton).padBottom(20);
+        menuTable.add(loadButton).padBottom(10);
         menuTable.row();
-        menuTable.add(tutorialButton).padBottom(20);
+        menuTable.add(demoButton).padBottom(10);
+        menuTable.row();
+        menuTable.add(tutorialButton).padBottom(10);
         menuTable.row();
         menuTable.add(exitButton);
         //menuTable.debug();

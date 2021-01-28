@@ -106,7 +106,7 @@ public class PlayScreen implements Screen {
         player = new Player(new Sprite(new Texture("AuberStand.png")), playerCollisionLayers, demo);
         player.setPosition(1700, 3000); //Creates a player and sets him to the given position
         player.findHealers((TiledMapTileLayer) map.getLayers().get("Systems")); //Finds infirmary
-        player.teleporters = player.getTeleporterLocations((TiledMapTileLayer) map.getLayers().get("Systems")); //Finds the teleporters
+        player.teleporters = Player.getTeleporterLocations((TiledMapTileLayer) map.getLayers().get("Systems")); //Finds the teleporters
 
         renderer = new OrthogonalTiledMapRenderer(map); //Creates a new renderer with the given map
 
