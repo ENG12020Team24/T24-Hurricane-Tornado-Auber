@@ -13,15 +13,19 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.auber.Auber;
 import com.mygdx.auber.Pathfinding.GraphCreator;
 import com.mygdx.auber.Pathfinding.MapGraph;
+import com.mygdx.auber.Powerups.PowerUp;
 import com.mygdx.auber.Scenes.Hud;
 import com.mygdx.auber.ScrollingBackground;
 import com.mygdx.auber.entities.*;
+
+import java.util.ArrayList;
 
 public class PlayScreen implements Screen {
     private final Auber game;
@@ -44,6 +48,10 @@ public class PlayScreen implements Screen {
 
     private static boolean demo;
     private int difficulty;
+
+    ArrayList<PowerUp> powerUps;
+    ArrayList<PowerUp> powerUpsToRemove;
+
 
     public PlayScreen(Auber game, boolean demo, int difficulty){
         this.game = game;
@@ -68,6 +76,9 @@ public class PlayScreen implements Screen {
         graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get("Tile Layer 1")); //Generates all the nodes and paths for the given map layer
         keySystemManager = new KeySystemManager((TiledMapTileLayer)map.getLayers().get("Systems")); //Generates key systems
         prisoners = new Prisoners((TiledMapTileLayer)map.getLayers().get("OutsideWalls+Lining"));
+
+        powerUps = new ArrayList<PowerUp>();
+        powerUpsToRemove = new ArrayList<PowerUp>();
 
         for (int i = 0; i < numberOfInfiltrators; i++) {
             //System.out.println("Infiltrator created!");
