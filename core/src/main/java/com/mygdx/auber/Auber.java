@@ -5,11 +5,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.auber.Screens.MainMenuScreen;
 
 public final class Auber extends Game {
-    /** The virtual width of the game */
+    /** The virtual width of the game. */
     public static final int VIRTUAL_WIDTH = 800;
-    /** The virtual height of the game */
+    /** The virtual height of the game. */
     public static final int VIRTUAL_HEIGHT = 480;
-    /** The SpriteBatch used to render sprites during the game */                                                  
+    /** The SpriteBatch used to render sprites during the game. */
     private SpriteBatch batch;
 
     /**
