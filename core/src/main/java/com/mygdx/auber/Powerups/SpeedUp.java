@@ -40,12 +40,7 @@ public class SpeedUp extends PowerUp {
         }
     }
 
-<<<<<<< HEAD
-    public void render(ShapeRenderer shapeRenderer){
-        super.render(shapeRenderer);
-=======
     public void render(ShapeRenderer shapeRenderer) {
-        super.render(shapeRenderer, 0, 1, 0);
->>>>>>> 00f03b7c80b7afcd324e8f837371a4fff2622ad4
+        super.render(shapeRenderer);
     }
 }
