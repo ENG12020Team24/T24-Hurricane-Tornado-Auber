@@ -20,6 +20,11 @@ public class ScrollingBackground {
         imageScale = 1;
     }
 
+    /**
+     * Used to update and render the background
+     * @param delta The time in seconds since the previous frame
+     * @param batch
+     */
     public void updateRender(float delta, SpriteBatch batch) {
         y1 -= SPEED * delta;
         y2 -= SPEED * delta;
@@ -35,6 +40,11 @@ public class ScrollingBackground {
         batch.draw(image, x, y2, image.getWidth(), image.getHeight());
     }
 
+    /**
+     * Resets the size of the background
+     * @param width
+     * @param height
+     */
     public void resize(int width, int height) {
         imageScale = 1;
     }

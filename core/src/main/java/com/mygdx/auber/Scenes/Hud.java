@@ -29,11 +29,15 @@ public class Hud {
     Label keySystemsCountLabel;
     Label playerHealthLabel;
 
+    /**
+     * Creates the HUD using the specified SpriteBatch
+     * @param spritebatch
+     */
     public Hud(SpriteBatch spritebatch) {
         ImposterCount = 0;
         CrewmateCount = 0;
 
-        viewport = new FitViewport(Auber.VirtualWidth, Auber.VirtualHeight, new OrthographicCamera());
+        viewport = new FitViewport(Auber.VIRTUAL_WIDTH, Auber.VIRTUAL_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, spritebatch);
 
         hudTable = new Table();
@@ -65,6 +69,9 @@ public class Hud {
         stage.addActor(hudTable);
     }
 
+    /**
+     * Used to update the HUD every frame
+     */
     public void update() {
         imposterCountLabel.setText(
                 String.format("Imposter Arrests: %02d / %02d", ImposterCount, PlayScreen.numberOfInfiltrators));

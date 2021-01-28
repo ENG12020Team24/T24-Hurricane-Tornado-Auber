@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.auber.Screens.MainMenuScreen;
 
 public class Auber extends Game {
-	public static final int VirtualWidth = 800;
-	public static final int VirtualHeight = 480;// Virtual dimensions for the game
+	public static final int VIRTUAL_WIDTH = 800;
+	public static final int VIRTUAL_HEIGHT = 480;// Virtual dimensions for the game
 	public SpriteBatch batch;
 
 	@Override

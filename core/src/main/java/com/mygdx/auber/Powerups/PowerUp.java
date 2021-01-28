@@ -21,6 +21,14 @@ public abstract class PowerUp extends Sprite {
 
     public abstract void update(Player player);
 
+    /**
+     * Determines if the player is touching this powerup.
+     * @param playerX
+     * @param playerY
+     * @param playerWidth
+     * @param playerHeight
+     * @return True if the player is touching this, false otherwise
+     */
     public boolean playerCollision(float playerX, float playerY, float playerWidth, float playerHeight) {
         if (playerX >= position.x + Config.POWERUP_DIAMETER || playerX + playerWidth <= position.x) {
             return false;
@@ -32,6 +40,13 @@ public abstract class PowerUp extends Sprite {
         return true;
     }
 
+    /**
+     * Draws this powerup using the specified shapeRenderer
+     * @param shapeRenderer
+     * @param r
+     * @param g
+     * @param b
+     */
     public void render(ShapeRenderer shapeRenderer, int r, int g, int b) {
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);

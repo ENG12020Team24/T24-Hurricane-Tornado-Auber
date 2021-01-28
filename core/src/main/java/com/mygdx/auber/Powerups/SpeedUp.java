@@ -13,9 +13,11 @@ public class SpeedUp extends PowerUp {
         super(1, position);
     }
 
+    /**
+     * Used to update the status of this powerup every frame
+     */
     @Override
     public void update(Player player) {
-
         if (playerCollision(player.getX(), player.getY(), player.getWidth(), player.getHeight())) {
             taken = true;
         }
@@ -31,6 +33,9 @@ public class SpeedUp extends PowerUp {
         }
     }
 
+    /**
+     * Calls the superclass render method with the specified colour
+     */
     public void render(ShapeRenderer shapeRenderer) {
         super.render(shapeRenderer, 0, 1, 0);
     }

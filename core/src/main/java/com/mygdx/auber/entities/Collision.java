@@ -9,10 +9,6 @@ class Collision {
 
     public boolean collideX, collideY;
 
-    public Collision() {
-
-    }
-
     /**
      * Scans the blocks directly right of the sprite, for the height of the sprite,
      * and returns a bool based on if they are blocked or not
