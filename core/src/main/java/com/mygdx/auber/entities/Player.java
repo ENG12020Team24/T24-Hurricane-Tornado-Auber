@@ -40,7 +40,7 @@ public class Player extends Sprite implements InputProcessor {
     private float screenx, screeny;
     Sprite arrow;
 
-    private Vector2 healerPosition = new Vector2();
+    private Vector2 infirmaryPosition = new Vector2();
     public Array<Vector2> teleporters = new Array<>();
 
     public Player(Sprite sprite, Array<TiledMapTileLayer> collisionLayer, boolean demo) {
@@ -115,7 +115,10 @@ public class Player extends Sprite implements InputProcessor {
         shapeRenderer.end(); // Rendering the circle
     }
 
-    public void findHealers(TiledMapTileLayer tileLayer) {
+    /**
+     * Finds the location of the infirmary on the map
+     */
+    public void findInfirmary(TiledMapTileLayer tileLayer) {
         for (int i = 0; i < tileLayer.getWidth(); i++) {
             for (int j = 0; j < tileLayer.getHeight(); j++) // Scans every tile
             {
@@ -123,22 +126,14 @@ public class Player extends Sprite implements InputProcessor {
                 int y = (j * tileLayer.getTileHeight()) + tileLayer.getTileHeight() / 2; // x,y coord of the centre of
                                                                                          // the tile
                 TiledMapTileLayer.Cell cell = tileLayer.getCell(i, j); // Returns the cell at the x,y coord
-                if (cell != null && cell.getTile() != null && cell.getTile().getProperties().containsKey("healer")) // If
-                                                                                                                    // matches
-                                                                                                                    // key,
-                                                                                                                    // and
-                                                                                                                    // is
-                                                                                                                    // not
-                                                                                                                    // null
-                {
-                    // System.out.println("found");
-                    healerPosition.x = x;
-                    healerPosition.y = y;
+                if (cell != null && cell.getTile() != null && cell.getTile().getProperties().containsKey("healer")) {
+                    // If matches key, and is not null
+                    infirmaryPosition.x = x;
+                    infirmaryPosition.y = y;
                 }
             }
         }
 
-        // System.out.println(x);
     }
 
     /**
@@ -186,7 +181,7 @@ public class Player extends Sprite implements InputProcessor {
         velocity = collision.checkForCollision(this, collisionLayer, velocity, collision); // Checks for collision in
                                                                                            // the direction of movement
 
-        if (Vector2.dst(this.getX(), this.getY(), healerPosition.x, healerPosition.y) < 100 && canHeal) {
+        if (Vector2.dst(this.getX(), this.getY(), infirmaryPosition.x, infirmaryPosition.y) < 100 && canHeal) {
             heal(1);
         }
 
@@ -436,6 +431,10 @@ public class Player extends Sprite implements InputProcessor {
         return teleporters;
     }
 
+    /**
+     * 
+     * @param inUse Whether the player is sped up by a powerup or not
+     */
     public void speedUp(boolean inUse) {
         usingSpeedPowerUp = inUse;
 

@@ -24,11 +24,15 @@ public class TutorialScreen implements Screen {
 
     private Auber game;
 
+    /**
+     * Class constructor
+     * @param game
+     */
     public TutorialScreen(final Auber game) {
         this.game = game;
 
-        viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, new OrthographicCamera());
-        stage = new Stage(viewport, ((Auber) game).batch);
+        viewport = new ExtendViewport(Auber.VIRTUAL_WIDTH, Auber.VIRTUAL_HEIGHT, new OrthographicCamera());
+        stage = new Stage(viewport, ((Auber) game).getBatch());
         Gdx.input.setInputProcessor(stage);
 
         images.add(new Image(new Texture("Tutorial1.png")));// Adds each image to the images array
@@ -69,6 +73,9 @@ public class TutorialScreen implements Screen {
 
     }
 
+    /**
+     * Called to draw the tutorial screen
+     */
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);// Clear stage of previous renders

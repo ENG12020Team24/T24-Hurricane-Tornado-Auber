@@ -123,6 +123,9 @@ public class MapGraph implements IndexedGraph<Node> {
         return new Array<>(0);
     }
 
+    /** 
+     * Returns a random node from this MapGraph
+     */
     public static Node getRandomNode() {
         return nodes.random();
     }

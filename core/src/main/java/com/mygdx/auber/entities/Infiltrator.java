@@ -200,6 +200,10 @@ public class Infiltrator extends NPC {
         Infiltrator.hardSprites.add(new Sprite(new Texture("HumanStand.png")));
     }
 
+    /**
+     * Sets the index for this Infiltrator
+     * @param index
+     */
     public void setIndex(int index) {
         this.index = index;
     }

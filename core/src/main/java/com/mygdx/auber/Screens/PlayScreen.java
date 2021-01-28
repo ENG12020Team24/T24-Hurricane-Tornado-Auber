@@ -58,8 +58,8 @@ public class PlayScreen implements Screen {
         this.maxIncorrectArrests = 3 * (3 - difficulty);
 
         camera = new OrthographicCamera();
-        viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, camera);
-        hud = new Hud(game.batch, this);
+        viewport = new ExtendViewport(Auber.VIRTUAL_WIDTH, Auber.VIRTUAL_HEIGHT, camera);
+        hud = new Hud(game.getBatch(), this);
         shapeRenderer = new ShapeRenderer();
         scrollingBackground = new ScrollingBackground(); // Creating a new camera, viewport, hud and scrolling
                                                          // background, setting the viewport to camera and virtual
@@ -110,7 +110,7 @@ public class PlayScreen implements Screen {
 
         player = new Player(new Sprite(new Texture("AuberStand.png")), playerCollisionLayers, demo);
         player.setPosition(1700, 3000); // Creates a player and sets him to the given position
-        player.findHealers((TiledMapTileLayer) map.getLayers().get("Systems")); // Finds infirmary
+        player.findInfirmary((TiledMapTileLayer) map.getLayers().get("Systems")); // Finds infirmary
         player.teleporters = player.getTeleporterLocations((TiledMapTileLayer) map.getLayers().get("Systems")); // Finds
 
         renderer = new OrthogonalTiledMapRenderer(map); // Creates a new renderer with the given map
@@ -196,7 +196,7 @@ public class PlayScreen implements Screen {
             camera.position.set(crew.getX() + crew.getWidth() / 2, crew.getY() + crew.getHeight() / 2, 0);
         }
 
-        game.batch.setProjectionMatrix(camera.combined); // Ensures everything is rendered properly, only renders things
+        game.getBatch().setProjectionMatrix(camera.combined); // Ensures everything is rendered properly, only renders things
                                                          // in viewport
         shapeRenderer.setProjectionMatrix(camera.combined); // Ensures the shape renderer renders thing properly
 
@@ -285,6 +285,9 @@ public class PlayScreen implements Screen {
         renderer.dispose();
     }
 
+    /**
+     * Prints debug text, not used
+     */
     public void debugText() {
         System.out.println("KeySystems:");
         System.out.format(" Safe: %d\n", KeySystemManager.safeKeySystemsCount());

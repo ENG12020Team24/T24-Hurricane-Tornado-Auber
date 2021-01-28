@@ -16,10 +16,16 @@ public class KeySystem {
         this.position = position;
     }
 
+    /**
+     * Called when a system begins to be destroyed
+     */
     void startDestroy() {
         destructionStartTime = System.currentTimeMillis();
     }
 
+    /**
+     * Called when an Infiltrator stops destroying a system
+     */
     void stopDestroy() {
         if (!isDestroyed()) {
             destructionStartTime = null;
@@ -50,14 +56,32 @@ public class KeySystem {
         return null;
     }
 
+    // timeRemaining == null implies that the system is not currently being
+    // destroyed.
+    // destructionStartTime == null implies that the system is not being destroyed.
+
+    /**
+     * 
+     * @return True if the system has not been destroyed and is not currently being
+     *         destroyed. False otherwise.
+     */
     boolean isSafe() {
         return timeRemaining() == null && destructionStartTime == null;
     }
 
+    /**
+     * 
+     * @return True if the system is currently being destroyed, but has not been
+     *         destroyed yet. False otherwise.
+     */
     boolean isBeingDestroyed() {
         return timeRemaining() != null;
     }
 
+    /**
+     * 
+     * @return True if the system has been destroyed, false otherwise
+     */
     boolean isDestroyed() {
         return timeRemaining() == null && destructionStartTime != null;
     }

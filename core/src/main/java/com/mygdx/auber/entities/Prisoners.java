@@ -31,16 +31,8 @@ public class Prisoners {
                 int y = (j * tileLayer.getTileHeight()) + tileLayer.getTileHeight() / 2; // x,y coord of the centre of
                                                                                          // the tile
                 TiledMapTileLayer.Cell cell = tileLayer.getCell(i, j); // Returns the cell at the x,y coord
-                if (cell != null && cell.getTile() != null && cell.getTile().getProperties().containsKey("prison")) // If
-                                                                                                                    // ID
-                                                                                                                    // matches
-                                                                                                                    // floor/corridor
-                                                                                                                    // tiles,
-                                                                                                                    // and
-                                                                                                                    // is
-                                                                                                                    // not
-                                                                                                                    // null
-                {
+                if (cell != null && cell.getTile() != null && cell.getTile().getProperties().containsKey("prison")) {
+                    // If ID matches floor/corridor tiles, and is not null
                     positions.add(new Vector2(x, y));
                 }
             }
