@@ -59,7 +59,7 @@ public class PlayScreen implements Screen {
 
         camera = new OrthographicCamera();
         viewport = new ExtendViewport(Auber.VIRTUAL_WIDTH, Auber.VIRTUAL_HEIGHT, camera);
-        hud = new Hud(game.batch, this);
+        hud = new Hud(game.getBatch(), this);
         shapeRenderer = new ShapeRenderer();
         scrollingBackground = new ScrollingBackground(); // Creating a new camera, viewport, hud and scrolling
                                                          // background, setting the viewport to camera and virtual
@@ -196,7 +196,7 @@ public class PlayScreen implements Screen {
             camera.position.set(crew.getX() + crew.getWidth() / 2, crew.getY() + crew.getHeight() / 2, 0);
         }
 
-        game.batch.setProjectionMatrix(camera.combined); // Ensures everything is rendered properly, only renders things
+        game.getBatch().setProjectionMatrix(camera.combined); // Ensures everything is rendered properly, only renders things
                                                          // in viewport
         shapeRenderer.setProjectionMatrix(camera.combined); // Ensures the shape renderer renders thing properly
 

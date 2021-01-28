@@ -35,7 +35,7 @@ public class ChooseDifficultyScreen implements Screen {
      */
     public ChooseDifficultyScreen(final Auber game) {
         Viewport viewport = new ExtendViewport(Auber.VIRTUAL_WIDTH, Auber.VIRTUAL_HEIGHT, new OrthographicCamera());
-        stage = new Stage(viewport, game.batch);
+        stage = new Stage(viewport, game.getBatch());
         Gdx.input.setInputProcessor(stage);
 
         background = new Texture("background.png");

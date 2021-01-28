@@ -32,7 +32,7 @@ public class TutorialScreen implements Screen {
         this.game = game;
 
         viewport = new ExtendViewport(Auber.VIRTUAL_WIDTH, Auber.VIRTUAL_HEIGHT, new OrthographicCamera());
-        stage = new Stage(viewport, ((Auber) game).batch);
+        stage = new Stage(viewport, ((Auber) game).getBatch());
         Gdx.input.setInputProcessor(stage);
 
         images.add(new Image(new Texture("Tutorial1.png")));// Adds each image to the images array

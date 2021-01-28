@@ -27,7 +27,7 @@ public class GameOverScreen implements Screen {
 
     public GameOverScreen(final Auber game, boolean win) {
         Viewport viewport = new ExtendViewport(Auber.VIRTUAL_WIDTH, Auber.VIRTUAL_HEIGHT, new OrthographicCamera());
-        stage = new Stage(viewport, game.batch);
+        stage = new Stage(viewport, game.getBatch());
         Gdx.input.setInputProcessor(stage);
 
         // Table setup
