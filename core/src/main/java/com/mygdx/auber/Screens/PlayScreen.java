@@ -43,8 +43,8 @@ public class PlayScreen implements Screen {
     public Player player;
 
     public static final int numberOfInfiltrators = 8;
-    public static int numberOfCrew;
-    public static int maxIncorrectArrests;
+    public int numberOfCrew;
+    public int maxIncorrectArrests;
 
     private static boolean demo;
     private int difficulty;
@@ -61,7 +61,7 @@ public class PlayScreen implements Screen {
 
         camera = new OrthographicCamera();
         viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, camera);
-        hud = new Hud(game.batch);
+        hud = new Hud(game.batch, this);
         shapeRenderer = new ShapeRenderer();
         scrollingBackground = new ScrollingBackground(); // Creating a new camera, viewport, hud and scrolling
                                                          // background, setting the viewport to camera and virtual
@@ -116,8 +116,6 @@ public class PlayScreen implements Screen {
         player.setPosition(1700, 3000); // Creates a player and sets him to the given position
         player.findHealers((TiledMapTileLayer) map.getLayers().get("Systems")); // Finds infirmary
         player.teleporters = player.getTeleporterLocations((TiledMapTileLayer) map.getLayers().get("Systems")); // Finds
-                                                                                                                // the
-                                                                                                                // teleporters
 
         renderer = new OrthogonalTiledMapRenderer(map); // Creates a new renderer with the given map
 
@@ -165,13 +163,14 @@ public class PlayScreen implements Screen {
 
         renderer.setView(camera); // Needed for some reason
 
-        if (gameOver()) {
-            System.out.println("Win");
+        if(gameOver()){
+            System.out.println("Lose");
             game.setScreen(new GameOverScreen(game, false));
             return;
-        } // If game over, show game over screen and dispose of all assets
-        if (gameWin()) {
-            System.out.println("Lose");
+        } //If game over, show game over screen and dispose of all assets
+        if(gameWin())
+        {
+            System.out.println("Win");
             game.setScreen(new GameOverScreen(game, true));
             return;
         } // If game won, show game win screen and dispose of all assets

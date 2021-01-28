@@ -21,7 +21,8 @@ import com.mygdx.auber.Auber;
 
 public class ChooseDifficultyScreen implements Screen {
     private final Stage stage;
-    TextButton easyButton, normalButton, hardButton, backButton;
+
+    public TextButton easyButton, normalButton, hardButton, backButton; 
     TextButton.TextButtonStyle textButtonStyle;
     BitmapFont font;
     Skin skin;
