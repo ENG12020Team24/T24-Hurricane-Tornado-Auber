@@ -25,6 +25,7 @@ public abstract class PowerUp extends Sprite {
         if (playerX >= position.x + Config.POWERUP_DIAMETER || playerX + playerWidth <= position.x) {
             return false;
         }
+        
         if (playerY >= position.y + Config.POWERUP_DIAMETER || playerY + playerHeight <= position.y) {
             return false;
         }
