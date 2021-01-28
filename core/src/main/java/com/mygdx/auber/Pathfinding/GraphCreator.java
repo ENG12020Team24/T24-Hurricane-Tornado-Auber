@@ -109,7 +109,6 @@ public final class GraphCreator extends ApplicationAdapter {
 
     /**
      * Returns every valid neighbour node to the node passed as input.
-     * 
      * @param node Node to get neighbours for
      * @return Array of Nodes
      */
@@ -145,11 +144,19 @@ public final class GraphCreator extends ApplicationAdapter {
     }
 
     /**
-     * Sets the nodePath for this GraphCreator
+     * Sets the nodePath for this GraphCreator.
      * @param inputNodePath
      */
     public static void setNodePath(final GraphPath<Node> inputNodePath) {
         GraphCreator.nodePath = inputNodePath;
+    }
+
+    /**
+     * Returns the key system nodes for this GraphCreator.
+     * @return An array of nodes that represent key systems.
+     */
+    public static Array<Node> getKeySystemNodes() {
+        return keySystemsNodes;
     }
 
     @Override

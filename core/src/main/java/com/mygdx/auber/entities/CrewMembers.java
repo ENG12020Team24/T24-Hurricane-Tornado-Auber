@@ -50,7 +50,7 @@ public class CrewMembers extends NPC {
         double chance = Math.random();
 
         if (chance < 0.2) {
-            setGoal(GraphCreator.keySystemsNodes.random(), Config.CREW_MEMBER_SPEED);
+            setGoal(GraphCreator.getKeySystemNodes().random(), Config.CREW_MEMBER_SPEED);
         } // 1/5 chance of going to a key system
         else {
             Node newGoal;
