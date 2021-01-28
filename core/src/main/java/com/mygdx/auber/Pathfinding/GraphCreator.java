@@ -13,9 +13,9 @@ public final class GraphCreator extends ApplicationAdapter {
     /** Used to draw debug information. */
     private ShapeRenderer shapeRenderer;
     /** Used to draw debug information. */
-    public SpriteBatch batch;
+    private SpriteBatch batch;
     /** Used to write debug text. */
-    public BitmapFont font;
+    private BitmapFont font;
     /** The MapGraph created by this class. */
     private MapGraph mapGraph;
     /** The tiled map layer containing the data for this map graph. */
@@ -29,7 +29,7 @@ public final class GraphCreator extends ApplicationAdapter {
      * The constructor for this MapGraph.
      * @param chosenTileLayer the layer on the map to check for the data.
      */
-    public GraphCreator(TiledMapTileLayer chosenTileLayer) {
+    public GraphCreator(final TiledMapTileLayer chosenTileLayer) {
         shapeRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
         font = new BitmapFont();
@@ -70,16 +70,16 @@ public final class GraphCreator extends ApplicationAdapter {
                 // Scans every tile
                 int x = (i * tileLayer.getTileWidth())
                 + tileLayer.getTileWidth() / 2;
-                int y = (j * tileLayer.getTileHeight()) 
-                + tileLayer.getTileHeight() / 2; 
+                int y = (j * tileLayer.getTileHeight())
+                + tileLayer.getTileHeight() / 2;
                 // x,y coord of the centre of the tile
-                TiledMapTileLayer.Cell cell = tileLayer.getCell(i, j); 
+                TiledMapTileLayer.Cell cell = tileLayer.getCell(i, j);
                 // Returns the cell at the x,y coord
                 if (cell != null && cell.getTile() != null
                 && (cell.getTile().getProperties().containsKey("node"))) {
                     // If ID matches floor/corridor tiles, and is not null
                     Node node = new Node(x, y);
-                    MapGraph.addNode(node); 
+                    MapGraph.addNode(node);
                     // Create new node and add it to the map graph
                     if (cell.getTile().getProperties()
                     .containsKey("keysystemnode")) {
@@ -98,10 +98,10 @@ public final class GraphCreator extends ApplicationAdapter {
     public void generateConnections() {
         for (int i = 0; i < MapGraph.nodes.size; i++) {
             Node node = MapGraph.nodes.get(i);
-            Array<Node> neighbourNodes = getNeighbourNodes(node); 
+            Array<Node> neighbourNodes = getNeighbourNodes(node);
             // For every node in the map, get its neighbours
             for (Node neighbourNode : neighbourNodes) {
-                MapGraph.connectNodes(node, neighbourNode); 
+                MapGraph.connectNodes(node, neighbourNode);
                 // For each neighbour, connect it to the original node
             }
         }
@@ -113,7 +113,7 @@ public final class GraphCreator extends ApplicationAdapter {
      * @param node Node to get neighbours for
      * @return Array of Nodes
      */
-    public Array<Node> getNeighbourNodes(Node node) {
+    public Array<Node> getNeighbourNodes(final Node node) {
         // Creates an array of each valid (not null) neighbour node and returns
         // it.
         Array<Node> nodes = new Array<>();
@@ -137,8 +137,8 @@ public final class GraphCreator extends ApplicationAdapter {
     }
 
     /**
-     * Gets this GraphCreator's mapGraph
-     * @return
+     * Gets this GraphCreator's mapGraph.
+     * @return This GraphCreator's mapGraph.
      */
     public MapGraph getMapGraph() {
         return mapGraph;
@@ -146,10 +146,10 @@ public final class GraphCreator extends ApplicationAdapter {
 
     /**
      * Sets the nodePath for this GraphCreator
-     * @param nodePath
+     * @param inputNodePath
      */
-    public static void setNodePath(GraphPath<Node> nodePath) {
-        GraphCreator.nodePath = nodePath;
+    public static void setNodePath(final GraphPath<Node> inputNodePath) {
+        GraphCreator.nodePath = inputNodePath;
     }
 
     @Override
