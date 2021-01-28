@@ -43,8 +43,8 @@ public class PlayScreen implements Screen {
     public Player player;
 
     public static final int numberOfInfiltrators = 8;
-    public static int numberOfCrew;
-    public static int maxIncorrectArrests;
+    public int numberOfCrew;
+    public int maxIncorrectArrests;
 
     private static boolean demo;
     private int difficulty;
@@ -60,8 +60,8 @@ public class PlayScreen implements Screen {
         this.maxIncorrectArrests = 3 * (3 - difficulty);
 
         camera = new OrthographicCamera();
-        viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, camera);
-        hud = new Hud(game.batch);
+        viewport = new ExtendViewport(Auber.VIRTUAL_WIDTH, Auber.VIRTUAL_HEIGHT, camera);
+        hud = new Hud(game.getBatch(), this);
         shapeRenderer = new ShapeRenderer();
         scrollingBackground = new ScrollingBackground(); // Creating a new camera, viewport, hud and scrolling
                                                          // background, setting the viewport to camera and virtual
@@ -114,10 +114,8 @@ public class PlayScreen implements Screen {
 
         player = new Player(new Sprite(new Texture("AuberStand.png")), playerCollisionLayers, demo);
         player.setPosition(1700, 3000); // Creates a player and sets him to the given position
-        player.findHealers((TiledMapTileLayer) map.getLayers().get("Systems")); // Finds infirmary
+        player.findInfirmary((TiledMapTileLayer) map.getLayers().get("Systems")); // Finds infirmary
         player.teleporters = player.getTeleporterLocations((TiledMapTileLayer) map.getLayers().get("Systems")); // Finds
-                                                                                                                // the
-                                                                                                                // teleporters
 
         renderer = new OrthogonalTiledMapRenderer(map); // Creates a new renderer with the given map
 
@@ -165,13 +163,14 @@ public class PlayScreen implements Screen {
 
         renderer.setView(camera); // Needed for some reason
 
-        if (gameOver()) {
-            System.out.println("Win");
+        if(gameOver()){
+            System.out.println("Lose");
             game.setScreen(new GameOverScreen(game, false));
             return;
-        } // If game over, show game over screen and dispose of all assets
-        if (gameWin()) {
-            System.out.println("Lose");
+        } //If game over, show game over screen and dispose of all assets
+        if(gameWin())
+        {
+            System.out.println("Win");
             game.setScreen(new GameOverScreen(game, true));
             return;
         } // If game won, show game win screen and dispose of all assets
@@ -201,7 +200,7 @@ public class PlayScreen implements Screen {
             camera.position.set(crew.getX() + crew.getWidth() / 2, crew.getY() + crew.getHeight() / 2, 0);
         }
 
-        game.batch.setProjectionMatrix(camera.combined); // Ensures everything is rendered properly, only renders things
+        game.getBatch().setProjectionMatrix(camera.combined); // Ensures everything is rendered properly, only renders things
                                                          // in viewport
         shapeRenderer.setProjectionMatrix(camera.combined); // Ensures the shape renderer renders thing properly
 
@@ -302,6 +301,9 @@ public class PlayScreen implements Screen {
         renderer.dispose();
     }
 
+    /**
+     * Prints debug text, not used
+     */
     public void debugText() {
         System.out.println("KeySystems:");
         System.out.format(" Safe: %d\n", KeySystemManager.safeKeySystemsCount());

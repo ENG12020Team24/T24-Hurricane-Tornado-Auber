@@ -21,7 +21,8 @@ import com.mygdx.auber.Auber;
 
 public class ChooseDifficultyScreen implements Screen {
     private final Stage stage;
-    TextButton easyButton, normalButton, hardButton, backButton;
+
+    public TextButton easyButton, normalButton, hardButton, backButton; 
     TextButton.TextButtonStyle textButtonStyle;
     BitmapFont font;
     Skin skin;
@@ -33,8 +34,8 @@ public class ChooseDifficultyScreen implements Screen {
      * a number based on the difficulty: 0 - Easy 1 - Normal 2 - Hard
      */
     public ChooseDifficultyScreen(final Auber game) {
-        Viewport viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, new OrthographicCamera());
-        stage = new Stage(viewport, game.batch);
+        Viewport viewport = new ExtendViewport(Auber.VIRTUAL_WIDTH, Auber.VIRTUAL_HEIGHT, new OrthographicCamera());
+        stage = new Stage(viewport, game.getBatch());
         Gdx.input.setInputProcessor(stage);
 
         background = new Texture("background.png");
