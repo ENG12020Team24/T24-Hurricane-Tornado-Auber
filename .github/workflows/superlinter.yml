@@ -27,3 +27,6 @@ jobs:
         env:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_TSX: false # These are map files so will fail linting
+          VALIDATE_BASH: false # We didn't write bash
+          VALIDATE_JSCPD: false

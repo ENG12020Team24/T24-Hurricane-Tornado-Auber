@@ -93,7 +93,7 @@ public class Infiltrator extends NPC {
         } // If not invisible or currently destroying a key system, random chance to go
           // destroying a key system
 
-        if (pathQueue.size == 0 && GraphCreator.keySystemsNodes.contains(this.previousNode, true)) {
+        if (pathQueue.size == 0 && GraphCreator.getKeySystemNodes().contains(this.previousNode, true)) {
 
             KeySystem keySystem = KeySystemManager.getClosestKeySystem(previousNode.x, previousNode.y);
             if (keySystem == null) {
@@ -126,7 +126,7 @@ public class Infiltrator extends NPC {
      */
     public void destroyKeySystem() {
         this.pathQueue.clear();
-        Node keySystemNode = GraphCreator.keySystemsNodes.random();
+        Node keySystemNode = GraphCreator.getKeySystemNodes().random();
         KeySystem keySystem = KeySystemManager.getClosestKeySystem(keySystemNode.x, keySystemNode.y);
 
         if ((keySystem.isDestroyed() || keySystem.isBeingDestroyed()) && KeySystemManager.safeKeySystemsCount() != 0) {
