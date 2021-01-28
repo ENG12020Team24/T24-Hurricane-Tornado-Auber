@@ -9,8 +9,12 @@ public class SpeedUp extends PowerUp{
 
     public float timer = 0;
 
-    public SpeedUp(int type, Vector2 position) {
+    public SpeedUp(Vector2 position) {
+
         super(1, position);
+        r = 0;
+        g = 0.5f;
+        b = 0.4f;
     }
 
     @Override
@@ -18,8 +22,13 @@ public class SpeedUp extends PowerUp{
 
         if (playerCollision(player.getX(), player.getY(), player.getWidth(), player.getHeight())) {
             taken = true;
+            b = 1f;
+            g = 0.2f;
+            r = 0.2f;
         }
         if (taken && !used) {
+            position.x = player.getX();
+            position.y = player.getY();
             timer += Gdx.graphics.getDeltaTime();
 
             if (timer < 10){
@@ -32,6 +41,6 @@ public class SpeedUp extends PowerUp{
     }
 
     public void render(ShapeRenderer shapeRenderer){
-        super.render(shapeRenderer, 0,1,0);
+        super.render(shapeRenderer);
     }
 }

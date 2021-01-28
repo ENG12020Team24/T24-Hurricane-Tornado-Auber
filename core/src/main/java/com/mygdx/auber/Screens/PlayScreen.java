@@ -14,6 +14,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -21,6 +22,7 @@ import com.mygdx.auber.Auber;
 import com.mygdx.auber.Pathfinding.GraphCreator;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Powerups.PowerUp;
+import com.mygdx.auber.Powerups.SpeedUp;
 import com.mygdx.auber.Scenes.Hud;
 import com.mygdx.auber.ScrollingBackground;
 import com.mygdx.auber.entities.*;
@@ -79,6 +81,8 @@ public class PlayScreen implements Screen {
 
         powerUps = new ArrayList<PowerUp>();
         powerUpsToRemove = new ArrayList<PowerUp>();
+
+        powerUps.add(new SpeedUp(new Vector2(1700,2800)));
 
         for (int i = 0; i < numberOfInfiltrators; i++) {
             //System.out.println("Infiltrator created!");
@@ -222,6 +226,18 @@ public class PlayScreen implements Screen {
 
         /* Render shapes above this line */
         Gdx.gl.glDisable(GL20.GL_BLEND);
+
+        for (PowerUp pu : powerUps){
+            pu.render(shapeRenderer);
+            pu.update(player);
+            if (pu.used){
+                powerUpsToRemove.add(pu);
+            }
+        }
+        for (PowerUp pu : powerUpsToRemove){
+            powerUps.remove(pu);
+        }
+
     }
 
     /**

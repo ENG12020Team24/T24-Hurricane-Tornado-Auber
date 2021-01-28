@@ -11,6 +11,7 @@ public abstract class PowerUp extends Sprite {
     public boolean taken;
     public boolean used;
     public static final int DIAMETRE = 32;
+    public float r,g,b;
 
     public PowerUp (int type, Vector2 position){
         this.type = type;
@@ -31,7 +32,7 @@ public abstract class PowerUp extends Sprite {
         return true;
     }
 
-    public void render(ShapeRenderer shapeRenderer, int r, int g, int b){
+    public void render(ShapeRenderer shapeRenderer){
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(r,g,b,1);
