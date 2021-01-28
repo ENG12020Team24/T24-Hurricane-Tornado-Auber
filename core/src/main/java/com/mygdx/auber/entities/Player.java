@@ -17,18 +17,18 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.auber.Auber;
+import com.mygdx.auber.Config;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
 import com.mygdx.auber.Scenes.Hud;
 import com.mygdx.auber.Screens.PlayScreen;
 
-
 public class Player extends Sprite implements InputProcessor {
-    public Vector2 velocity = new Vector2(0,0);
+    public Vector2 velocity = new Vector2(0, 0);
 
     private final Collision collision;
     public final Array<TiledMapTileLayer> collisionLayer;
-    public static float x,y;
+    public static float x, y;
     public boolean demo;
 
     public static float health;
@@ -41,10 +41,11 @@ public class Player extends Sprite implements InputProcessor {
     private boolean isAHeld;
     private boolean isSHeld;
     private boolean isDHeld;
+    private boolean usingSpeedPowerUp;
 
     private float alpha = 0;
     private float arrestRadius = 200;
-    private float screenx,screeny;
+    private float screenx, screeny;
     Sprite arrow;
 
     private Vector2 healerPosition = new Vector2();
@@ -56,10 +57,9 @@ public class Player extends Sprite implements InputProcessor {
         this.collision = new Collision();
         this.demo = demo;
         this.arrow = new Sprite(new Texture("arrow.png"));
-        arrow.setOrigin(arrow.getWidth()/2, 0);
+        arrow.setOrigin(arrow.getWidth() / 2, 0);
 
-        if(demo)
-        {
+        if (demo) {
             this.setAlpha(0.01f);
         }
         health = 100f;
@@ -67,137 +67,155 @@ public class Player extends Sprite implements InputProcessor {
 
     /**
      * Used to draw the player to the screen
+     * 
      * @param batch Batch for the player to be drawn in
      */
-    public void draw(Batch batch)
-    {
+    public void draw(Batch batch) {
         super.draw(batch);
     }
 
     /**
      * Draws arrows pointing in the direction of key systems being destroyed
+     * 
      * @param batch Batch for the arrow to be rendered in
      */
-    public void drawArrow(Batch batch)
-    {
-        for (KeySystem keySystem:
-             KeySystemManager.getBeingDestroyedKeySystems()) {
+    public void drawArrow(Batch batch) {
+        for (KeySystem keySystem : KeySystemManager.getBeingDestroyedKeySystems()) {
 
             Vector2 position = new Vector2(this.getX(), this.getY());
-            double angle = Math.atan((keySystem.position.x - position.x) / (keySystem.position.y - position.y));;
+            double angle = Math.atan((keySystem.position.x - position.x) / (keySystem.position.y - position.y));
+            ;
 
             angle = Math.toDegrees(angle);
 
-            if(this.getY() > keySystem.position.y)
-            {
+            if (this.getY() > keySystem.position.y) {
                 angle = angle - 180;
             }
 
             arrow.setRotation((float) -angle);
-            arrow.setPosition(this.getX() + this.getWidth()/2 - arrow.getWidth()/2, this.getY() + this.getHeight()/2);
+            arrow.setPosition(this.getX() + this.getWidth() / 2 - arrow.getWidth() / 2,
+                    this.getY() + this.getHeight() / 2);
             arrow.draw(batch);
         }
     }
 
     /**
      * Draws the arrest radius for Auber
+     * 
      * @param shapeRenderer Shape renderer to be used for drawing shapes
      */
-    public void drawCircle(ShapeRenderer shapeRenderer)
-    {
-        if(Gdx.input.getX() != screenx || Gdx.input.getY() != screeny || this.getX() != x || this.getY() != y)
-        {
+    public void drawCircle(ShapeRenderer shapeRenderer) {
+        if (Gdx.input.getX() != screenx || Gdx.input.getY() != screeny || this.getX() != x || this.getY() != y) {
             alpha += 0.01;
-        }
-        else
-        {
+        } else {
             alpha -= .01f;
-        } //If the player is moving, fade in the circle, else fade out
+        } // If the player is moving, fade in the circle, else fade out
 
         screeny = Gdx.input.getY();
         screenx = Gdx.input.getX();
 
-        alpha = Math.max(0, Math.min(.3f, alpha)); //Clamp the alpha between 0 and .3
+        alpha = Math.max(0, Math.min(.3f, alpha)); // Clamp the alpha between 0 and .3
 
         Gdx.gl.glLineWidth(3f);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(.2f, .2f, .2f, alpha);
-        shapeRenderer.circle(this.getX() + this.getWidth()/2, this.getY() + this.getHeight()/2, arrestRadius, 900);
-        shapeRenderer.end(); //Rendering the circle
+        shapeRenderer.circle(this.getX() + this.getWidth() / 2, this.getY() + this.getHeight() / 2, arrestRadius, 900);
+        shapeRenderer.end(); // Rendering the circle
     }
 
-    public void findHealers(TiledMapTileLayer tileLayer)
-    {
-        for (int i = 0; i < tileLayer.getWidth(); i++)
-        {
-            for(int j = 0; j < tileLayer.getHeight(); j++) //Scans every tile
+    public void findHealers(TiledMapTileLayer tileLayer) {
+        for (int i = 0; i < tileLayer.getWidth(); i++) {
+            for (int j = 0; j < tileLayer.getHeight(); j++) // Scans every tile
             {
-                int x = (i * tileLayer.getTileWidth()) + tileLayer.getTileWidth()/2;
-                int y = (j * tileLayer.getTileHeight()) + tileLayer.getTileHeight()/2; //x,y coord of the centre of the tile
-                TiledMapTileLayer.Cell cell = tileLayer.getCell(i, j); //Returns the cell at the x,y coord
-                if(cell != null && cell.getTile() != null && cell.getTile().getProperties().containsKey("healer")) //If matches key, and is not null
+                int x = (i * tileLayer.getTileWidth()) + tileLayer.getTileWidth() / 2;
+                int y = (j * tileLayer.getTileHeight()) + tileLayer.getTileHeight() / 2; // x,y coord of the centre of
+                                                                                         // the tile
+                TiledMapTileLayer.Cell cell = tileLayer.getCell(i, j); // Returns the cell at the x,y coord
+                if (cell != null && cell.getTile() != null && cell.getTile().getProperties().containsKey("healer")) // If
+                                                                                                                    // matches
+                                                                                                                    // key,
+                                                                                                                    // and
+                                                                                                                    // is
+                                                                                                                    // not
+                                                                                                                    // null
                 {
-                    //System.out.println("found");
+                    // System.out.println("found");
                     healerPosition.x = x;
                     healerPosition.y = y;
                 }
             }
         }
 
-        //System.out.println(x);
+        // System.out.println(x);
     }
 
     /**
-     * Used to update the player, move in direction, change scale, and check for collision
+     * Used to update the player, move in direction, change scale, and check for
+     * collision
      */
     public void update(float delta) {
-        if(demo)
-        {
+        if (demo) {
             heal();
         }
 
-        velocity.x = 0; velocity.y = 0;
-        Player.x = getX(); Player.y = getY(); //Set the velocity to 0 and set the current x/y to x and y
+        velocity.x = 0;
+        velocity.y = 0;
+        Player.x = getX();
+        Player.y = getY(); // Set the velocity to 0 and set the current x/y to x and y
 
-        if(!canHeal)
-        {
-            //System.out.println(healStopTime);
+        if (!canHeal) {
             healStopTime += delta;
-        } //If cant heal, add time to healStopTime
-        if(healStopTime >= 15)
-        {
+        } // If cant heal, add time to healStopTime
+        if (healStopTime >= 15) {
             healStopTime = 0;
             canHeal = true;
-        } //After 15 seconds the player can heal again
+        } // After 15 seconds the player can heal again
 
-        if(isWHeld) {
-            velocity.y += SPEED;
+        if (isWHeld) {
+            velocity.y += 1;
         }
-        if(isSHeld) {
-            velocity.y -= SPEED;
-        } //Add or subtract speed from the y velocity depending on which key is held (if both held velocity.y = 0)
-        if(isAHeld) {
-            velocity.x -= SPEED;
-            this.setScale(-1,1);
+        if (isSHeld) {
+            velocity.y -= 1;
+        } // Add or subtract speed from the y velocity depending on which key is held (if
+          // both held velocity.y = 0)
+        if (isAHeld) {
+            velocity.x -= 1;
+            this.setScale(-1, 1);
         }
-        if(isDHeld) {
-            velocity.x += SPEED;
-            this.setScale(1,1);
-        } //Add or subtract speed from the x velocity depending on which key is held (if both held velocity.x = 0) and set the scale to flip the sprite depending on movement
+        if (isDHeld) {
+            velocity.x += 1;
+            this.setScale(1, 1);
+        } // Add or subtract speed from the x velocity depending on which key is held (if
+          // both held velocity.x = 0) and set the scale to flip the sprite depending on
+          // movement
+          // We use velocity as 1 in order to be able to calculate the correct angle.
+        double angle = Math.atan2(velocity.y, velocity.x);
 
-        velocity = collision.checkForCollision(this, collisionLayer, velocity, collision); //Checks for collision in the direction of movement
+        velocity = collision.checkForCollision(this, collisionLayer, velocity, collision); // Checks for collision in
+                                                                                           // the direction of movement
 
-        if(Vector2.dst(this.getX(), this.getY(), healerPosition.x, healerPosition.y) < 100 && canHeal)
-        {
+        if (Vector2.dst(this.getX(), this.getY(), healerPosition.x, healerPosition.y) < 100 && canHeal) {
             heal(1);
         }
 
-        setX(getX() + velocity.x);
-        setY(getY() + velocity.y); //Set the player position to current position + velocity
+        float speed;
+        if (usingSpeedPowerUp) {
+            speed = Config.NORMAL_PLAYER_SPEED;
+        } else {
+            speed = Config.FAST_PLAYER_SPEED;
+        }
+
+        if (isAHeld || isDHeld || isWHeld || isSHeld) {
+            setX((float) (getX() + Math.cos(angle) * speed * delta));
+            setY((float) (getY() + Math.sin(angle) * speed * delta)); // Set the player position to current position +
+                                                                      // velocity
+        }
+        // Make sure there's an input so weird things don't happen, as atan2(0,0) is undefined
     }
 
     /**
      * When a key is pressed, this method is called
+     * 
      * @param keycode Code of key that was pressed
      * @return true if successful
      */
@@ -221,20 +239,20 @@ public class Player extends Sprite implements InputProcessor {
                 break;
             case Input.Keys.SPACE:
                 for (int i = 0; i < teleporters.size; i++) {
-                    if(teleporters.get(i).dst(this.getX(),this.getY()) < 50)
-                    {
-                        //System.out.println("Teleported");
+                    if (teleporters.get(i).dst(this.getX(), this.getY()) < 50) {
+                        // System.out.println("Teleported");
                         this.teleport();
                         break;
                     }
                 }
                 break;
-        } //If key is pressed, set isKeyHeld to true
+        } // If key is pressed, set isKeyHeld to true
         return true;
     }
 
     /**
      * When a key is lifted, this method is called
+     * 
      * @param keycode Code of key that was lifted
      * @return true if successful
      */
@@ -256,7 +274,7 @@ public class Player extends Sprite implements InputProcessor {
             case Input.Keys.D:
                 isDHeld = false;
                 break;
-        } //Set key lifted to false
+        } // Set key lifted to false
         return true;
     }
 
@@ -267,6 +285,7 @@ public class Player extends Sprite implements InputProcessor {
 
     /**
      * Called when a mouse left click is clicked
+     * 
      * @param screenX X Screen coordinate of mouse press
      * @param screenY Y Screen coordinate of mouse press
      * @param pointer
@@ -278,33 +297,30 @@ public class Player extends Sprite implements InputProcessor {
         if (demo) {
             return false;
         }
-        Vector3 vec=new Vector3(screenX,screenY,0);
+        Vector3 vec = new Vector3(screenX, screenY, 0);
         PlayScreen.camera.unproject(vec);
-        Vector2 point = new Vector2(vec.x,vec.y); //Gets the x,y coordinate of mouse press and converts it to world coordinates
+        Vector2 point = new Vector2(vec.x, vec.y); // Gets the x,y coordinate of mouse press and converts it to world
+                                                   // coordinates
 
-        for (Infiltrator infiltrator: NPCCreator.infiltrators)
-        {
-            if(infiltrator.getBoundingRectangle().contains(point))
-            {
-                if(Vector2.dst(this.getX(), this.getY(), infiltrator.getX(), infiltrator.getY()) < arrestRadius)
-                {
+        for (Infiltrator infiltrator : NPCCreator.infiltrators) {
+            if (infiltrator.getBoundingRectangle().contains(point)) {
+                if (Vector2.dst(this.getX(), this.getY(), infiltrator.getX(), infiltrator.getY()) < arrestRadius) {
                     NPCCreator.removeInfiltrator(infiltrator.index);
                     Hud.ImposterCount += 1;
                     return true;
                 }
             }
-        } //If an infiltrator was clicked, remove it from the list
+        } // If an infiltrator was clicked, remove it from the list
 
-        for(CrewMembers crewMember: NPCCreator.crew) {
-            if(crewMember.getBoundingRectangle().contains(point))
-            {
-                if(Vector2.dst(this.getX(), this.getY(), crewMember.getX(), crewMember.getY()) < arrestRadius) {
+        for (CrewMembers crewMember : NPCCreator.crew) {
+            if (crewMember.getBoundingRectangle().contains(point)) {
+                if (Vector2.dst(this.getX(), this.getY(), crewMember.getX(), crewMember.getY()) < arrestRadius) {
                     NPCCreator.removeCrewmember(crewMember.index);
                     Hud.CrewmateCount += 1;
                     return true;
                 }
             }
-        }//If an crewmember was clicked, remove it from the list
+        } // If an crewmember was clicked, remove it from the list
         return true;
     }
 
@@ -330,42 +346,41 @@ public class Player extends Sprite implements InputProcessor {
 
     /**
      * Heal Auber for a certain amount
+     * 
      * @param amount Amount to heal by
      */
     public void heal(int amount) {
-        if(canHeal)
-        {
+        if (canHeal) {
             health += amount;
             if (health > 100) {
                 health = 100;
             }
-        } //If he can heal, add health
-        else
-        {
+        } // If he can heal, add health
+        else {
 
-        } //If he cant heal, check if time has passed, if it has set canHeal to true and heal for the amount
+        } // If he cant heal, check if time has passed, if it has set canHeal to true and
+          // heal for the amount
     }
 
     /**
      * Heal Auber for the full amount
      */
     public void heal() {
-        if(canHeal)
-        {
+        if (canHeal) {
             health = 100;
-        } //If can heal, heal
-        else
-        {
-            if(System.currentTimeMillis() - healStopTime > 20 * 100)
-            {
+        } // If can heal, heal
+        else {
+            if (System.currentTimeMillis() - healStopTime > 20 * 100) {
                 canHeal = true;
                 heal();
             }
-        } //If he cant heal, check if time has passed, if it has set canHeal to true and heal
+        } // If he cant heal, check if time has passed, if it has set canHeal to true and
+          // heal
     }
 
     /**
      * Take damage for amount given.
+     * 
      * @param amount Amount of damage to deal.
      */
     public static void takeDamage(float amount) {
@@ -373,10 +388,11 @@ public class Player extends Sprite implements InputProcessor {
     }
 
     /**
-     * Teleport player to the other teleporter. There are only 2 so player is teleported to the furthest one.
+     * Teleport player to the other teleporter. There are only 2 so player is
+     * teleported to the furthest one.
      */
     public void teleport() {
-        //System.out.println("x: " + getX() + ", y: " + getY());
+        // System.out.println("x: " + getX() + ", y: " + getY());
         Vector2 furthestTeleporter = new Vector2();
         for (Vector2 teleporter : this.teleporters) {
             if (furthestTeleporter.equals(Vector2.Zero)) {
@@ -388,13 +404,14 @@ public class Player extends Sprite implements InputProcessor {
                 furthestTeleporter.set(teleporter);
             }
         }
-        //System.out.println(furthestTeleporter);
+        // System.out.println(furthestTeleporter);
         setX(furthestTeleporter.x);
         setY(furthestTeleporter.y);
     }
 
     /**
      * Get the location of the teleporters on the map.
+     * 
      * @param tileLayer Tile map layer containing the teleporters.
      * @return Array of the positions of teleporters.
      */
@@ -402,12 +419,21 @@ public class Player extends Sprite implements InputProcessor {
         Array<Vector2> teleporters = new Array<>();
 
         for (int i = 0; i < tileLayer.getWidth(); i++) {
-            //Scan every tile
+            // Scan every tile
             for (int j = 0; j < tileLayer.getHeight(); j++) {
-                int x = (i * tileLayer.getTileWidth()) + tileLayer.getTileWidth()/2;
-                int y = (j * tileLayer.getTileHeight()) + tileLayer.getTileHeight()/2; //x,y coord of the centre of the tile
-                TiledMapTileLayer.Cell cell = tileLayer.getCell(i, j); //Returns the cell at the x,y coord
-                if(cell != null && cell.getTile() != null && cell.getTile().getProperties().containsKey("teleporter")) //If ID matches teleporter tiles, and is not null
+                int x = (i * tileLayer.getTileWidth()) + tileLayer.getTileWidth() / 2;
+                int y = (j * tileLayer.getTileHeight()) + tileLayer.getTileHeight() / 2; // x,y coord of the centre of
+                                                                                         // the tile
+                TiledMapTileLayer.Cell cell = tileLayer.getCell(i, j); // Returns the cell at the x,y coord
+                if (cell != null && cell.getTile() != null && cell.getTile().getProperties().containsKey("teleporter")) // If
+                                                                                                                        // ID
+                                                                                                                        // matches
+                                                                                                                        // teleporter
+                                                                                                                        // tiles,
+                                                                                                                        // and
+                                                                                                                        // is
+                                                                                                                        // not
+                                                                                                                        // null
                 {
                     Vector2 position = new Vector2(x, y);
                     teleporters.add(position);
@@ -417,19 +443,15 @@ public class Player extends Sprite implements InputProcessor {
         return teleporters;
     }
 
-    public void speedUp(boolean inUse){
-        if (inUse){
-            SPEED = 2f;
-        } else {
-            SPEED = 1.3f;
-        }
-
-    };
-    public void arrestUp(){
+    public void speedUp(boolean inUse) {
+        usingSpeedPowerUp = inUse;
 
     };
 
-    public void dispose()
-    {
+    public void arrestUp() {
+
+    };
+
+    public void dispose() {
     }
 }
