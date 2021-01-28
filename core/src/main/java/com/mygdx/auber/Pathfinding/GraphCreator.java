@@ -47,11 +47,11 @@ public final class GraphCreator extends ApplicationAdapter {
      */
     @Override
     public void render() {
-        for (Path path : MapGraph.paths) {
+        for (Path path : MapGraph.getPaths()) {
             path.render(shapeRenderer);
         }
 
-        for (Node node : MapGraph.nodes) {
+        for (Node node : MapGraph.getNodes()) {
             node.render(shapeRenderer, batch, font, false);
         }
 
@@ -96,8 +96,8 @@ public final class GraphCreator extends ApplicationAdapter {
      * created.
      */
     public void generateConnections() {
-        for (int i = 0; i < MapGraph.nodes.size; i++) {
-            Node node = MapGraph.nodes.get(i);
+        for (int i = 0; i < MapGraph.getNodes().size; i++) {
+            Node node = MapGraph.getNodes().get(i);
             Array<Node> neighbourNodes = getNeighbourNodes(node);
             // For every node in the map, get its neighbours
             for (Node neighbourNode : neighbourNodes) {

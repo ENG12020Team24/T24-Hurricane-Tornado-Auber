@@ -112,7 +112,7 @@ public class Infiltrator extends NPC {
 
         Node newGoal;
         do {
-            newGoal = MapGraph.nodes.random();
+            newGoal = MapGraph.getNodes().random();
         } while (newGoal == previousNode);
         {
             setGoal(newGoal, Config.INFILTRATOR_SPEED);

@@ -55,7 +55,7 @@ public class CrewMembers extends NPC {
         else {
             Node newGoal;
             do {
-                newGoal = MapGraph.nodes.random();
+                newGoal = MapGraph.getNodes().random();
             } while (newGoal == previousNode);
             {
                 setGoal(newGoal, Config.CREW_MEMBER_SPEED);
