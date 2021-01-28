@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.auber.Auber;
 import com.mygdx.auber.Screens.PlayScreen;
 import com.mygdx.auber.entities.*;
-
 public class Hud {
     public Stage stage;// 2D scene graph, handles viewport and distributes input events.
     private Viewport viewport;
@@ -28,15 +27,16 @@ public class Hud {
     Label crewmateCountLabel;
     Label keySystemsCountLabel;
     Label playerHealthLabel;
+    private PlayScreen playScreen;
 
     /**
      * Creates the HUD using the specified SpriteBatch
      * @param spritebatch
      */
-    public Hud(SpriteBatch spritebatch) {
+    public Hud(SpriteBatch spritebatch, PlayScreen playScreen) {
         ImposterCount = 0;
         CrewmateCount = 0;
-
+        this.playScreen = playScreen;
         viewport = new FitViewport(Auber.VIRTUAL_WIDTH, Auber.VIRTUAL_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, spritebatch);
 
@@ -51,7 +51,7 @@ public class Hud {
                 String.format("Imposter Arrests: %02d / %02d", ImposterCount, PlayScreen.numberOfInfiltrators),
                 new Label.LabelStyle(font, Color.GREEN));
         crewmateCountLabel = new Label(
-                String.format("Incorrect Arrests: %02d / %02d", CrewmateCount, PlayScreen.maxIncorrectArrests),
+                String.format("Incorrect Arrests: %02d / %02d", CrewmateCount, playScreen.maxIncorrectArrests),
                 new Label.LabelStyle(font, Color.YELLOW));
         playerHealthLabel = new Label(String.format("Health: %02d", (int) Player.health),
                 new Label.LabelStyle(font, Color.ORANGE));
@@ -76,7 +76,7 @@ public class Hud {
         imposterCountLabel.setText(
                 String.format("Imposter Arrests: %02d / %02d", ImposterCount, PlayScreen.numberOfInfiltrators));
         crewmateCountLabel.setText(
-                String.format("Incorrect Arrests: %02d / %02d", CrewmateCount, PlayScreen.maxIncorrectArrests));
+                String.format("Incorrect Arrests: %02d / %02d", CrewmateCount, playScreen.maxIncorrectArrests));
         keySystemsCountLabel.setText(String.format("Safe key systems: %02d / %02d",
                 KeySystemManager.safeKeySystemsCount(), KeySystemManager.keySystemsCount()));
         playerHealthLabel.setText(String.format("Health: %02d", (int) Player.health));
