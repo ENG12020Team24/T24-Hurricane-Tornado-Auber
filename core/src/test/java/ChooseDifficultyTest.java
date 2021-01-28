@@ -7,7 +7,7 @@ import com.mygdx.auber.Screens.ChooseDifficultyScreen;
 
 public class ChooseDifficultyTest {
     @Test
-    public void firstTest(){
-        assertEquals("error message here",0,0);
+    public void firstTest() {
+        assertEquals("error message here", 0, 0);
     }
 }

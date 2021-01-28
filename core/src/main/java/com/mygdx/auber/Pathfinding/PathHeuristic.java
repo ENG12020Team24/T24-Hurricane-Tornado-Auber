@@ -5,9 +5,9 @@ import com.badlogic.gdx.math.Vector2;
 
 public class PathHeuristic implements Heuristic<Node> {
 
-    /* Returns the straight line distance from current node to the end node*/
+    /* Returns the straight line distance from current node to the end node */
     @Override
     public float estimate(Node node, Node endNode) {
-        return Vector2.dst(node.x,node.y,endNode.x,endNode.y);
+        return Vector2.dst(node.x, node.y, endNode.x, endNode.y);
     }
 }
