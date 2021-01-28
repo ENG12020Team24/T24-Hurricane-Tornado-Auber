@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.auber.entities.Player;
 
-public class SpeedUp extends PowerUp{
+public class SpeedUp extends PowerUp {
 
     public float timer = 0;
 
@@ -31,7 +31,7 @@ public class SpeedUp extends PowerUp{
             position.y = player.getY();
             timer += Gdx.graphics.getDeltaTime();
 
-            if (timer < 10){
+            if (timer < 10) {
                 player.speedUp(true);
             } else {
                 player.speedUp(false);
@@ -40,7 +40,12 @@ public class SpeedUp extends PowerUp{
         }
     }
 
+<<<<<<< HEAD
     public void render(ShapeRenderer shapeRenderer){
         super.render(shapeRenderer);
+=======
+    public void render(ShapeRenderer shapeRenderer) {
+        super.render(shapeRenderer, 0, 1, 0);
+>>>>>>> 00f03b7c80b7afcd324e8f837371a4fff2622ad4
     }
 }

@@ -57,22 +57,24 @@ public class GameOverScreen implements Screen {
         skin.addRegions(buttonAtlas);
         textButtonStyle.up = skin.getDrawable("up-button");
         textButtonStyle.down = skin.getDrawable("down-button");
-        textButtonStyle.checked=skin.getDrawable("checked-button");
+        textButtonStyle.checked = skin.getDrawable("checked-button");
         menuButton = new TextButton("MAIN MENU", textButtonStyle);
-        menuButton.addListener(new ClickListener(){
+        menuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //System.out.println("Main menu");
+                // System.out.println("Main menu");
                 game.setScreen(new MainMenuScreen(game));
             }
+
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                //System.out.println("Hovered");
+                // System.out.println("Hovered");
                 menuButton.setChecked(true);
             }
+
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                //System.out.println("Exited");
+                // System.out.println("Exited");
                 menuButton.setChecked(false);
             }
         });

@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -20,8 +19,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.auber.Auber;
-import com.mygdx.auber.ScrollingBackground;
-
 
 public class MainMenuScreen implements Screen {
 
@@ -37,7 +34,7 @@ public class MainMenuScreen implements Screen {
     Texture background;
     private Auber game;
 
-    public MainMenuScreen(final Auber game){
+    public MainMenuScreen(final Auber game) {
         this.game = game;
 
         viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, new OrthographicCamera());
@@ -62,79 +59,78 @@ public class MainMenuScreen implements Screen {
         titleCard = new Image(title);
         playButton.setSize(200, 190);
 
-        playButton.addListener(new ClickListener(){
+        playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //System.out.println("Clicked");
-                game.setScreen(new ChooseDifficultyScreen(game)); 
+                // System.out.println("Clicked");
+                game.setScreen(new ChooseDifficultyScreen(game));
             }
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                //System.out.println("Hovered");
+                // System.out.println("Hovered");
                 playButton.setChecked(true);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                //System.out.println("Exited");
+                // System.out.println("Exited");
                 playButton.setChecked(false);
             }
         });
-        exitButton.addListener(new ClickListener(){
+        exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.exit();
             }
+
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                //System.out.println("Hovered");
+                // System.out.println("Hovered");
                 exitButton.setChecked(true);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                //System.out.println("Exited");
+                // System.out.println("Exited");
                 exitButton.setChecked(false);
             }
         });
-        demoButton.addListener(new ClickListener(){
+        demoButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //System.out.println("Clicked");
+                // System.out.println("Clicked");
                 game.setScreen(new PlayScreen(game, true, 42));
             }
 
-
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                //System.out.println("Hovered");
+                // System.out.println("Hovered");
                 demoButton.setChecked(true);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                //System.out.println("Exited");
+                // System.out.println("Exited");
                 demoButton.setChecked(false);
             }
         });
-        tutorialButton.addListener(new ClickListener(){
+        tutorialButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //System.out.println("Clicked");
+                // System.out.println("Clicked");
                 game.setScreen(new TutorialScreen(game));
             }
 
-
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                //System.out.println("Hovered");
+                // System.out.println("Hovered");
                 tutorialButton.setChecked(true);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                //System.out.println("Exited");
+                // System.out.println("Exited");
                 tutorialButton.setChecked(false);
             }
         });
@@ -151,14 +147,13 @@ public class MainMenuScreen implements Screen {
         menuTable.add(tutorialButton).padBottom(20);
         menuTable.row();
         menuTable.add(exitButton);
-        //menuTable.debug();
+        // menuTable.debug();
 
         stage.addActor(menuTable);
     }
 
     @Override
     public void show() {
-
 
     }
 
