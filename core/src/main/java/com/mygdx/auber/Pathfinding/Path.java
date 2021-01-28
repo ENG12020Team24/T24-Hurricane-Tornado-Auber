@@ -12,7 +12,7 @@ public class Path implements Connection<Node> {
     public Path(Node fromNode, Node toNode) {
         this.fromNode = fromNode;
         this.toNode = toNode;
-        cost = Vector2.dst(fromNode.x, fromNode.y, toNode.x, toNode.y);
+        cost = Vector2.dst(fromNode.getX(), fromNode.getY(), toNode.getX(), toNode.getY());
     }
 
     /**
@@ -24,7 +24,7 @@ public class Path implements Connection<Node> {
     public void render(ShapeRenderer shapeRenderer) {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(0, 0, 0, 1);
-        shapeRenderer.rectLine(fromNode.x, fromNode.y, toNode.x, toNode.y, 4);
+        shapeRenderer.rectLine(fromNode.getX(), fromNode.y, toNode.getX(), toNode.y, 4);
         shapeRenderer.end();
     }
 

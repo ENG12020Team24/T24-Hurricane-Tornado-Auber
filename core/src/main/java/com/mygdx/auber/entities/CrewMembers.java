@@ -14,7 +14,7 @@ public class CrewMembers extends NPC {
 
     public CrewMembers(Sprite sprite, Node node, MapGraph mapGraph) {
         super(sprite, node, mapGraph, Config.CREW_MEMBER_SPEED);
-        this.setPosition(node.x, node.y);
+        this.setPosition(node.getX(), node.getY());
     }
 
     /**

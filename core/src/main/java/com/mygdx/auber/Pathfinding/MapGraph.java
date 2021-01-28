@@ -17,7 +17,7 @@ public class MapGraph implements IndexedGraph<Node> {
     /** Array holding all paths on map. */
     private static Array<Path> paths = new Array<>();
     /** An ObjectMap that links nodes to the connections from them. */
-    private static ObjectMap<Node, Array<Connection<Node>>> pathsMap = new 
+    private static ObjectMap<Node, Array<Connection<Node>>> pathsMap = new
         ObjectMap<>();
     /** Increment counter to give each node a unique index. */
     private static int lastNodeIndex = 0;
@@ -37,16 +37,16 @@ public class MapGraph implements IndexedGraph<Node> {
     }
 
     /**
-     * Returns a node based on the x,y position of the node
-     * @param x X coord of the node to find
-     * @param y Y coord of the node to find
-     * @return The node at x,y
+     * Returns a node based on the x,y position of the node.
+     * @param x X coord of the node to find.
+     * @param y Y coord of the node to find.
+     * @return The node at x,y.
      */
     public static Node getNode(final float x, final float y) {
         /* Searches every node for x,y coordinate, returns node with matching
          coords. */
         for (Node node : nodes) {
-            if (node.x == x && node.y == y && node != null) {
+            if (node.getX() == x && node.getY() == y && node != null) {
                 return node;
             }
         }
@@ -60,7 +60,7 @@ public class MapGraph implements IndexedGraph<Node> {
      * @param toNode   Node path goes to.
      */
     public static void connectNodes(final Node fromNode, final Node toNode) {
-        /* Adds a path from node to node, unless node is already in the 
+        /* Adds a path from node to node, unless node is already in the
         pathsMap. */
         Path path = new Path(fromNode, toNode);
         if (!pathsMap.containsKey(fromNode)) {
@@ -89,7 +89,7 @@ public class MapGraph implements IndexedGraph<Node> {
      */
     public GraphPath<Node> findPath(final Node startNode, final Node goalNode) {
         GraphPath<Node> nodeGraphPath = new DefaultGraphPath<>();
-        new IndexedAStarPathFinder<>(this).searchNodePath(startNode, 
+        new IndexedAStarPathFinder<>(this).searchNodePath(startNode,
             goalNode, pathHeuristic, nodeGraphPath);
         GraphCreator.setNodePath(nodeGraphPath);
         return nodeGraphPath;
@@ -116,7 +116,6 @@ public class MapGraph implements IndexedGraph<Node> {
 
     /**
      * Returns the list of paths that start at a particular node.
-     * 
      * @param fromNode Node to get paths from.
      * @return Array of paths from node.
      */
@@ -128,8 +127,9 @@ public class MapGraph implements IndexedGraph<Node> {
         return new Array<>(0);
     }
 
-    /** 
+    /**
      * Returns a random node from this MapGraph.
+     * @return A random Node from this MapGraph.
      */
     public static Node getRandomNode() {
         return nodes.random();

@@ -116,8 +116,8 @@ public final class GraphCreator extends ApplicationAdapter {
         // Creates an array of each valid (not null) neighbour node and returns
         // it.
         Array<Node> nodes = new Array<>();
-        float x = node.x;
-        float y = node.y;
+        float x = node.getX();
+        float y = node.getY();
 
         if (MapGraph.getNode(x + tileLayer.getTileWidth(), y) != null) {
             nodes.add(MapGraph.getNode(x + tileLayer.getTileWidth(), y));
