@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.auber.Auber;
 import com.mygdx.auber.Pathfinding.GraphCreator;
 import com.mygdx.auber.Pathfinding.MapGraph;
+import com.mygdx.auber.Powerups.ArrestUp;
 import com.mygdx.auber.Powerups.PowerUp;
 import com.mygdx.auber.Powerups.SpeedUp;
 import com.mygdx.auber.Scenes.Hud;
@@ -84,7 +85,7 @@ public class PlayScreen implements Screen {
         powerUps = new ArrayList<PowerUp>();
         powerUpsToRemove = new ArrayList<PowerUp>();
 
-        powerUps.add(new SpeedUp(new Vector2(1700,2800)));
+        powerUps.add(new ArrestUp(new Vector2(1700,2800)));
 
         for (int i = 0; i < numberOfInfiltrators; i++) {
             // System.out.println("Infiltrator created!");
