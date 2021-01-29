@@ -243,7 +243,7 @@ public class PlayScreen implements Screen {
         for (PowerUp pu : powerUps){
             pu.render(shapeRenderer);
             pu.update(player);
-            if (pu.used){
+            if (pu.isUsed()){
                 powerUpsToRemove.add(pu);
             }
         }

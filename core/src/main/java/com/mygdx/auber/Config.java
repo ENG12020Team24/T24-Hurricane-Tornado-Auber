@@ -24,4 +24,24 @@ public final class Config {
 
     /** The crew members' speed in pixels/second. */
     public static final float CREW_MEMBER_SPEED = 60f;
+
+    /** The red component of the speedup powerup's default colour. */
+    public static final float DEFAULT_SPEEDUP_RED = 0f;
+    /** The green component of the speedup powerup's default colour. */
+    public static final float DEFAULT_SPEEDUP_GREEN = 0.5f;
+    /** The blue component of the speedup powerup's default colour. */
+    public static final float DEFAULT_SPEEDUP_BLUE = 0.4f;
+
+    /** The red component of the speedup powerup's colour after colliding with
+     * the player. */
+    public static final float COLLISION_SPEEDUP_RED = 0.2f;
+    /** The green component of the speedup powerup's colour after colliding 
+     * with the player. */
+    public static final float COLLISION_SPEEDUP_GREEN = 0.2f;
+    /** The blue component of the speedup powerup's colour after colliding with
+     * the player. */
+    public static final float COLLISION_SPEEDUP_BLUE = 1f;
+
+    /** The time that the speedup powerup affects the player for in seconds. */
+    public static final float SPEEDUP_TIME = 10f;
 }

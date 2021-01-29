@@ -14,7 +14,7 @@ public class CrewMembers extends NPC {
 
     public CrewMembers(Sprite sprite, Node node, MapGraph mapGraph) {
         super(sprite, node, mapGraph, Config.CREW_MEMBER_SPEED);
-        this.setPosition(node.x, node.y);
+        this.setPosition(node.getX(), node.getY());
     }
 
     /**
@@ -55,7 +55,7 @@ public class CrewMembers extends NPC {
         else {
             Node newGoal;
             do {
-                newGoal = MapGraph.nodes.random();
+                newGoal = MapGraph.getNodes().random();
             } while (newGoal == previousNode);
             {
                 setGoal(newGoal, Config.CREW_MEMBER_SPEED);
