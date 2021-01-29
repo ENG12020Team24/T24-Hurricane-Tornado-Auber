@@ -7,53 +7,65 @@ import com.mygdx.auber.entities.Player;
 import com.mygdx.auber.Config;
 
 public abstract class PowerUp extends Sprite {
-    public Vector2 position = new Vector2(0, 0);
-    public static int type;
-    public boolean taken;
-    public boolean used;
+    /** The position of this powerup within the game world. */
+    private Vector2 position = new Vector2(0, 0);
+    /** Used to store if the user has picked up this PowerUp. */
+    protected boolean taken;
+    /** Used to store if the user has finished using this PowerUp. */
+    protected boolean used;
 
-    public PowerUp(int type, Vector2 position) {
-        this.type = type;
+    /**
+     * Constructor used to instantiate the class.
+     * @param position A Vector2 containing the position of the PowerUp.
+     */
+    public PowerUp(final Vector2 position) {
         this.position = position;
         this.taken = false;
         this.used = false;
     }
 
-    public abstract void update(Player player);
+    /**
+     * An abstract method used to update the PowerUp every frame.
+     * @param player The Player, used to update the PowerUp.
+     */
+    public abstract void update(final Player player);
 
     /**
      * Determines if the player is touching this powerup.
-     * @param playerX
-     * @param playerY
-     * @param playerWidth
-     * @param playerHeight
+     * @param playerX The x-coordinate of the player.
+     * @param playerY The y-coordinate of the player.
+     * @param playerWidth The width of the player.
+     * @param playerHeight The height of the player.
      * @return True if the player is touching this, false otherwise
      */
-    public boolean playerCollision(float playerX, float playerY, float playerWidth, float playerHeight) {
-        if (playerX >= position.x + Config.POWERUP_DIAMETER || playerX + playerWidth <= position.x) {
+    public boolean playerCollision(final float playerX, final float playerY,
+        final float playerWidth, final float playerHeight) {
+        if (playerX >= position.x + Config.POWERUP_DIAMETER
+            || playerX + playerWidth <= position.x) {
             return false;
         }
 
-        if (playerY >= position.y + Config.POWERUP_DIAMETER || playerY + playerHeight <= position.y) {
+        if (playerY >= position.y + Config.POWERUP_DIAMETER
+            || playerY + playerHeight <= position.y) {
             return false;
         }
         return true;
     }
 
     /**
-     * Draws this powerup using the specified shapeRenderer
-     * @param shapeRenderer
-     * @param r
-     * @param g
-     * @param b
+     * Draws this powerup using the specified shapeRenderer.
+     * @param shapeRenderer The ShapeRenderer used to draw the powerup
+     * @param r The red component of the ShapeRenderer's colour.
+     * @param g The green component of the ShapeRenderer's colour.
+     * @param b The blue component of the ShapeRenderer's colour.
      */
-    public void render(ShapeRenderer shapeRenderer, int r, int g, int b) {
-
+    public void render(final ShapeRenderer shapeRenderer, final int r,
+        final int g, final int b) {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(r, g, b, 1);
-        shapeRenderer.circle(position.x + Config.POWERUP_DIAMETER / 2, position.y + Config.POWERUP_DIAMETER / 2,
-                Config.POWERUP_DIAMETER / 2);
+        shapeRenderer.circle(position.x + Config.POWERUP_DIAMETER / 2,
+            position.y + Config.POWERUP_DIAMETER / 2,
+            Config.POWERUP_DIAMETER / 2);
         shapeRenderer.end();
-
     }
 }
