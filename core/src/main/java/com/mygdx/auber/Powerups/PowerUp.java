@@ -8,11 +8,18 @@ import com.mygdx.auber.Config;
 
 public abstract class PowerUp extends Sprite {
     /** The position of this powerup within the game world. */
-    private Vector2 position = new Vector2(0, 0);
+    protected Vector2 position = new Vector2(0, 0);
     /** Used to store if the user has picked up this PowerUp. */
     protected boolean taken;
     /** Used to store if the user has finished using this PowerUp. */
     protected boolean used;
+
+    /** The red component of this powerup's colour. */
+    protected float r;
+    /** The green component of this powerup's colour. */
+    protected float g;
+    /** The blue component of this powerup's colour. */
+    protected float b;
 
     /**
      * Constructor used to instantiate the class.
@@ -28,7 +35,7 @@ public abstract class PowerUp extends Sprite {
      * An abstract method used to update the PowerUp every frame.
      * @param player The Player, used to update the PowerUp.
      */
-    public abstract void update(final Player player);
+    public abstract void update(Player player);
 
     /**
      * Determines if the player is touching this powerup.
@@ -54,18 +61,24 @@ public abstract class PowerUp extends Sprite {
 
     /**
      * Draws this powerup using the specified shapeRenderer.
-     * @param shapeRenderer The ShapeRenderer used to draw the powerup
-     * @param r The red component of the ShapeRenderer's colour.
-     * @param g The green component of the ShapeRenderer's colour.
-     * @param b The blue component of the ShapeRenderer's colour.
+     * @param shapeRenderer The ShapeRenderer used to draw the powerup.
      */
-    public void render(final ShapeRenderer shapeRenderer, final int r,
-        final int g, final int b) {
+    public void render(ShapeRenderer shapeRenderer) {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(r, g, b, 1);
         shapeRenderer.circle(position.x + Config.POWERUP_DIAMETER / 2,
             position.y + Config.POWERUP_DIAMETER / 2,
             Config.POWERUP_DIAMETER / 2);
         shapeRenderer.end();
+    }
+
+    /**
+     * Used to determine if the powerup has been used and is no longer
+     * affecting the player.
+     * @return A boolean containing true if the powerup has been used and is no
+     * longer affecting the player, false otherwise.
+     */
+    public boolean isUsed() {
+        return used;
     }
 }
