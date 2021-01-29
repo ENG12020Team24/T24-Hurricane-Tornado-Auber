@@ -46,6 +46,11 @@ public class KeySystemManager {
         }
     }
 
+    /**
+     * 
+     * @return The number of key systems that have both not been destroyed and are
+     *         not being destroyed.
+     */
     public static int safeKeySystemsCount() {
         int remaining = 0;
 
@@ -57,6 +62,10 @@ public class KeySystemManager {
         return remaining;
     }
 
+    /**
+     * 
+     * @return The number of key systems that are currently being destroyed.
+     */
     public static int beingDestroyedKeySystemsCount() {
         int beingDestroyed = 0;
 
@@ -68,6 +77,10 @@ public class KeySystemManager {
         return beingDestroyed;
     }
 
+    /**
+     * 
+     * @return The number of key systems that have been destroyed.
+     */
     public static int destroyedKeySystemsCount() {
         int destroyed = 0;
 
@@ -114,6 +127,11 @@ public class KeySystemManager {
         return keySystemsList;
     }
 
+    /**
+     * 
+     * @return The number of key systems, no matter if they have been destroyed or
+     *         not.
+     */
     public static int keySystemsCount() {
         return keySystems.size;
     }

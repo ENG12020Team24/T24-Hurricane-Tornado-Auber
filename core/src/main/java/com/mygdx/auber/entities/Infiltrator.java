@@ -22,7 +22,7 @@ public class Infiltrator extends NPC {
 
     public Infiltrator(Sprite sprite, Node node, MapGraph mapGraph) {
         super(sprite, node, mapGraph, Config.INFILTRATOR_SPEED);
-        this.setPosition(node.x, node.y);
+        this.setPosition(node.getX(), node.getY());
     }
 
     /**
@@ -33,7 +33,7 @@ public class Infiltrator extends NPC {
         this.moveNPC(delta); // Moves the npc and sets their scale
 
         if (isDestroying) {
-            KeySystem keySystem = KeySystemManager.getClosestKeySystem(previousNode.x, previousNode.y);
+            KeySystem keySystem = KeySystemManager.getClosestKeySystem(previousNode.getX(), previousNode.getY());
 
             if (keySystem.isDestroyed()) {
                 this.isDestroying = false;
@@ -93,9 +93,9 @@ public class Infiltrator extends NPC {
         } // If not invisible or currently destroying a key system, random chance to go
           // destroying a key system
 
-        if (pathQueue.size == 0 && GraphCreator.keySystemsNodes.contains(this.previousNode, true)) {
+        if (pathQueue.size == 0 && GraphCreator.getKeySystemNodes().contains(this.previousNode, true)) {
 
-            KeySystem keySystem = KeySystemManager.getClosestKeySystem(previousNode.x, previousNode.y);
+            KeySystem keySystem = KeySystemManager.getClosestKeySystem(previousNode.getX(), previousNode.getY());
             if (keySystem == null) {
                 this.isDestroying = false;
                 setGoal(MapGraph.getRandomNode(), Config.INFILTRATOR_SPEED);
@@ -112,7 +112,7 @@ public class Infiltrator extends NPC {
 
         Node newGoal;
         do {
-            newGoal = MapGraph.nodes.random();
+            newGoal = MapGraph.getNodes().random();
         } while (newGoal == previousNode);
         {
             setGoal(newGoal, Config.INFILTRATOR_SPEED);
@@ -126,8 +126,8 @@ public class Infiltrator extends NPC {
      */
     public void destroyKeySystem() {
         this.pathQueue.clear();
-        Node keySystemNode = GraphCreator.keySystemsNodes.random();
-        KeySystem keySystem = KeySystemManager.getClosestKeySystem(keySystemNode.x, keySystemNode.y);
+        Node keySystemNode = GraphCreator.getKeySystemNodes().random();
+        KeySystem keySystem = KeySystemManager.getClosestKeySystem(keySystemNode.getX(), keySystemNode.getY());
 
         if ((keySystem.isDestroyed() || keySystem.isBeingDestroyed()) && KeySystemManager.safeKeySystemsCount() != 0) {
             destroyKeySystem();
@@ -200,6 +200,10 @@ public class Infiltrator extends NPC {
         Infiltrator.hardSprites.add(new Sprite(new Texture("HumanStand.png")));
     }
 
+    /**
+     * Sets the index for this Infiltrator
+     * @param index
+     */
     public void setIndex(int index) {
         this.index = index;
     }

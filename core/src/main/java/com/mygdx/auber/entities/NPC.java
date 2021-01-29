@@ -22,7 +22,6 @@ import com.mygdx.auber.Pathfinding.Node;
 public class NPC extends Sprite {
     public Vector2 velocity = new Vector2(0, 0); // Velocity vector
     public int index; // Index of the NPC in its respective list
-    public final float SPEED = 1f; // Speed the NPC moves at, same as the player
     float elapsedTime = 0f; // Time elapsed since NPC last moved
 
     public MapGraph mapGraph; // Mapgraph for the NPC to reference
@@ -43,7 +42,7 @@ public class NPC extends Sprite {
 
         this.mapGraph = mapGraph;
         this.previousNode = start;
-        this.setPosition(start.x, start.y);
+        this.setPosition(start.getX(), start.getY());
         this.setGoal(MapGraph.getRandomNode(), speed);
         this.collision = new Collision();
     }
@@ -88,7 +87,7 @@ public class NPC extends Sprite {
     public void checkCollision(float speed) {
         if (this.pathQueue.size > 0) {
             Node targetNode = this.pathQueue.first();
-            if (Vector2.dst(this.getX(), this.getY(), targetNode.x, targetNode.y) <= 5) {
+            if (Vector2.dst(this.getX(), this.getY(), targetNode.getX(), targetNode.getY()) <= 5) {
                 reachNextNode(speed); // If the sprite is within 5 pixels of the node, it has reached the node
             }
         }
@@ -124,7 +123,7 @@ public class NPC extends Sprite {
         }
 
         Node nextNode = this.pathQueue.first();
-        double angle = MathUtils.atan2(this.getY() - nextNode.y, this.getX() - nextNode.x);
+        double angle = MathUtils.atan2(this.getY() - nextNode.getY(), this.getX() - nextNode.getX());
         this.velocity.x -= (MathUtils.cos((float) angle) * speed);
         this.velocity.y -= (MathUtils.sin((float) angle) * speed);
     }
@@ -177,7 +176,7 @@ public class NPC extends Sprite {
     }
 
     /**
-     * A placeholder function to be superseeded by subclasses own reachDesintation()
+     * A placeholder function to be superceded by subclasses own reachDesintation()
      */
     public void reachDestination() {
     }

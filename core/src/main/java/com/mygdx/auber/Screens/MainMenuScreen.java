@@ -37,8 +37,8 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(final Auber game) {
         this.game = game;
 
-        viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, new OrthographicCamera());
-        stage = new Stage(viewport, ((Auber) game).batch);
+        viewport = new ExtendViewport(Auber.VIRTUAL_WIDTH, Auber.VIRTUAL_HEIGHT, new OrthographicCamera());
+        stage = new Stage(viewport, ((Auber) game).getBatch());
         Gdx.input.setInputProcessor(stage);
 
         font = new BitmapFont();

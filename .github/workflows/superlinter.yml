@@ -1,7 +1,11 @@
 name: Super-Linter
 
 # Run this workflow every time a new commit pushed to your repository
-on: push
+on: 
+  push:
+    branches-ignore: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   # Set the job key. The key is displayed as the job name
@@ -23,3 +27,6 @@ jobs:
         env:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_TSX: false # These are map files so will fail linting
+          VALIDATE_BASH: false # We didn't write bash
+          VALIDATE_JSCPD: false

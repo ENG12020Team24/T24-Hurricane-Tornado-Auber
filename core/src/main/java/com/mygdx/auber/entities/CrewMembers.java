@@ -14,7 +14,7 @@ public class CrewMembers extends NPC {
 
     public CrewMembers(Sprite sprite, Node node, MapGraph mapGraph) {
         super(sprite, node, mapGraph, Config.CREW_MEMBER_SPEED);
-        this.setPosition(node.x, node.y);
+        this.setPosition(node.getX(), node.getY());
     }
 
     /**
@@ -50,12 +50,12 @@ public class CrewMembers extends NPC {
         double chance = Math.random();
 
         if (chance < 0.2) {
-            setGoal(GraphCreator.keySystemsNodes.random(), Config.CREW_MEMBER_SPEED);
+            setGoal(GraphCreator.getKeySystemNodes().random(), Config.CREW_MEMBER_SPEED);
         } // 1/5 chance of going to a key system
         else {
             Node newGoal;
             do {
-                newGoal = MapGraph.nodes.random();
+                newGoal = MapGraph.getNodes().random();
             } while (newGoal == previousNode);
             {
                 setGoal(newGoal, Config.CREW_MEMBER_SPEED);
