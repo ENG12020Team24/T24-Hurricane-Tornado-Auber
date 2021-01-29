@@ -11,6 +11,7 @@ public abstract class PowerUp extends Sprite {
     public static int type;
     public boolean taken;
     public boolean used;
+    public float r,g,b;
 
     public PowerUp(int type, Vector2 position) {
         this.type = type;
@@ -47,7 +48,8 @@ public abstract class PowerUp extends Sprite {
      * @param g
      * @param b
      */
-    public void render(ShapeRenderer shapeRenderer, int r, int g, int b) {
+    public void render(ShapeRenderer shapeRenderer) {
+
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(r, g, b, 1);
