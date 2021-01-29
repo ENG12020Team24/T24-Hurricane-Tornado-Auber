@@ -30,3 +30,6 @@ jobs:
           VALIDATE_TSX: false # These are map files so will fail linting
           VALIDATE_BASH: false # We didn't write bash
           VALIDATE_JSCPD: false
+          VALIDATE_JAVA: true
+          LINTER_RULES_PATH: /
+          JAVA_CONFIG_FILE: checkstyle.xml
