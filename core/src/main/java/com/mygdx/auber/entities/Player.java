@@ -186,7 +186,7 @@ public class Player extends Sprite implements InputProcessor {
         }
 
         float speed;
-        if (usingSpeedPowerUp) {
+        if (!usingSpeedPowerUp) {
             speed = Config.NORMAL_PLAYER_SPEED;
         } else {
             speed = Config.FAST_PLAYER_SPEED;
@@ -445,5 +445,9 @@ public class Player extends Sprite implements InputProcessor {
     };
 
     public void dispose() {
+    }
+
+    public Vector2 getPosition() {
+        return new Vector2(x, y);
     }
 }

@@ -35,7 +35,7 @@ public final class Config {
     /** The red component of the speedup powerup's colour after colliding with
      * the player. */
     public static final float COLLISION_SPEEDUP_RED = 0.2f;
-    /** The green component of the speedup powerup's colour after colliding 
+    /** The green component of the speedup powerup's colour after colliding
      * with the player. */
     public static final float COLLISION_SPEEDUP_GREEN = 0.2f;
     /** The blue component of the speedup powerup's colour after colliding with

@@ -8,25 +8,25 @@ import com.mygdx.auber.Config;
 
 public abstract class PowerUp extends Sprite {
     /** The position of this powerup within the game world. */
-    protected Vector2 position = new Vector2(0, 0);
+    private Vector2 position = new Vector2(0, 0);
     /** Used to store if the user has picked up this PowerUp. */
-    protected boolean taken;
+    private boolean taken;
     /** Used to store if the user has finished using this PowerUp. */
-    protected boolean used;
+    private boolean used;
 
     /** The red component of this powerup's colour. */
-    protected float r;
+    private float r;
     /** The green component of this powerup's colour. */
-    protected float g;
+    private float g;
     /** The blue component of this powerup's colour. */
-    protected float b;
+    private float b;
 
     /**
      * Constructor used to instantiate the class.
-     * @param position A Vector2 containing the position of the PowerUp.
+     * @param newPosition A Vector2 containing the position of the PowerUp.
      */
-    public PowerUp(final Vector2 position) {
-        this.position = position;
+    public PowerUp(final Vector2 newPosition) {
+        this.position = newPosition;
         this.taken = false;
         this.used = false;
     }
@@ -63,7 +63,7 @@ public abstract class PowerUp extends Sprite {
      * Draws this powerup using the specified shapeRenderer.
      * @param shapeRenderer The ShapeRenderer used to draw the powerup.
      */
-    public void render(ShapeRenderer shapeRenderer) {
+    public void render(final ShapeRenderer shapeRenderer) {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(r, g, b, 1);
         shapeRenderer.circle(position.x + Config.POWERUP_DIAMETER / 2,
@@ -80,5 +80,59 @@ public abstract class PowerUp extends Sprite {
      */
     public boolean isUsed() {
         return used;
+    }
+    
+    /**
+     * Sets the colour of this PowerUp.
+     * @param newR The red component of the new colour.
+     * @param newG The green component of the new colour.
+     * @param newB The blue component of the new colour.
+     */
+    public void setRGB(final float newR, final float newG, final float newB) {
+        this.r = newR;
+        this.g = newG;
+        this.b = newB;
+    }
+
+    /**
+     * Sets whether the player has picked up this PowerUp.
+     * @param taken Whether the player has picked up this PowerUp or not.   
+     */
+    public void setTaken(boolean taken) {
+        this.taken = taken;
+    }
+
+    /**
+     * Returns if the player has picked up this PowerUp.
+     * @return A boolean containing True if the player picked up this PowerUp,
+     * false otherwise.
+     */
+    public boolean isTaken() {
+        return taken;
+    }
+
+    /**
+     * Returns the player's position.
+     * @return A Vector2 containing the player's position.
+     */
+    public Vector2 getPosition() {
+        return position;
+    }
+
+    /**
+     * Returns whether the player has finished using this PowerUp.
+     * @param used A boolean containing True if the player has finished using
+     * this PowerUp, false otherwise.
+     */
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
+
+    /**
+     * Sets the position of this PowerUp.
+     * @param newPosition A Vector2 containing this PowerUp's new position.
+     */
+    public void setPosition(Vector2 newPosition) {
+        this.position = newPosition;
     }
 }
