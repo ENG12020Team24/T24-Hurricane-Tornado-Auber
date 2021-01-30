@@ -24,7 +24,6 @@ public class Player extends Sprite implements InputProcessor {
     public boolean demo;
 
     public static float health;
-    float SPEED = 1.3f;
 
     public static boolean canHeal = true;
     public static float healStopTime;
@@ -34,9 +33,10 @@ public class Player extends Sprite implements InputProcessor {
     private boolean isSHeld;
     private boolean isDHeld;
     private boolean usingSpeedPowerUp;
+    private boolean usingArrestPowerUp;
 
     private float alpha = 0;
-    private float arrestRadius = 200;
+    private float arrestRadius;
     private float screenx, screeny;
     Sprite arrow;
 
@@ -190,6 +190,12 @@ public class Player extends Sprite implements InputProcessor {
             speed = Config.NORMAL_PLAYER_SPEED;
         } else {
             speed = Config.FAST_PLAYER_SPEED;
+        }
+
+        if (!usingArrestPowerUp) {
+            arrestRadius = Config.NORMAL_ARREST_RANGE;
+        } else {
+            arrestRadius = Config.EXTEND_ARREST_RANGE;
         }
 
         if (isAHeld || isDHeld || isWHeld || isSHeld) {
@@ -440,8 +446,8 @@ public class Player extends Sprite implements InputProcessor {
 
     };
 
-    public void arrestUp() {
-
+    public void arrestUp(boolean inUse) {
+        usingArrestPowerUp = inUse;
     };
 
     public void dispose() {
