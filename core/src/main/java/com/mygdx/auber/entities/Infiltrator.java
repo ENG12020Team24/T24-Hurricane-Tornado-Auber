@@ -29,7 +29,7 @@ public class Infiltrator extends NPC {
      * Step needs to be called in the update method, makes the NPC move and check if
      * it has reached its next node
      */
-    public void step(float delta) {
+    public void step(Player p, float delta) {
         this.moveNPC(delta); // Moves the npc and sets their scale
 
         if (isDestroying) {
@@ -41,9 +41,9 @@ public class Infiltrator extends NPC {
                 this.setGoal(MapGraph.getRandomNode(), Config.INFILTRATOR_SPEED);
             }
 
-            if (Vector2.dst(Player.x, Player.y, this.getX(), this.getY()) < 250) {
+            if (Vector2.dst(p.x, p.y, this.getX(), this.getY()) < 250) {
                 keySystem.stopDestroy();
-                this.useAbility();
+                this.useAbility(p);
                 this.isDestroying = false;
             }
         } // If isDestroying, if the distance to the player is less than 250, use ability
@@ -140,7 +140,7 @@ public class Infiltrator extends NPC {
     /**
      * Causes the infiltrator to use a random ability
      */
-    public void useAbility() {
+    public void useAbility(Player p) {
         double chance = Math.random() * 3;
 
         if (!this.isDestroying) {
@@ -149,9 +149,9 @@ public class Infiltrator extends NPC {
         if (chance < 1) {
             this.goInvisible();
         } else if (chance >= 1 && chance < 2) {
-            this.damageAuber(15);
+            this.damageAuber(p, 15);
         } else {
-            this.stopAuberHealing();
+            this.stopAuberHealing(p);
         } // 1/3 chance of using each ability
 
         this.pathQueue.clear();
@@ -170,22 +170,22 @@ public class Infiltrator extends NPC {
     }
 
     /**
-     * Damages Auber by an amount
-     * 
-     * @param amount Int amount of damage to deal
+     * Damages Auber by an amount.
+     * @param p The player to damage.
+     * @param amount Int amount of damage to deal.
      */
-    private void damageAuber(int amount) {
-        Player.takeDamage(amount);
+    private void damageAuber(final Player p, final int amount) {
+        p.takeDamage(amount);
     }
 
     /**
      * Sets canHeal to false in player, records the time at which he stopped being
      * able to heal
      */
-    private void stopAuberHealing() {
+    private void stopAuberHealing(final Player p) {
         // System.out.println("Stopped healing");
-        Player.canHeal = false;
-        Player.healStopTime = 0;
+        p.canHeal = false;
+        p.healStopTime = 0;
     }
 
     /**

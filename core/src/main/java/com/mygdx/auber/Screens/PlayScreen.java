@@ -63,7 +63,6 @@ public class PlayScreen implements Screen {
 
         camera = new OrthographicCamera();
         viewport = new ExtendViewport(Auber.VIRTUAL_WIDTH, Auber.VIRTUAL_HEIGHT, camera);
-        hud = new Hud(game.getBatch(), this);
         shapeRenderer = new ShapeRenderer();
         scrollingBackground = new ScrollingBackground(); // Creating a new camera, viewport, hud and scrolling
                                                          // background, setting the viewport to camera and virtual
@@ -127,6 +126,8 @@ public class PlayScreen implements Screen {
         camera.position.set(player.getX(), player.getY(), 0); // Sets the camera position to the player
 
         Gdx.input.setInputProcessor(player); // Sets the input to be handled by the player class
+        hud = new Hud(game.getBatch(), this, player);
+
     }
 
     @Override
@@ -140,7 +141,7 @@ public class PlayScreen implements Screen {
      * @return Boolean if the game is over or not
      */
     public boolean gameOver() {
-        return Player.health <= 0 || Hud.CrewmateCount >= maxIncorrectArrests
+        return player.getHealth() <= 0 || Hud.CrewmateCount >= maxIncorrectArrests
                 || KeySystemManager.destroyedKeySystemsCount() >= 15;
     }
 
@@ -159,9 +160,9 @@ public class PlayScreen implements Screen {
      * @param time Time between last frame and this frame
      */
     public void update(float time) {
-        NPC.updateNPC(time);
+        NPC.updateNPC(player, time);
         player.update(time);
-        hud.update();
+        hud.update(player);
         camera.update(); // Updating everything that needs to be updated
 
         // debugText();
