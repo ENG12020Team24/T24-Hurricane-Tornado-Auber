@@ -42,18 +42,20 @@ public final class Hud {
     /** The PlayScreen the game is operating in. */
     private PlayScreen playScreen;
 
-    private static final float TABLE_PAD_LEFT = 10;
+    /** The value to scale the font by. */
+    private static final float FONT_SCALE = 0.5f;
+
     /**
      * Creates the HUD using the specified SpriteBatch.
      * @param batch The SpriteBatch used to draw the labels.
-     * @param playScreen The PlayScreen the game is operating in.
+     * @param newPlayScreen The PlayScreen the game is operating in.
      * @param p The Player.
      */
-    public Hud(final SpriteBatch batch, final PlayScreen playScreen,
+    public Hud(final SpriteBatch batch, final PlayScreen newPlayScreen,
         final Player p) {
         arrestedInfiltratorCount = 0;
         incorrectArrestCount = 0;
-        this.playScreen = playScreen;
+        this.playScreen = newPlayScreen;
         viewport = new FitViewport(Auber.VIRTUAL_WIDTH, Auber.VIRTUAL_HEIGHT,
             new OrthographicCamera());
         stage = new Stage(viewport, batch);
@@ -64,7 +66,7 @@ public final class Hud {
 
         font = new BitmapFont(Gdx.files.internal("montserrat.fnt"),
             Gdx.files.internal("montserrat.png"), false);
-        font.getData().setScale(.5f);
+        font.getData().setScale(FONT_SCALE);
 
         infiltratorCountLabel = new Label(
             String.format("Imposter Arrests: %02d / %02d",
@@ -72,7 +74,7 @@ public final class Hud {
             new Label.LabelStyle(font, Color.GREEN));
         incorrectArrestLabel = new Label(
             String.format("Incorrect Arrests: %02d / %02d",
-            incorrectArrestCount, playScreen.maxIncorrectArrests),
+            incorrectArrestCount, newPlayScreen.maxIncorrectArrests),
             new Label.LabelStyle(font, Color.YELLOW));
         playerHealthLabel = new Label(String.format("Health: %02d",
             (int) p.getHealth()),
@@ -81,6 +83,7 @@ public final class Hud {
             String.format("Key systems destroyed: %02d / %02d", 1, 1),
             new Label.LabelStyle(font, Color.YELLOW));
 
+        final float TABLE_PAD_LEFT = 10;
         hudTable.add(infiltratorCountLabel).expandX().left()
             .padLeft(TABLE_PAD_LEFT);
         hudTable.row();
@@ -92,12 +95,11 @@ public final class Hud {
         hudTable.row().bottom().expandY();
         hudTable.add(playerHealthLabel).expandX().left()
             .padLeft(TABLE_PAD_LEFT);
-
         stage.addActor(hudTable);
     }
 
     /**
-     * Used to update the HUD every frame
+     * Used to update the HUD every frame.
      * @param p The player.
      */
     public void update(final Player p) {
@@ -127,7 +129,9 @@ public final class Hud {
         this.stage.draw();
     }
 
-    /** Returns the current number of incorrect arrests. */
+    /** Returns the current number of incorrect arrests.
+     * @return An int containing the current number of incorrect arrests.
+     */
     public static int getIncorrectArrestCount() {
         return incorrectArrestCount;
     }
