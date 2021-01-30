@@ -96,7 +96,7 @@ public abstract class PowerUp extends Sprite {
 
     /**
      * Sets whether the player has picked up this PowerUp.
-     * @param taken Whether the player has picked up this PowerUp or not.
+     * @param newTaken Whether the player has picked up this PowerUp or not.
      */
     public void setTaken(final boolean newTaken) {
         this.taken = newTaken;
