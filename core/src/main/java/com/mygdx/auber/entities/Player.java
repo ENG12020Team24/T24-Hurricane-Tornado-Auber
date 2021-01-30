@@ -302,7 +302,7 @@ public class Player extends Sprite implements InputProcessor {
             if (infiltrator.getBoundingRectangle().contains(point)) {
                 if (Vector2.dst(this.getX(), this.getY(), infiltrator.getX(), infiltrator.getY()) < arrestRadius) {
                     NPCCreator.removeInfiltrator(this, infiltrator.index);
-                    Hud.ImposterCount += 1;
+                    Hud.incrementArrestedInfiltrators();
                     return true;
                 }
             }
@@ -312,7 +312,7 @@ public class Player extends Sprite implements InputProcessor {
             if (crewMember.getBoundingRectangle().contains(point)) {
                 if (Vector2.dst(this.getX(), this.getY(), crewMember.getX(), crewMember.getY()) < arrestRadius) {
                     NPCCreator.removeCrewmember(crewMember.index);
-                    Hud.CrewmateCount += 1;
+                    Hud.incrementIncorrectArrests();
                     return true;
                 }
             }
