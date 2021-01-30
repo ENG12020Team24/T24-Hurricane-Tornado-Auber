@@ -33,7 +33,7 @@ public class Hud {
      * Creates the HUD using the specified SpriteBatch
      * @param spritebatch
      */
-    public Hud(SpriteBatch spritebatch, PlayScreen playScreen) {
+    public Hud(SpriteBatch spritebatch, PlayScreen playScreen, Player p) {
         ImposterCount = 0;
         CrewmateCount = 0;
         this.playScreen = playScreen;
@@ -53,7 +53,7 @@ public class Hud {
         crewmateCountLabel = new Label(
                 String.format("Incorrect Arrests: %02d / %02d", CrewmateCount, playScreen.maxIncorrectArrests),
                 new Label.LabelStyle(font, Color.YELLOW));
-        playerHealthLabel = new Label(String.format("Health: %02d", (int) Player.health),
+        playerHealthLabel = new Label(String.format("Health: %02d", (int) p.getHealth()),
                 new Label.LabelStyle(font, Color.ORANGE));
         keySystemsCountLabel = new Label(String.format("Key systems destroyed: %02d / %02d", 1, 1),
                 new Label.LabelStyle(font, Color.YELLOW));
@@ -72,14 +72,14 @@ public class Hud {
     /**
      * Used to update the HUD every frame
      */
-    public void update() {
+    public void update(Player p) {
         imposterCountLabel.setText(
                 String.format("Imposter Arrests: %02d / %02d", ImposterCount, PlayScreen.numberOfInfiltrators));
         crewmateCountLabel.setText(
                 String.format("Incorrect Arrests: %02d / %02d", CrewmateCount, playScreen.maxIncorrectArrests));
         keySystemsCountLabel.setText(String.format("Safe key systems: %02d / %02d",
                 KeySystemManager.safeKeySystemsCount(), KeySystemManager.keySystemsCount()));
-        playerHealthLabel.setText(String.format("Health: %02d", (int) Player.health));
+        playerHealthLabel.setText(String.format("Health: %02d", (int) p.getHealth()));
         if (!Player.canHeal) {
             playerHealthLabel.setStyle(new Label.LabelStyle(font, Color.FIREBRICK));
         } else {

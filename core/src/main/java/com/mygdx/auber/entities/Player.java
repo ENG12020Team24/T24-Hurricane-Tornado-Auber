@@ -23,7 +23,7 @@ public class Player extends Sprite implements InputProcessor {
     public static float x, y;
     public boolean demo;
 
-    public static float health;
+    private float health;
     float SPEED = 1.3f;
 
     public static boolean canHeal = true;
@@ -293,7 +293,7 @@ public class Player extends Sprite implements InputProcessor {
         for (Infiltrator infiltrator : NPCCreator.infiltrators) {
             if (infiltrator.getBoundingRectangle().contains(point)) {
                 if (Vector2.dst(this.getX(), this.getY(), infiltrator.getX(), infiltrator.getY()) < arrestRadius) {
-                    NPCCreator.removeInfiltrator(infiltrator.index);
+                    NPCCreator.removeInfiltrator(this, infiltrator.index);
                     Hud.ImposterCount += 1;
                     return true;
                 }
@@ -371,7 +371,7 @@ public class Player extends Sprite implements InputProcessor {
      * 
      * @param amount Amount of damage to deal.
      */
-    public static void takeDamage(float amount) {
+    public void takeDamage(float amount) {
         health -= amount;
     }
 
@@ -439,6 +439,10 @@ public class Player extends Sprite implements InputProcessor {
         usingSpeedPowerUp = inUse;
 
     };
+
+    public float getHealth() {
+        return health;
+    }
 
     public void arrestUp() {
 

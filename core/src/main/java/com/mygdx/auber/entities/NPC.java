@@ -52,7 +52,7 @@ public class NPC extends Sprite {
      * 
      * @param delta Float of time between last and current frame, used for movement
      */
-    public static void updateNPC(float delta) {
+    public static void updateNPC(Player p, float delta) {
         if (NPCCreator.crew.notEmpty()) {
             for (CrewMembers crewMember : NPCCreator.crew) {
                 crewMember.step(delta);
@@ -61,7 +61,7 @@ public class NPC extends Sprite {
 
         if (NPCCreator.infiltrators.notEmpty()) {
             for (Infiltrator infiltrator : NPCCreator.infiltrators) {
-                infiltrator.step(delta);
+                infiltrator.step(p, delta);
             }
         }
     }
