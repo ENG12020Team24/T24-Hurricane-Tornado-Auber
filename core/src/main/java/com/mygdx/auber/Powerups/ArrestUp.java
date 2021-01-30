@@ -7,10 +7,15 @@ import com.mygdx.auber.Config;
 import com.mygdx.auber.entities.Player;
 
 public class ArrestUp extends PowerUp {
+    /** Used to store the current amount of time this PowerUp has been
+     * active for.
+     */
     private float timer = 0;
 
-    public ArrestUp(Vector2 position) {
-
+    /** Class constructor.
+     * @param position The initial position of this powerup.
+     */
+    public ArrestUp(final Vector2 position) {
         super(position);
         setRGB(Config.DEFAULT_ARRESTUP_RED, Config.DEFAULT_ARRESTUP_GREEN,
             Config.DEFAULT_ARRESTUP_BLUE);
