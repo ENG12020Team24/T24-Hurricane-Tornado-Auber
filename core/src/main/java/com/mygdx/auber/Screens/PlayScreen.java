@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -85,6 +86,9 @@ public class PlayScreen implements Screen {
         powerUpsToRemove = new ArrayList<PowerUp>();
 
         powerUps.add(new SpeedUp(new Vector2(1700,2800)));
+
+        powerUps = new ArrayList<PowerUp>();
+        powerUpsToRemove = new ArrayList<PowerUp>();
 
         for (int i = 0; i < numberOfInfiltrators; i++) {
             // System.out.println("Infiltrator created!");
