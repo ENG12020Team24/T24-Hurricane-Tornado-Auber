@@ -134,8 +134,8 @@ public class NPC extends Sprite {
      */
     public void moveNPC(float deltaTime) {
 
-        this.setX(this.getX() + this.velocity.x);
-        this.setY(this.getY() + this.velocity.y);
+        this.setX(this.getX() + this.velocity.x * deltaTime);
+        this.setY(this.getY() + this.velocity.y * deltaTime);
 
         if (this.velocity.x < 0) {
             this.setScale(-1, 1);

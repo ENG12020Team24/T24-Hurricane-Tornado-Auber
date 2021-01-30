@@ -62,7 +62,6 @@ public class PlayScreen implements Screen {
 
         camera = new OrthographicCamera();
         viewport = new ExtendViewport(Auber.VIRTUAL_WIDTH, Auber.VIRTUAL_HEIGHT, camera);
-        hud = new Hud(game.getBatch(), this, player);
         shapeRenderer = new ShapeRenderer();
         scrollingBackground = new ScrollingBackground(); // Creating a new camera, viewport, hud and scrolling
                                                          // background, setting the viewport to camera and virtual
@@ -126,6 +125,8 @@ public class PlayScreen implements Screen {
         camera.position.set(player.getX(), player.getY(), 0); // Sets the camera position to the player
 
         Gdx.input.setInputProcessor(player); // Sets the input to be handled by the player class
+        hud = new Hud(game.getBatch(), this, player);
+
     }
 
     @Override
