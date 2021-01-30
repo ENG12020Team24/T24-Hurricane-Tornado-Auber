@@ -12,38 +12,40 @@ public class SpeedUp extends PowerUp {
      */
     private float timer = 0;
 
-    public SpeedUp(Vector2 position) {
-
+    /**
+     * Class constructor.
+     * @param position The initial position of this PowerUp.
+     */
+    public SpeedUp(final Vector2 position) {
         super(position);
-        r = Config.DEFAULT_SPEEDUP_RED;
-        g = Config.DEFAULT_SPEEDUP_GREEN;
-        b = Config.DEFAULT_SPEEDUP_BLUE;
+        this.setRGB(Config.DEFAULT_SPEEDUP_RED, Config.DEFAULT_SPEEDUP_GREEN,
+            Config.DEFAULT_SPEEDUP_BLUE);
     }
 
     /**
      * Used to update the status of this powerup every frame.
-     * @param Player The Player whose position will be used for collision
+     * @param player The Player whose position will be used for collision
      * and who the powerup will be applied to.
      */
     @Override
     public void update(final Player player) {
         if (playerCollision(player.getX(), player.getY(), player.getWidth(),
             player.getHeight())) {
-            taken = true;
-            r = Config.COLLISION_SPEEDUP_RED;
-            g = Config.COLLISION_SPEEDUP_GREEN;
-            b = Config.COLLISION_SPEEDUP_BLUE;
+            setTaken(true);
+            setRGB(Config.COLLISION_SPEEDUP_RED,
+                Config.COLLISION_SPEEDUP_GREEN, Config.COLLISION_SPEEDUP_BLUE);
         }
-        if (taken && !used) {
-            position.x = player.getX();
-            position.y = player.getY();
+        if (isTaken() && !isUsed()) {
+            getPosition().x = player.getX();
+            getPosition().y = player.getY();
+            setPosition(player.getPosition());
             timer += Gdx.graphics.getDeltaTime();
 
             if (timer < Config.SPEEDUP_TIME) {
                 player.speedUp(true);
             } else {
                 player.speedUp(false);
-                used = true;
+                setUsed(true);
             }
         }
     }
