@@ -438,7 +438,6 @@ public class Player extends Sprite implements InputProcessor {
     }
 
     /**
-     * 
      * @param inUse Whether the player is sped up by a powerup or not
      */
     public void speedUp(boolean inUse) {
