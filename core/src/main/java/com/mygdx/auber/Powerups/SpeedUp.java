@@ -32,7 +32,8 @@ public class SpeedUp extends PowerUp {
         if (playerCollision(player.getX(), player.getY(), player.getWidth(),
             player.getHeight())) {
             setTaken(true);
-            setRGB(Config.COLLISION_SPEEDUP_RED, Config.COLLISION_SPEEDUP_GREEN, Config.COLLISION_SPEEDUP_BLUE);
+            setRGB(Config.COLLISION_SPEEDUP_RED,
+                Config.COLLISION_SPEEDUP_GREEN, Config.COLLISION_SPEEDUP_BLUE);
         }
         if (isTaken() && !isUsed()) {
             getPosition().x = player.getX();

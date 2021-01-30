@@ -81,7 +81,7 @@ public abstract class PowerUp extends Sprite {
     public boolean isUsed() {
         return used;
     }
-    
+
     /**
      * Sets the colour of this PowerUp.
      * @param newR The red component of the new colour.
@@ -96,10 +96,10 @@ public abstract class PowerUp extends Sprite {
 
     /**
      * Sets whether the player has picked up this PowerUp.
-     * @param taken Whether the player has picked up this PowerUp or not.   
+     * @param taken Whether the player has picked up this PowerUp or not.
      */
-    public void setTaken(boolean taken) {
-        this.taken = taken;
+    public void setTaken(final boolean newTaken) {
+        this.taken = newTaken;
     }
 
     /**
@@ -121,18 +121,18 @@ public abstract class PowerUp extends Sprite {
 
     /**
      * Returns whether the player has finished using this PowerUp.
-     * @param used A boolean containing True if the player has finished using
-     * this PowerUp, false otherwise.
+     * @param newUsed A boolean containing True if the player has finished
+     * using this PowerUp, false otherwise.
      */
-    public void setUsed(boolean used) {
-        this.used = used;
+    public void setUsed(final boolean newUsed) {
+        this.used = newUsed;
     }
 
     /**
      * Sets the position of this PowerUp.
      * @param newPosition A Vector2 containing this PowerUp's new position.
      */
-    public void setPosition(Vector2 newPosition) {
+    public void setPosition(final Vector2 newPosition) {
         this.position = newPosition;
     }
 }
