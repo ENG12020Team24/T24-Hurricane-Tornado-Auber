@@ -14,17 +14,28 @@ public class KeySystemManager {
     }
 
     /**
-     * Scans the tile layer and adds a KeySystem to keySystens upon finding a tile with they property "keysystem"
+     * Scans the tile layer and adds a KeySystem to keySystens upon finding a tile
+     * with they property "keysystem"
+     * 
      * @param tileLayer layer to scan for key systems
      */
     private static void loadKeySystems(TiledMapTileLayer tileLayer) {
         for (int i = 0; i < tileLayer.getWidth(); i++) {
-            //Scan every tile
+            // Scan every tile
             for (int j = 0; j < tileLayer.getHeight(); j++) {
-                int x = (i * tileLayer.getTileWidth()) + tileLayer.getTileWidth()/2;
-                int y = (j * tileLayer.getTileHeight()) + tileLayer.getTileHeight()/2; //x,y coord of the centre of the tile
-                TiledMapTileLayer.Cell cell = tileLayer.getCell(i, j); //Returns the cell at the x,y coord
-                if(cell != null && cell.getTile() != null && cell.getTile().getProperties().containsKey("keysystem")) //If ID matches floor/corridor tiles, and is not null
+                int x = (i * tileLayer.getTileWidth()) + tileLayer.getTileWidth() / 2;
+                int y = (j * tileLayer.getTileHeight()) + tileLayer.getTileHeight() / 2; // x,y coord of the centre of
+                                                                                         // the tile
+                TiledMapTileLayer.Cell cell = tileLayer.getCell(i, j); // Returns the cell at the x,y coord
+                if (cell != null && cell.getTile() != null && cell.getTile().getProperties().containsKey("keysystem")) // If
+                                                                                                                       // ID
+                                                                                                                       // matches
+                                                                                                                       // floor/corridor
+                                                                                                                       // tiles,
+                                                                                                                       // and
+                                                                                                                       // is
+                                                                                                                       // not
+                                                                                                                       // null
                 {
                     String name = (String) cell.getTile().getProperties().get("name");
                     Vector2 position = new Vector2(x, y);
@@ -35,6 +46,11 @@ public class KeySystemManager {
         }
     }
 
+    /**
+     * 
+     * @return The number of key systems that have both not been destroyed and are
+     *         not being destroyed.
+     */
     public static int safeKeySystemsCount() {
         int remaining = 0;
 
@@ -46,6 +62,10 @@ public class KeySystemManager {
         return remaining;
     }
 
+    /**
+     * 
+     * @return The number of key systems that are currently being destroyed.
+     */
     public static int beingDestroyedKeySystemsCount() {
         int beingDestroyed = 0;
 
@@ -57,6 +77,10 @@ public class KeySystemManager {
         return beingDestroyed;
     }
 
+    /**
+     * 
+     * @return The number of key systems that have been destroyed.
+     */
     public static int destroyedKeySystemsCount() {
         int destroyed = 0;
 
@@ -70,6 +94,7 @@ public class KeySystemManager {
 
     /**
      * Returns the closest KeySystem
+     * 
      * @param x x coord
      * @param y y coord
      * @return Closest KeySystem
@@ -92,25 +117,26 @@ public class KeySystemManager {
      *
      * @return An array of KeySystems being destroyed
      */
-    public static Array<KeySystem> getBeingDestroyedKeySystems()
-    {
+    public static Array<KeySystem> getBeingDestroyedKeySystems() {
         Array<KeySystem> keySystemsList = new Array<>();
-        for ( KeySystem keySystem:
-             keySystems) {
-            if(keySystem.isBeingDestroyed())
-            {
+        for (KeySystem keySystem : keySystems) {
+            if (keySystem.isBeingDestroyed()) {
                 keySystemsList.add(keySystem);
             }
         }
         return keySystemsList;
     }
 
+    /**
+     * 
+     * @return The number of key systems, no matter if they have been destroyed or
+     *         not.
+     */
     public static int keySystemsCount() {
         return keySystems.size;
     }
 
-    public static void dispose()
-    {
+    public static void dispose() {
         keySystems.clear();
     }
 }

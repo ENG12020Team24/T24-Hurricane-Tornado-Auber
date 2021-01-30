@@ -4,20 +4,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.auber.Auber;
 import com.mygdx.auber.Screens.PlayScreen;
 import com.mygdx.auber.entities.*;
-
 public class Hud {
-    public Stage stage;//2D scene graph, handles viewport and distributes input events.
+    public Stage stage;// 2D scene graph, handles viewport and distributes input events.
     private Viewport viewport;
     private Table hudTable;
 
@@ -30,15 +27,17 @@ public class Hud {
     Label crewmateCountLabel;
     Label keySystemsCountLabel;
     Label playerHealthLabel;
+    private PlayScreen playScreen;
 
-    private int maxIncorrectArrests;
-    public Hud(SpriteBatch spritebatch, PlayScreen playScreen){
-        this.maxIncorrectArrests = playScreen.maxIncorrectArrests;
-
+    /**
+     * Creates the HUD using the specified SpriteBatch
+     * @param spritebatch
+     */
+    public Hud(SpriteBatch spritebatch, PlayScreen playScreen) {
         ImposterCount = 0;
         CrewmateCount = 0;
-
-        viewport = new FitViewport(Auber.VirtualWidth, Auber.VirtualHeight, new OrthographicCamera());
+        this.playScreen = playScreen;
+        viewport = new FitViewport(Auber.VIRTUAL_WIDTH, Auber.VIRTUAL_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, spritebatch);
 
         hudTable = new Table();
@@ -48,10 +47,16 @@ public class Hud {
         font = new BitmapFont(Gdx.files.internal("montserrat.fnt"), Gdx.files.internal("montserrat.png"), false);
         font.getData().setScale(.5f);
 
-        imposterCountLabel = new Label(String.format("Imposter Arrests: %02d / %02d", ImposterCount, PlayScreen.numberOfInfiltrators), new Label.LabelStyle(font, Color.GREEN));
-        crewmateCountLabel = new Label(String.format("Incorrect Arrests: %02d / %02d", CrewmateCount, this.maxIncorrectArrests), new Label.LabelStyle(font, Color.YELLOW));
-        playerHealthLabel = new Label(String.format("Health: %02d", (int) Player.health), new Label.LabelStyle(font, Color.ORANGE));
-        keySystemsCountLabel = new Label(String.format("Key systems destroyed: %02d / %02d", 1, 1), new Label.LabelStyle(font, Color.YELLOW));
+        imposterCountLabel = new Label(
+                String.format("Imposter Arrests: %02d / %02d", ImposterCount, PlayScreen.numberOfInfiltrators),
+                new Label.LabelStyle(font, Color.GREEN));
+        crewmateCountLabel = new Label(
+                String.format("Incorrect Arrests: %02d / %02d", CrewmateCount, playScreen.maxIncorrectArrests),
+                new Label.LabelStyle(font, Color.YELLOW));
+        playerHealthLabel = new Label(String.format("Health: %02d", (int) Player.health),
+                new Label.LabelStyle(font, Color.ORANGE));
+        keySystemsCountLabel = new Label(String.format("Key systems destroyed: %02d / %02d", 1, 1),
+                new Label.LabelStyle(font, Color.YELLOW));
 
         hudTable.add(imposterCountLabel).expandX().left().padLeft(10);
         hudTable.row();
@@ -61,21 +66,23 @@ public class Hud {
         hudTable.row().bottom().expandY();
         hudTable.add(playerHealthLabel).expandX().left().padLeft(10);
 
-
         stage.addActor(hudTable);
     }
 
+    /**
+     * Used to update the HUD every frame
+     */
     public void update() {
-        imposterCountLabel.setText(String.format("Imposter Arrests: %02d / %02d", ImposterCount, PlayScreen.numberOfInfiltrators));
-        crewmateCountLabel.setText(String.format("Incorrect Arrests: %02d / %02d", CrewmateCount,this.maxIncorrectArrests));
-        keySystemsCountLabel.setText(String.format("Safe key systems: %02d / %02d", KeySystemManager.safeKeySystemsCount(), KeySystemManager.keySystemsCount()));
-        playerHealthLabel.setText(String.format("Health: %02d",(int) Player.health));
-        if(!Player.canHeal)
-        {
+        imposterCountLabel.setText(
+                String.format("Imposter Arrests: %02d / %02d", ImposterCount, PlayScreen.numberOfInfiltrators));
+        crewmateCountLabel.setText(
+                String.format("Incorrect Arrests: %02d / %02d", CrewmateCount, playScreen.maxIncorrectArrests));
+        keySystemsCountLabel.setText(String.format("Safe key systems: %02d / %02d",
+                KeySystemManager.safeKeySystemsCount(), KeySystemManager.keySystemsCount()));
+        playerHealthLabel.setText(String.format("Health: %02d", (int) Player.health));
+        if (!Player.canHeal) {
             playerHealthLabel.setStyle(new Label.LabelStyle(font, Color.FIREBRICK));
-        }
-        else
-        {
+        } else {
             playerHealthLabel.setStyle(new Label.LabelStyle(font, Color.YELLOW));
         }
     }
