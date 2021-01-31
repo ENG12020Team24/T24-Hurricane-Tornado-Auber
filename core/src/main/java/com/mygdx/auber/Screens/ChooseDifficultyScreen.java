@@ -181,6 +181,11 @@ public final class ChooseDifficultyScreen implements Screen {
 
     }
 
+    /** The x location to draw the background at. */
+    private static final float BACKGROUND_X_LOCATION = -100f;
+    /** The y location to draw the background at. */
+    private static final float BACKGROUND_Y_LOCATION = 0f;
+
     /**
      * Called every frame to render this screen.
      * @param delta The time in seconds between the previous frame and this
@@ -190,7 +195,8 @@ public final class ChooseDifficultyScreen implements Screen {
     public void render(final float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.getBatch().begin();
-        stage.getBatch().draw(background, -100f, 0f);
+        stage.getBatch().draw(background, BACKGROUND_X_LOCATION,
+            BACKGROUND_Y_LOCATION);
         stage.getBatch().end();
         stage.draw();
         stage.act();
@@ -200,7 +206,7 @@ public final class ChooseDifficultyScreen implements Screen {
      * Method implemented from abstract superclass.
      */
     @Override
-    public void resize(int width, int height) {
+    public void resize(final int width, final int height) {
         // TODO Auto-generated method stub
 
     }
