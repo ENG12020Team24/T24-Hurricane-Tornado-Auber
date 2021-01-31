@@ -20,13 +20,21 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.auber.Auber;
 
-public class GameOverScreen implements Screen {
+public final class GameOverScreen implements Screen {
+    /** The Stage used to manage the buttons. */
     private final Stage stage;
-    TextButton menuButton;
-    TextButton.TextButtonStyle textButtonStyle;
+    /** The button to return to the main menu. */
+    private TextButton menuButton;
+    /** The style used for the button. */
+    private TextButton.TextButtonStyle textButtonStyle;
 
-    public GameOverScreen(final Auber game, boolean win) {
-        Viewport viewport = new ExtendViewport(Auber.VIRTUAL_WIDTH, Auber.VIRTUAL_HEIGHT, new OrthographicCamera());
+    /** Class constructor.
+     * @param game The instance of the game that is running.
+     * @param win Whether the player won or not.
+     */
+    public GameOverScreen(final Auber game, final boolean win) {
+        Viewport viewport = new ExtendViewport(Auber.VIRTUAL_WIDTH,
+            Auber.VIRTUAL_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, game.getBatch());
         Gdx.input.setInputProcessor(stage);
 
@@ -37,7 +45,8 @@ public class GameOverScreen implements Screen {
         table.setTouchable(Touchable.enabled);
 
         // Win title setup
-        Label.LabelStyle titleFont = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
+        Label.LabelStyle titleFont = new Label.LabelStyle(new BitmapFont(),
+            Color.WHITE);
         String endStatus;
         if (win) {
             endStatus = "YOU WIN";
@@ -61,35 +70,41 @@ public class GameOverScreen implements Screen {
         menuButton = new TextButton("MAIN MENU", textButtonStyle);
         menuButton.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                // System.out.println("Main menu");
+            public void clicked(final InputEvent event, final float x,
+                final float y) {
                 game.setScreen(new MainMenuScreen(game));
             }
 
             @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                // System.out.println("Hovered");
+            public void enter(final InputEvent event, final float x,
+                final float y, final int pointer, final Actor fromActor) {
                 menuButton.setChecked(true);
             }
 
             @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                // System.out.println("Exited");
+            public void exit(final InputEvent event, final float x,
+                final float y, final int pointer, final Actor toActor) {
                 menuButton.setChecked(false);
             }
         });
         table.add(menuButton);
-
         stage.addActor(table);
     }
 
+    /**
+     * Method implemented from abstract superclass.
+     */
     @Override
     public void show() {
 
     }
 
-    @Override
-    public void render(float delta) {
+    /**
+     * Called every frame to render this screen.
+     * @param delta The time in seconds between the previous frame and this
+     * one.
+     */
+    public void render(final float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -97,26 +112,41 @@ public class GameOverScreen implements Screen {
         stage.act();
     }
 
+    /**
+     * Method implemented from abstract superclass.
+     */
     @Override
-    public void resize(int width, int height) {
+    public void resize(final int width, final int height) {
 
     }
 
+    /**
+     * Method implemented from abstract superclass.
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * Method implemented from abstract superclass.
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * Method implemented from abstract superclass.
+     */
     @Override
     public void hide() {
 
     }
 
+    /**
+     * Method implemented from abstract superclass.
+     */
     @Override
     public void dispose() {
 
