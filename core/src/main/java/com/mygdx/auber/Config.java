@@ -22,7 +22,8 @@ public final class Config {
     /** The radius of the player arrest range circle. */
     public static final int NORMAL_ARREST_RANGE = 200;
 
-    /** The radius of the player arrest range circle when with arrest power up */
+    /** The radius of the player arrest range circle when with arrest
+     * power up. */
     public static final int EXTEND_ARREST_RANGE = 300;
 
     /** The infiltrators' speed in pixels/second. */
@@ -57,6 +58,7 @@ public final class Config {
     public static final float DEFAULT_ARRESTUP_GREEN = 0.8f;
     /** The blue component of the arrestup powerup's default colour. */
     public static final float DEFAULT_ARRESTUP_BLUE = 0.4f;
-    /** The time that the arrestup powerup affects the player for in seconds. */
+    /** The time that the arrestup powerup affects the player for in
+     * seconds. */
     public static final float ARRESTUP_TIME = 10f;
 }
