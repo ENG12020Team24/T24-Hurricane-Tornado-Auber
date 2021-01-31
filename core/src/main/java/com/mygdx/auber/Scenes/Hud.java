@@ -45,6 +45,9 @@ public final class Hud {
     /** The value to scale the font by. */
     private static final float FONT_SCALE = 0.5f;
 
+    /** The amount to pad the labels left by. */
+    private static final float TABLE_PAD_LEFT = 10;
+
     /**
      * Creates the HUD using the specified SpriteBatch.
      * @param batch The SpriteBatch used to draw the labels.
@@ -83,7 +86,6 @@ public final class Hud {
             String.format("Key systems destroyed: %02d / %02d", 1, 1),
             new Label.LabelStyle(font, Color.YELLOW));
 
-        final float TABLE_PAD_LEFT = 10;
         hudTable.add(infiltratorCountLabel).expandX().left()
             .padLeft(TABLE_PAD_LEFT);
         hudTable.row();

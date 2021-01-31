@@ -142,7 +142,7 @@ public class PlayScreen implements Screen {
      */
     public boolean gameOver() {
         return player.getHealth() <= 0
-            || hud.getIncorrectArrestCount() >= maxIncorrectArrests
+            || Hud.getIncorrectArrestCount() >= maxIncorrectArrests
             || KeySystemManager.destroyedKeySystemsCount() >= 15;
     }
 
