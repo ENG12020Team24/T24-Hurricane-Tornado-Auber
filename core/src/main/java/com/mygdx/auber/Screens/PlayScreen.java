@@ -141,8 +141,9 @@ public class PlayScreen implements Screen {
      * @return Boolean if the game is over or not
      */
     public boolean gameOver() {
-        return player.getHealth() <= 0 || Hud.CrewmateCount >= maxIncorrectArrests
-                || KeySystemManager.destroyedKeySystemsCount() >= 15;
+        return player.getHealth() <= 0
+            || Hud.getIncorrectArrestCount() >= maxIncorrectArrests
+            || KeySystemManager.destroyedKeySystemsCount() >= 15;
     }
 
     /**
@@ -227,7 +228,7 @@ public class PlayScreen implements Screen {
         }
 
         update(delta); // Updates the game camera and NPCs
-        hud.stage.draw(); // Draws the HUD on the game
+        hud.draw(); // Draws the HUD on the game
 
         /* Render sprites/textures above this line */
         renderer.getBatch().end(); // Finishes the sprite batch

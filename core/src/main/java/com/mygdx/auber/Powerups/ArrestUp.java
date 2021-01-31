@@ -7,14 +7,18 @@ import com.mygdx.auber.Config;
 import com.mygdx.auber.entities.Player;
 
 public class ArrestUp extends PowerUp {
+    /** Used to store the current amount of time this PowerUp has been
+     * active for.
+     */
     private float timer = 0;
 
-    public ArrestUp(Vector2 position) {
-
+    /** Class constructor.
+     * @param position The initial position of this powerup.
+     */
+    public ArrestUp(final Vector2 position) {
         super(position);
-        r = Config.DEFAULT_ARRESTUP_RED;
-        g = Config.DEFAULT_ARRESTUP_GREEN;
-        b = Config.DEFAULT_ARRESTUP_BLUE;
+        setRGB(Config.DEFAULT_ARRESTUP_RED, Config.DEFAULT_ARRESTUP_GREEN,
+            Config.DEFAULT_ARRESTUP_BLUE);
     }
 
     /**
@@ -27,18 +31,17 @@ public class ArrestUp extends PowerUp {
     public void update(final Player player) {
         if (playerCollision(player.getX(), player.getY(), player.getWidth(),
                 player.getHeight())) {
-            taken = true;
+            setTaken(true);
         }
-        if (taken && !used) {
-            position.x = player.getX();
-            position.y = player.getY();
+        if (isTaken() && !isUsed()) {
+            setPosition(player.getPosition());
             timer += Gdx.graphics.getDeltaTime();
 
             if (timer < Config.ARRESTUP_TIME) {
                 player.arrestUp(true);
             } else {
                 player.arrestUp(false);
-                used = true;
+                setUsed(true);
             }
         }
     }
@@ -49,7 +52,7 @@ public class ArrestUp extends PowerUp {
      * @param shapeRenderer The ShapeRenderer used to draw the powerup.
      */
     public void render(final ShapeRenderer shapeRenderer) {
-        if (!taken) {
+        if (!isTaken()) {
             super.render(shapeRenderer);
         }
     }
