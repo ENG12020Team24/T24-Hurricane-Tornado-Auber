@@ -20,6 +20,8 @@ public class Infiltrator extends NPC {
     public static Array<Sprite> easySprites = new Array<>();
     public static Array<Sprite> hardSprites = new Array<>();
 
+    public static boolean isHighlighted;
+
     public Infiltrator(Sprite sprite, Node node, MapGraph mapGraph) {
         super(sprite, node, mapGraph, Config.INFILTRATOR_SPEED);
         this.setPosition(node.getX(), node.getY());
@@ -72,6 +74,17 @@ public class Infiltrator extends NPC {
             reachDestination();
         } // If there is no queue and elapsed time is greater than time to wait, reach
           // destination
+        if (p.getFreeze()){
+            setSpeedToNextNode(0);
+        } else {
+            setSpeedToNextNode(Config.INFILTRATOR_SPEED);
+        }
+
+        if (p.getHighlight()){
+            isHighlighted = true;
+        } else {
+            isHighlighted = false;
+        }
     }
 
     /**
@@ -207,6 +220,7 @@ public class Infiltrator extends NPC {
     public void setIndex(int index) {
         this.index = index;
     }
+
 
     public void dispose() {
         easySprites.clear();

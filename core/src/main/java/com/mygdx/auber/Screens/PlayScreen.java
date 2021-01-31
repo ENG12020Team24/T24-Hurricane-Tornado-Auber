@@ -220,7 +220,7 @@ public class PlayScreen implements Screen {
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(2));
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(3));
 
-        NPC.render(renderer.getBatch()); // Renders all NPCs
+        NPC.render(renderer.getBatch(), shapeRenderer); // Renders all NPCs
         if (!demo) {
             player.draw(renderer.getBatch()); // Renders the player
             player.drawArrow(renderer.getBatch()); // Renders arrows towards key systems

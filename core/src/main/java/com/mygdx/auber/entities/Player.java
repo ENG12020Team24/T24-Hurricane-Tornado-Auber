@@ -36,6 +36,9 @@ public class Player extends Sprite implements InputProcessor {
     private boolean isDHeld;
     private boolean usingSpeedPowerUp;
     private boolean usingArrestPowerUp;
+    private static boolean isUsingShield = false;
+    private static boolean isUsingFreeze = false;
+    private static boolean isUsingHighlight = false;
 
     private float alpha = 0;
     private float arrestRadius;
@@ -380,7 +383,10 @@ public class Player extends Sprite implements InputProcessor {
      * @param amount Amount of damage to deal.
      */
     public void takeDamage(float amount) {
-        health -= amount;
+
+        if(!isUsingShield){
+            health -= amount;
+        }
     }
 
     /**
@@ -448,6 +454,25 @@ public class Player extends Sprite implements InputProcessor {
 
     };
 
+    public void shieldUp(boolean inUse){
+        isUsingShield = inUse;
+    }
+
+    public void freezeUp(boolean inUse){
+        isUsingFreeze = inUse;
+    }
+
+    public void highlightUp(boolean inUse){
+        isUsingHighlight = inUse;
+    }
+
+    public static boolean getFreeze(){
+        return isUsingFreeze;
+    }
+
+    public static boolean getHighlight(){
+        return isUsingHighlight;
+    }
 
     public float getHealth() {
         return health;

@@ -3,6 +3,7 @@ package com.mygdx.auber.entities;
 import com.badlogic.gdx.ai.pfa.GraphPath;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Queue;
@@ -149,9 +150,17 @@ public class NPC extends Sprite {
      * 
      * @param batch Batch for the NPCs to render in
      */
-    public static void render(Batch batch) {
+    public static void render(Batch batch, ShapeRenderer shapeRenderer) {
         for (Infiltrator infiltrator : NPCCreator.infiltrators) {
             infiltrator.draw(batch);
+            if (infiltrator.isHighlighted){
+
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                shapeRenderer.setColor(1,0,0,1);
+                shapeRenderer.circle(infiltrator.getX() - infiltrator.getWidth()/2, infiltrator.getY() - infiltrator.getHeight()-2, infiltrator.getHeight());
+                shapeRenderer.end();
+                
+            }
 
         }
 
