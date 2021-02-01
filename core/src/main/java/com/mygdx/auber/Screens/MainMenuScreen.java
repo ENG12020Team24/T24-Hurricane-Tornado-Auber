@@ -21,23 +21,48 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.auber.Auber;
 
 public class MainMenuScreen implements Screen {
-
+    /** The Viewport used for the camera. */
     private Viewport viewport;
-    Stage stage;
-    TextButton playButton, exitButton, demoButton, tutorialButton, loadButton;
-    TextButton.TextButtonStyle textButtonStyle;
-    BitmapFont font;
-    Skin skin;
-    TextureAtlas buttonAtlas;
-    Texture title;
-    Image titleCard;
-    Texture background;
+    /** The Stage used to manage the buttons. */
+    private Stage stage;
+    /** The button used to start the game. */
+    private TextButton playButton;
+    /** The button used to exit the game. */
+    private TextButton exitButton;
+    /** The button used to start the demo. */
+    private TextButton demoButton;
+    /** The button used to start the tutorial. */
+    private TextButton tutorialButton;
+    /** The button used to load a game. */
+    private TextButton loadButton;
+    /** The style of the buttons. */
+    private TextButton.TextButtonStyle textButtonStyle;
+    /** The font of the text on the buttons. */
+    private BitmapFont font;
+    /** The skin used for the buttons. */
+    private Skin skin;
+    /** The atlas containing the textures for the sprites. */
+    private TextureAtlas buttonAtlas;
+    /** The texture of the title. */
+    private Texture title;
+    /** The image of the title. */
+    private Image titleCard;
+    /** The background texture. */
+    private Texture background;
+    /** The instance of the game that is running. */
     private Auber game;
+    /** The amount of padding to place beneath buttons. */
+    private static float BUTTON_PADDING = 10;
 
+    /**
+     * Class constructor.
+     * @param game The instance of Auber that is running.
+     */
     public MainMenuScreen(final Auber game) {
         this.game = game;
 
-        viewport = new ExtendViewport(Auber.VIRTUAL_WIDTH, Auber.VIRTUAL_HEIGHT, new OrthographicCamera());
+        viewport = new ExtendViewport(Auber.VIRTUAL_WIDTH,
+            Auber.VIRTUAL_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, ((Auber) game).getBatch());
         Gdx.input.setInputProcessor(stage);
 
@@ -58,9 +83,6 @@ public class MainMenuScreen implements Screen {
         tutorialButton = new TextButton("TUTORIAL", textButtonStyle);
         loadButton = new TextButton("LOAD", textButtonStyle);
         titleCard = new Image(title);
-        //playButton.setSize(200, 190);
-        //titleCard.setTransform(true);
-        //titleCard.setScale(0.9f);
 
         playButton.addListener(new ClickListener() {
             @Override
@@ -69,60 +91,71 @@ public class MainMenuScreen implements Screen {
             }
 
             @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+            public void enter(final InputEvent event, final float x,
+                final float y, final int pointer, final Actor fromActor) {
                 playButton.setChecked(true);
             }
 
             @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+            public void exit(final InputEvent event, final float x,
+                final float y, final int pointer, final Actor toActor) {
                 playButton.setChecked(false);
             }
         });
         loadButton.addListener(new ClickListener(){
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void clicked(final InputEvent event, final float x,
+                final float y) {
                 //KYLE THIS IS YOURS NOW
             }
 
             @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+            public void enter(final InputEvent event, final float x,
+                final float y, final int pointer, final Actor fromActor) {
                 loadButton.setChecked(true);
             }
 
             @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+            public void exit(final InputEvent event, final float x,
+                final float y, final int pointer, final Actor toActor) {
                 loadButton.setChecked(false);
             }
         });
         exitButton.addListener(new ClickListener(){
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void clicked(final InputEvent event, final float x,
+                final float y) {
                 Gdx.app.exit();
             }
 
             @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+            public void enter(final InputEvent event, final float x,
+                final float y, final int pointer, final Actor fromActor) {
                 exitButton.setChecked(true);
             }
 
             @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+            public void exit(final InputEvent event, final float x,
+                final float y, final int pointer, final Actor toActor) {
                 exitButton.setChecked(false);
             }
         });
         demoButton.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void clicked(final InputEvent event, final float x,
+                final float y) {
                 game.setScreen(new PlayScreen(game, true, 42));
             }
 
             @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+            public void enter(final InputEvent event, final float x,
+                final float y, final int pointer, final Actor fromActor) {
                 demoButton.setChecked(true);
             }
 
             @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+            public void exit(final InputEvent event, final float x,
+                final float y, final int pointer, final Actor toActor) {
                 demoButton.setChecked(false);
             }
         });
@@ -133,12 +166,14 @@ public class MainMenuScreen implements Screen {
             }
 
             @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+            public void enter(final InputEvent event, final float x,
+                final float y, final int pointer, final Actor fromActor) {
                 tutorialButton.setChecked(true);
             }
 
             @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+            public void exit(final InputEvent event, final float x,
+                final float y, final int pointer, final Actor toActor) {
                 tutorialButton.setChecked(false);
             }
         });
@@ -148,13 +183,13 @@ public class MainMenuScreen implements Screen {
         menuTable.setFillParent(true);
         menuTable.add(titleCard);
         menuTable.row();
-        menuTable.add(playButton).padBottom(10);
+        menuTable.add(playButton).padBottom(BUTTON_PADDING);
         menuTable.row();
-        menuTable.add(loadButton).padBottom(10);
+        menuTable.add(loadButton).padBottom(BUTTON_PADDING);
         menuTable.row();
-        menuTable.add(demoButton).padBottom(10);
+        menuTable.add(demoButton).padBottom(BUTTON_PADDING);
         menuTable.row();
-        menuTable.add(tutorialButton).padBottom(10);
+        menuTable.add(tutorialButton).padBottom(BUTTON_PADDING);
         menuTable.row();
         menuTable.add(exitButton);
         // menuTable.debug();
@@ -162,11 +197,19 @@ public class MainMenuScreen implements Screen {
         stage.addActor(menuTable);
     }
 
+    /**
+     * Method implemented from abstract superclass.
+     */
     @Override
     public void show() {
 
     }
 
+    /**
+     * Called every frame to render this screen.
+     * @param delta The time in seconds between the previous frame and this
+     * one.
+     */
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -177,25 +220,40 @@ public class MainMenuScreen implements Screen {
         stage.act();
     }
 
+    /**
+     * Method implemented from abstract superclass.
+     */
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
     }
 
+    /**
+     * Method implemented from abstract superclass.
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * Method implemented from abstract superclass.
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * Method implemented from abstract superclass.
+     */
     @Override
     public void hide() {
     }
 
+    /**
+     * Method called when this screen is deleted.
+     */
     @Override
     public void dispose() {
         stage.dispose();
