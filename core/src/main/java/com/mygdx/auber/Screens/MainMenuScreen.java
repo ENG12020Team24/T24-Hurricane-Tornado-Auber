@@ -52,18 +52,20 @@ public class MainMenuScreen implements Screen {
     /** The instance of the game that is running. */
     private Auber game;
     /** The amount of padding to place beneath buttons. */
-    private static float BUTTON_PADDING = 10;
+    private static final float BUTTON_PADDING = 10;
+    /** The difficulty used for the demo. */
+    private static final int DEMO_DIFFICULTY = 42;
 
     /**
      * Class constructor.
-     * @param game The instance of Auber that is running.
+     * @param currentGame The instance of Auber that is running.
      */
-    public MainMenuScreen(final Auber game) {
-        this.game = game;
+    public MainMenuScreen(final Auber currentGame) {
+        this.game = currentGame;
 
         viewport = new ExtendViewport(Auber.VIRTUAL_WIDTH,
             Auber.VIRTUAL_HEIGHT, new OrthographicCamera());
-        stage = new Stage(viewport, ((Auber) game).getBatch());
+        stage = new Stage(viewport, ((Auber) currentGame).getBatch());
         Gdx.input.setInputProcessor(stage);
 
         font = new BitmapFont();
@@ -86,8 +88,9 @@ public class MainMenuScreen implements Screen {
 
         playButton.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new ChooseDifficultyScreen(game)); 
+            public void clicked(final InputEvent event, final float x,
+                final float y) {
+                currentGame.setScreen(new ChooseDifficultyScreen(currentGame));
             }
 
             @Override
@@ -102,7 +105,7 @@ public class MainMenuScreen implements Screen {
                 playButton.setChecked(false);
             }
         });
-        loadButton.addListener(new ClickListener(){
+        loadButton.addListener(new ClickListener() {
             @Override
             public void clicked(final InputEvent event, final float x,
                 final float y) {
@@ -121,7 +124,7 @@ public class MainMenuScreen implements Screen {
                 loadButton.setChecked(false);
             }
         });
-        exitButton.addListener(new ClickListener(){
+        exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(final InputEvent event, final float x,
                 final float y) {
@@ -144,7 +147,8 @@ public class MainMenuScreen implements Screen {
             @Override
             public void clicked(final InputEvent event, final float x,
                 final float y) {
-                game.setScreen(new PlayScreen(game, true, 42));
+                currentGame.setScreen(new PlayScreen(currentGame, true,
+                    DEMO_DIFFICULTY));
             }
 
             @Override
@@ -161,8 +165,9 @@ public class MainMenuScreen implements Screen {
         });
         tutorialButton.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new TutorialScreen(game));
+            public void clicked(final InputEvent event, final float x,
+                final float y) {
+                currentGame.setScreen(new TutorialScreen(currentGame));
             }
 
             @Override
@@ -205,16 +210,22 @@ public class MainMenuScreen implements Screen {
 
     }
 
+    /** The x location to draw the background at. */
+    private static final float BACKGROUND_X_LOCATION = -100f;
+    /** The y location to draw the background at. */
+    private static final float BACKGROUND_Y_LOCATION = 0f;
+
     /**
      * Called every frame to render this screen.
      * @param delta The time in seconds between the previous frame and this
      * one.
      */
     @Override
-    public void render(float delta) {
+    public void render(final float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.getBatch().begin();
-        stage.getBatch().draw(background, -100f, 0f);
+        stage.getBatch().draw(background, BACKGROUND_X_LOCATION,
+            BACKGROUND_Y_LOCATION);
         stage.getBatch().end();
         stage.draw();
         stage.act();
@@ -224,7 +235,7 @@ public class MainMenuScreen implements Screen {
      * Method implemented from abstract superclass.
      */
     @Override
-    public void resize(int width, int height) {
+    public void resize(final int width, final int height) {
         viewport.update(width, height);
     }
 

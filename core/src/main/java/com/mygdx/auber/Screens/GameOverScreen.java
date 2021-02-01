@@ -27,6 +27,8 @@ public final class GameOverScreen implements Screen {
     private TextButton menuButton;
     /** The style used for the button. */
     private TextButton.TextButtonStyle textButtonStyle;
+    /** The amount of padding to place below the game over button. */
+    private static final float GAME_OVER_BUTTON_PADDING = 20;
 
     /** Class constructor.
      * @param game The instance of the game that is running.
@@ -54,7 +56,7 @@ public final class GameOverScreen implements Screen {
             endStatus = "YOU LOSE";
         }
         Label gameOverLabel = new Label(endStatus, titleFont);
-        table.add(gameOverLabel).padBottom(20);
+        table.add(gameOverLabel).padBottom(GAME_OVER_BUTTON_PADDING);
         table.row();
 
         // Main menu button setup
