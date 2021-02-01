@@ -172,7 +172,7 @@ public class PlayScreen implements Screen {
 
         renderer.setView(camera); // Needed for some reason
 
-        if (powerUps.size() == 0){
+        if (powerUps.size() == 0 && powerUpsToAdd.size() > 0) {
             powerUps.add(powerUpsToAdd.remove(0));
         }
 

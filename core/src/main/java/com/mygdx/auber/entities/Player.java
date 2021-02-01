@@ -204,8 +204,8 @@ public class Player extends Sprite implements InputProcessor {
         }
 
         if (isAHeld || isDHeld || isWHeld || isSHeld) {
-            setX((float) (getX() + Math.cos(angle) * speed * delta));
-            setY((float) (getY() + Math.sin(angle) * speed * delta)); // Set the player position to current position +
+            setX((float) (getX() + Math.cos(angle) * speed * Math.abs(velocity.x) * delta));
+            setY((float) (getY() + Math.sin(angle) * speed * Math.abs(velocity.y) * delta)); // Set the player position to current position +
                                                                       // velocity
         }
         // Make sure there's an input so weird things don't happen, as atan2(0,0) is
