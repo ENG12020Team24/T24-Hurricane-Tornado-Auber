@@ -61,4 +61,34 @@ public final class Config {
     /** The time that the arrestup powerup affects the player for in
      * seconds. */
     public static final float ARRESTUP_TIME = 10f;
+
+    /** The red component of the arrestup powerup's default colour. */
+    public static final float DEFAULT_FREEZEUP_RED = 0.5f;
+    /** The green component of the arrestup powerup's default colour. */
+    public static final float DEFAULT_FREEZEUP_GREEN = 0.5f;
+    /** The blue component of the arrestup powerup's default colour. */
+    public static final float DEFAULT_FREEZEUP_BLUE = 0.9f;
+    /** The time that the arrestup powerup affects the player for in
+     * seconds. */
+    public static final float FREEZEUP_TIME = 10f;
+
+    /** The red component of the arrestup powerup's default colour. */
+    public static final float DEFAULT_SHIELDUP_RED = 0.4f;
+    /** The green component of the arrestup powerup's default colour. */
+    public static final float DEFAULT_SHIELDUP_GREEN = 0.4f;
+    /** The blue component of the arrestup powerup's default colour. */
+    public static final float DEFAULT_SHIELDUP_BLUE = 0.4f;
+    /** The time that the arrestup powerup affects the player for in
+     * seconds. */
+    public static final float SHIELDUP_TIME = 10f;
+
+    /** The red component of the arrestup powerup's default colour. */
+    public static final float DEFAULT_HIGHLIGHTUP_RED = 0.9f;
+    /** The green component of the arrestup powerup's default colour. */
+    public static final float DEFAULT_HIGHLIGHTUP_GREEN = 0.1f;
+    /** The blue component of the arrestup powerup's default colour. */
+    public static final float DEFAULT_HIGHLIGHTUP_BLUE = 0.1f;
+    /** The time that the arrestup powerup affects the player for in
+     * seconds. */
+    public static final float HIGHLIGHTUP_TIME = 10f;
 }

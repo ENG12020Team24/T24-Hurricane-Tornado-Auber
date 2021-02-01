@@ -3,6 +3,7 @@ package com.mygdx.auber.entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.auber.Pathfinding.GraphCreator;
@@ -221,6 +222,14 @@ public class Infiltrator extends NPC {
         this.index = index;
     }
 
+    public void setHighlight(ShapeRenderer shapeRenderer) { //for some reason this was breaking NPC collision?
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(1,0,0,1);
+        shapeRenderer.circle(getX() - getWidth()/2,getY() - getHeight()/2,getHeight());
+        shapeRenderer.end();
+
+    }
 
     public void dispose() {
         easySprites.clear();
