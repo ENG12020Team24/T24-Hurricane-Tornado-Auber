@@ -109,4 +109,7 @@ public final class Config {
 
     /** The amount of systems that can be destroyed before the player loses. */
     public static final int MAX_LOST_SYSTEMS = 15;
+
+    /** The speed of the background scroll in pixels per second. */
+    public static final float BACKGROUND_SCROLL_SPEED = 30;
 }
