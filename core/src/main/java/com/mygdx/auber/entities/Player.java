@@ -36,6 +36,9 @@ public class Player extends Sprite implements InputProcessor {
     private boolean isDHeld;
     private boolean usingSpeedPowerUp;
     private boolean usingArrestPowerUp;
+    private static boolean isUsingShield = false;
+    private static boolean isUsingFreeze = false;
+    private static boolean isUsingHighlight = false;
 
     private float alpha = 0;
     private float arrestRadius;
@@ -201,8 +204,8 @@ public class Player extends Sprite implements InputProcessor {
         }
 
         if (isAHeld || isDHeld || isWHeld || isSHeld) {
-            setX((float) (getX() + Math.cos(angle) * speed * delta));
-            setY((float) (getY() + Math.sin(angle) * speed * delta)); // Set the player position to current position +
+            setX((float) (getX() + Math.cos(angle) * speed * Math.abs(velocity.x) * delta));
+            setY((float) (getY() + Math.sin(angle) * speed * Math.abs(velocity.y) * delta)); // Set the player position to current position +
                                                                       // velocity
         }
         // Make sure there's an input so weird things don't happen, as atan2(0,0) is
@@ -380,7 +383,10 @@ public class Player extends Sprite implements InputProcessor {
      * @param amount Amount of damage to deal.
      */
     public void takeDamage(float amount) {
-        health -= amount;
+
+        if(!isUsingShield){
+            health -= amount;
+        }
     }
 
     /**
@@ -447,6 +453,25 @@ public class Player extends Sprite implements InputProcessor {
 
     };
 
+    public void shieldUp(boolean inUse){
+        isUsingShield = inUse;
+    }
+
+    public void freezeUp(boolean inUse){
+        isUsingFreeze = inUse;
+    }
+
+    public void highlightUp(boolean inUse){
+        isUsingHighlight = inUse;
+    }
+
+    public static boolean getFreeze(){
+        return isUsingFreeze;
+    }
+
+    public static boolean getHighlight(){
+        return isUsingHighlight;
+    }
 
     public float getHealth() {
         return health;
