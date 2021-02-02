@@ -72,6 +72,11 @@ public final class Config {
     public static final int PLAYER_START_X = 1700;
     /** The y position the player starts at. */
     public static final int PLAYER_START_Y = 3000;
+    /** The x position the powerups spawn at. */
+    public static final int POWERUP_START_X = 1700;
+    /** The y position the powerups spawn at. */
+    public static final int POWERUP_START_Y = 2800;
+
     /** The red component of the arrestup powerup's default colour. */
     public static final float DEFAULT_FREEZEUP_RED = 0.5f;
     /** The green component of the arrestup powerup's default colour. */

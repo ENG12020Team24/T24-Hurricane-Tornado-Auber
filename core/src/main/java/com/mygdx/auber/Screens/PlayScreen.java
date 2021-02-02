@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -127,11 +128,16 @@ public class PlayScreen implements Screen {
         powerUpsToRemove = new ArrayList<PowerUp>();
         powerUpsToAdd = new ArrayList<PowerUp>();
 
-        powerUpsToAdd.add(new ArrestUp(new Vector2(1700, 2800)));
-        powerUpsToAdd.add(new SpeedUp(new Vector2(1700, 2800)));
-        powerUpsToAdd.add(new FreezeUp(new Vector2(1700, 2800)));
-        powerUpsToAdd.add(new ShieldUp(new Vector2(1700, 2800)));
-        powerUpsToAdd.add(new HighlightUp(new Vector2(1700, 2800)));
+        powerUpsToAdd.add(new ArrestUp(
+            new Vector2(Config.POWERUP_START_X, Config.POWERUP_START_Y)));
+        powerUpsToAdd.add(new SpeedUp(
+            new Vector2(Config.POWERUP_START_X, Config.POWERUP_START_Y)));
+        powerUpsToAdd.add(new FreezeUp(
+            new Vector2(Config.POWERUP_START_X, Config.POWERUP_START_Y)));
+        powerUpsToAdd.add(new ShieldUp(
+            new Vector2(Config.POWERUP_START_X, Config.POWERUP_START_Y)));
+        powerUpsToAdd.add(new HighlightUp(
+            new Vector2(Config.POWERUP_START_X, Config.POWERUP_START_Y)));
 
         for (int i = 0; i < NUMBER_OF_INFILTRATORS; i++) {
             // System.out.println("Infiltrator created!");
@@ -202,8 +208,8 @@ public class PlayScreen implements Screen {
     public boolean gameOver() {
         return player.getHealth() <= 0
             || Hud.getIncorrectArrestCount() >= maxIncorrectArrests
-            || KeySystemManager.destroyedKeySystemsCount() >=
-                Config.MAX_LOST_SYSTEMS;
+            || KeySystemManager.destroyedKeySystemsCount()
+            >= Config.MAX_LOST_SYSTEMS;
     }
 
     /**
@@ -253,7 +259,7 @@ public class PlayScreen implements Screen {
      * @param delta Time between last frame and this frame.
      */
     @Override
-    public void render(float delta) {
+    public void render(final float delta) {
         Gdx.gl.glClearColor(BACKGROUND_CLEAR_VALUE,
             BACKGROUND_CLEAR_VALUE, BACKGROUND_CLEAR_VALUE, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -283,12 +289,15 @@ public class PlayScreen implements Screen {
         scrollingBackground.updateRender(
             delta, (SpriteBatch) renderer.getBatch());
         // Renders the background
-        renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0));
+        /*renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0));
         // Renders the bottom layer of the map
         Prisoners.render(renderer.getBatch());
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(1));
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(2));
-        renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(3));
+        renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(3));*/
+        for (MapLayer l : map.getLayers()) {
+            renderer.renderTileLayer((TiledMapTileLayer) l);
+        }
 
         NPC.render(renderer.getBatch()); // Renders all NPCs
         if (!demo) {
@@ -404,7 +413,6 @@ public class PlayScreen implements Screen {
 
     /**
      * Gets the max incorrect arrests.
-     * 
      * @return An int containing the max incorrect arrests.
      */
     public int getMaxIncorrectArrests() {
@@ -413,7 +421,6 @@ public class PlayScreen implements Screen {
 
     /**
      * Gets the number of infiltrators.
-     * 
      * @return An int containing the number of infiltrators.
      */
     public static int getNumberOfInfiltrators() {
