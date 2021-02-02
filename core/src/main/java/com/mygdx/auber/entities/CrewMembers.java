@@ -9,8 +9,10 @@ import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
 
 public final class CrewMembers extends NPC {
+    /** The maximum time to wait in seconds. */
+    private static final float MAX_WAIT_TIME = 15;
     /** How long to wait for in seconds between movements. */
-    private double timeToWait = Math.random() * 15;
+    private double timeToWait = Math.random() * MAX_WAIT_TIME;
     /** The array of Sprites Crewmates can be. */
     private static Array<Sprite> crewSprites = new Array<>();
 
@@ -27,8 +29,10 @@ public final class CrewMembers extends NPC {
     }
 
     /**
-     * Step needs to be called in the update method, makes the NPC move and 
+     * Step needs to be called in the update method, makes the NPC move and
      * check if it has reached its next node.
+     * @param delta the time between the previous frame and this frame in
+     * seconds.
      */
     public void step(final float delta) {
         this.moveNPC(delta);
@@ -38,28 +42,31 @@ public final class CrewMembers extends NPC {
 
         // this.collision.checkForCollision(this, layer, this.velocity,
             // this.collision);
-        // //This line enables collision, need to give same layers as player though,
-        // wouldn't recommend
+        // //This line enables collision, need to give same layers as player
+        // though, wouldn't recommend
 
-        if ((this.elapsedTime >= timeToWait) && this.pathQueue.isEmpty()) { 
+        if ((this.elapsedTime >= timeToWait) && this.pathQueue.isEmpty()) {
             // If wait time has elapsed and no where else to go in path
             this.elapsedTime = 0;
             reachDestination();
         }
     }
 
+    /** The chance that the crew member will path to a key system vs any valid
+     * node. */
+    private static final float KEY_SYSTEM_VISIT_CHANCE = 0.2f;
     /**
-     * Called when the path queue is empty
+     * Called when the path queue is empty.
      */
     @Override
     public void reachDestination() {
         this.velocity.x = 0;
         this.velocity.y = 0;
-        timeToWait = Math.random() * 15;
+        timeToWait = Math.random() * MAX_WAIT_TIME;
 
         double chance = Math.random();
 
-        if (chance < 0.2) {
+        if (chance < KEY_SYSTEM_VISIT_CHANCE) {
             setGoal(GraphCreator.getKeySystemNodes().random(),
                 Config.CREW_MEMBER_SPEED);
             // 1/5 chance of going to a key system
@@ -68,15 +75,13 @@ public final class CrewMembers extends NPC {
             do {
                 newGoal = MapGraph.getNodes().random();
             } while (newGoal == previousNode);
-            {
-                setGoal(newGoal, Config.CREW_MEMBER_SPEED);
-
-            } // 4/5 chance of going to a random node
+            setGoal(newGoal, Config.CREW_MEMBER_SPEED);
+            // 4/5 chance of going to a random node
         }
     }
 
     /**
-     * Generates the list of crewmate sprites the crewmates can be
+     * Generates the list of crewmate sprites the crewmates can be.
      */
     public static void createCrewSprites() {
         CrewMembers.crewSprites.add(new Sprite(new Texture("AlienStand.png")));
@@ -85,19 +90,28 @@ public final class CrewMembers extends NPC {
         CrewMembers.crewSprites.add(new Sprite(new Texture("Sagiri.png")));
     }
 
+    /** Crewmate roll chances are scaled relative to this. */
+    private static final float CREWMATE_CHANCES = 20;
+    /** The chance of getting a given innocent sprite. */
+    private static final float INNOCENT_CHANCE = 1;
+    /** The chance of rolling a human worker sprite. */
+    private static final float WORKER_CHANCE = 13;
+    /** Index of the second innocent sprite. */
+    private static final int SECOND_INNOCENT_INDEX = 3;
+
     /**
      * Returns a crew member sprite, low chance of anime.
      * @return A randomly selected Sprite.
      */
     public static Sprite selectSprite() {
-        double chance = Math.random() * 20;
-        if (chance < 1) {
-            return crewSprites.get(3);
+        double chance = Math.random() * CREWMATE_CHANCES;
+        if (chance < INNOCENT_CHANCE) {
+            return crewSprites.get(SECOND_INNOCENT_INDEX);
         }
-        if (chance < 2) {
+        if (chance < INNOCENT_CHANCE * 2) {
             return crewSprites.get(2);
         }
-        if (chance < 13) {
+        if (chance < WORKER_CHANCE) {
             return crewSprites.get(1);
         } else {
             return crewSprites.get(0);
@@ -106,8 +120,8 @@ public final class CrewMembers extends NPC {
       // construction worker or alien
 
     /**
-     * Sets the index of this crew member
-     * @param newIndex The new index of this c.rew member.
+     * Sets the index of this crew member.
+     * @param newIndex The new index of this crew member.
      */
     public void setIndex(final int newIndex) {
         this.index = newIndex;
