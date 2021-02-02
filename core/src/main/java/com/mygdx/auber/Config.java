@@ -101,4 +101,7 @@ public final class Config {
     /** The time that the arrestup powerup affects the player for in
      * seconds. */
     public static final float HIGHLIGHTUP_TIME = 10f;
+
+    /** The amount of systems that can be destroyed before the player loses. */
+    public static final int MAX_LOST_SYSTEMS = 15;
 }

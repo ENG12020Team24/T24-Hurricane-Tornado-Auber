@@ -83,13 +83,13 @@ public class PlayScreen implements Screen {
 
     /**
      * Class constructor.
-     * 
      * @param currentGame    The currently running instance of the game.
      * @param isDemo         Whether the game is running in demo mode or not.
      * @param gameDifficulty The difficulty of the game.
      */
     public PlayScreen(
-        final Auber currentGame, final boolean isDemo, final int gameDifficulty) {
+        final Auber currentGame, final boolean isDemo,
+            final int gameDifficulty) {
         this.game = currentGame;
         this.demo = isDemo;
         this.difficulty = gameDifficulty;
@@ -127,11 +127,11 @@ public class PlayScreen implements Screen {
         powerUpsToRemove = new ArrayList<PowerUp>();
         powerUpsToAdd = new ArrayList<PowerUp>();
 
-        powerUpsToAdd.add(new ArrestUp(new Vector2(1700,2800)));
-        powerUpsToAdd.add(new SpeedUp(new Vector2(1700,2800)));
-        powerUpsToAdd.add(new FreezeUp(new Vector2(1700,2800)));
-        powerUpsToAdd.add(new ShieldUp(new Vector2(1700,2800)));
-        powerUpsToAdd.add(new HighlightUp(new Vector2(1700,2800)));
+        powerUpsToAdd.add(new ArrestUp(new Vector2(1700, 2800)));
+        powerUpsToAdd.add(new SpeedUp(new Vector2(1700, 2800)));
+        powerUpsToAdd.add(new FreezeUp(new Vector2(1700, 2800)));
+        powerUpsToAdd.add(new ShieldUp(new Vector2(1700, 2800)));
+        powerUpsToAdd.add(new HighlightUp(new Vector2(1700, 2800)));
 
         for (int i = 0; i < NUMBER_OF_INFILTRATORS; i++) {
             // System.out.println("Infiltrator created!");
@@ -196,35 +196,34 @@ public class PlayScreen implements Screen {
     }
 
     /**
-     * If any of the game over conditions are true, returns true
-     * 
+     * If any of the game over conditions are true, returns true.
      * @return Boolean if the game is over or not
      */
     public boolean gameOver() {
         return player.getHealth() <= 0
             || Hud.getIncorrectArrestCount() >= maxIncorrectArrests
-            || KeySystemManager.destroyedKeySystemsCount() >= 15;
+            || KeySystemManager.destroyedKeySystemsCount() >=
+                Config.MAX_LOST_SYSTEMS;
     }
 
     /**
-     * If any of the win conditions are true, returns true
-     * 
-     * @return Boolean If the game is won or not
+     * If any of the win conditions are true, returns true.
+     * @return Boolean If the game is won or not.
      */
     public boolean gameWin() {
         return NPCCreator.infiltrators.isEmpty();
     }
 
     /**
-     * Called every frame, call update methods in here
-     * 
-     * @param time Time between last frame and this frame
+     * Called every frame, call update methods in here.
+     * @param time Time between last frame and this frame.
      */
     public void update(final float time) {
         NPC.updateNPC(player, time);
         player.update(time);
         hud.update(player);
-        camera.update(); // Updating everything that needs to be updated
+        camera.update(); 
+        // Updating everything that needs to be updated
 
         // debugText();
 
@@ -234,7 +233,7 @@ public class PlayScreen implements Screen {
             powerUps.add(powerUpsToAdd.remove(0));
         }
 
-        if(gameOver()){
+        if (gameOver()) {
             System.out.println("Lose");
             game.setScreen(new GameOverScreen(game, false));
             return;
@@ -250,9 +249,8 @@ public class PlayScreen implements Screen {
     private static final float BACKGROUND_CLEAR_VALUE = 0.09f;
 
     /**
-     * Called every frame, call render methods in here
-     * 
-     * @param delta Time between last frame and this frame
+     * Called every frame, call render methods in here.
+     * @param delta Time between last frame and this frame.
      */
     @Override
     public void render(float delta) {
@@ -334,13 +332,12 @@ public class PlayScreen implements Screen {
     }
 
     /**
-     * Called upon window being resized, and at the beginning
-     * 
-     * @param width  Width of the window
-     * @param height Height of the window
+     * Called upon window being resized, and at the beginning.
+     * @param width  Width of the window.
+     * @param height Height of the window.
      */
     @Override
-    public void resize(int width, int height) {
+    public void resize(final int width, final int height) {
         viewport.update(width, height);
         camera.viewportWidth = width / 2f;
         camera.viewportHeight = height / 2f;
@@ -377,7 +374,7 @@ public class PlayScreen implements Screen {
 
     /**
      * Called when the screen is closed, need to call dispose methods of
-     * classes to ensure no memory leaks
+     * classes to ensure no memory leaks.
      */
     @Override
     public void dispose() {
@@ -391,7 +388,7 @@ public class PlayScreen implements Screen {
     }
 
     /**
-     * Prints debug text, not used
+     * Prints debug text, not used.
      */
     public void debugText() {
         System.out.println("KeySystems:");
