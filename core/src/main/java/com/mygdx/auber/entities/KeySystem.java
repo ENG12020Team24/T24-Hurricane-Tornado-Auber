@@ -10,7 +10,7 @@ public class KeySystem {
     public static float destructionTime = 30000; // milliseconds
     public Vector2 position;
 
-    KeySystem(TiledMapTileLayer.Cell cell, String name, Vector2 position) {
+    public KeySystem(TiledMapTileLayer.Cell cell, String name, Vector2 position) {
         this.cell = cell;
         this.name = name;
         this.position = position;
@@ -19,14 +19,14 @@ public class KeySystem {
     /**
      * Called when a system begins to be destroyed
      */
-    void startDestroy() {
+    public void startDestroy() {
         destructionStartTime = System.currentTimeMillis();
     }
 
     /**
      * Called when an Infiltrator stops destroying a system
      */
-    void stopDestroy() {
+    public void stopDestroy() {
         if (!isDestroyed()) {
             destructionStartTime = null;
         }
@@ -39,7 +39,7 @@ public class KeySystem {
      * @return Null if system isn't being/hasn't been destroyed. Time remaining in
      *         milliseconds.
      */
-    Long timeRemaining() {
+    public Long timeRemaining() {
         if (destructionStartTime == null) {
             // System isn't being destroyed
             return null;
@@ -66,7 +66,7 @@ public class KeySystem {
      * @return True if the system has not been destroyed and is not currently being
      *         destroyed. False otherwise.
      */
-    boolean isSafe() {
+    public boolean isSafe() {
         return timeRemaining() == null && destructionStartTime == null;
     }
 
@@ -75,7 +75,7 @@ public class KeySystem {
      * @return True if the system is currently being destroyed, but has not been
      *         destroyed yet. False otherwise.
      */
-    boolean isBeingDestroyed() {
+    public boolean isBeingDestroyed() {
         return timeRemaining() != null;
     }
 
@@ -83,7 +83,7 @@ public class KeySystem {
      * 
      * @return True if the system has been destroyed, false otherwise
      */
-    boolean isDestroyed() {
+    public boolean isDestroyed() {
         return timeRemaining() == null && destructionStartTime != null;
     }
 }
