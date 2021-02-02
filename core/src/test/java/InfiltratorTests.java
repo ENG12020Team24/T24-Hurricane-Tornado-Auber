@@ -9,10 +9,10 @@ public class InfiltratorTests {
     //HEEEELP
     @Test
     public void NumberOfInfiltratorsTest(){
-        assertEquals(PlayScreen.numberOfInfiltrators,8);
+        assertEquals(PlayScreen.getNumberOfInfiltrators(), 8);
     }
     public void aaa(){
-        assertEquals(PlayScreen.numberOfInfiltrators,8);
+        assertEquals(PlayScreen.getNumberOfInfiltrators(), 8);
     }
 
 }
