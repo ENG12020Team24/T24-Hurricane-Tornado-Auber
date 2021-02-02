@@ -33,7 +33,7 @@ public class KeySystemTests {
     public void system_destroyed_test() throws InterruptedException{
         keySystem_destroy = KeySystemManager.keySystems.get(0);
         keySystem_destroy.startDestroy();
-        TimeUnit.SECONDS.sleep(30);
+        TimeUnit.SECONDS.sleep(31);
         assertEquals(true, keySystem_destroy.isDestroyed());
     }
 
