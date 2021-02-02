@@ -73,11 +73,11 @@ public final class Hud {
 
         infiltratorCountLabel = new Label(
             String.format("Imposter Arrests: %02d / %02d",
-            arrestedInfiltratorCount, PlayScreen.numberOfInfiltrators),
+            arrestedInfiltratorCount, PlayScreen.getNumberOfInfiltrators()),
             new Label.LabelStyle(font, Color.GREEN));
         incorrectArrestLabel = new Label(
             String.format("Incorrect Arrests: %02d / %02d",
-            incorrectArrestCount, newPlayScreen.maxIncorrectArrests),
+            incorrectArrestCount, newPlayScreen.getMaxIncorrectArrests()),
             new Label.LabelStyle(font, Color.YELLOW));
         playerHealthLabel = new Label(String.format("Health: %02d",
             (int) p.getHealth()),
@@ -107,10 +107,10 @@ public final class Hud {
     public void update(final Player p) {
         infiltratorCountLabel.setText(
             String.format("Imposter Arrests: %02d / %02d",
-            arrestedInfiltratorCount, PlayScreen.numberOfInfiltrators));
+            arrestedInfiltratorCount, PlayScreen.getNumberOfInfiltrators()));
         incorrectArrestLabel.setText(
             String.format("Incorrect Arrests: %02d / %02d",
-            incorrectArrestCount, playScreen.maxIncorrectArrests));
+            incorrectArrestCount, playScreen.getMaxIncorrectArrests()));
         keySystemsCountLabel.setText(
             String.format("Safe key systems: %02d / %02d",
             KeySystemManager.safeKeySystemsCount(),
