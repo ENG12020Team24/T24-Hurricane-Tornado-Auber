@@ -318,4 +318,18 @@ public final class Infiltrator extends NPC {
     public void setDestroying(final boolean newIsDestroying) {
         this.isDestroying = newIsDestroying;
     }
+
+    /** Gets the list of easy sprites.
+     * @return the list of easy sprites.
+     */
+    public static Array<Sprite> getEasySprites() {
+        return easySprites;
+    }
+
+    /** Gets the list of hard sprites.
+     * @return the list of hard sprites.
+     */
+    public static Array<Sprite> getHardSprites() {
+        return hardSprites;
+    }
 }
