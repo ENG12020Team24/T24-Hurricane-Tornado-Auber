@@ -228,7 +228,7 @@ public class PlayScreen implements Screen {
         NPC.updateNPC(player, time);
         player.update(time);
         hud.update(player);
-        camera.update(); 
+        camera.update();
         // Updating everything that needs to be updated
 
         // debugText();
