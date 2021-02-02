@@ -76,6 +76,7 @@ public class TutorialScreen implements Screen {
                     // Increases i to get the new image
                     tutTable.add(images.get(tutorialPage));
                     // Gets the next tutorial image from the array
+
                 }
 
             }
