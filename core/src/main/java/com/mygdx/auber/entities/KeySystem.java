@@ -17,14 +17,14 @@ public class KeySystem {
     }
 
     /**
-     * Called when a system begins to be destroyed
+     * Called when a system begins to be destroyed.
      */
     public void startDestroy() {
         destructionStartTime = System.currentTimeMillis();
     }
 
     /**
-     * Called when an Infiltrator stops destroying a system
+     * Called when an Infiltrator stops destroying a system.
      */
     public void stopDestroy() {
         if (!isDestroyed()) {

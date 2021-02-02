@@ -154,7 +154,7 @@ public class NPC extends Sprite {
     public static void render(Batch batch) {
         for (Infiltrator infiltrator : NPCCreator.infiltrators) {
             infiltrator.draw(batch);
-            if (infiltrator.isHighlighted){
+            if (infiltrator.isHighlighted()){
                 infiltrator.setColor(Color.RED);
             } else {
                 infiltrator.setColor(Color.WHITE);
