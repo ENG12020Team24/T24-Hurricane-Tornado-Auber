@@ -1,8 +1,10 @@
 package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.ai.pfa.GraphPath;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Queue;
@@ -152,7 +154,11 @@ public class NPC extends Sprite {
     public static void render(Batch batch) {
         for (Infiltrator infiltrator : NPCCreator.infiltrators) {
             infiltrator.draw(batch);
-
+            if (infiltrator.isHighlighted){
+                infiltrator.setColor(Color.RED);
+            } else {
+                infiltrator.setColor(Color.WHITE);
+            }
         }
 
         for (CrewMembers crewMember : NPCCreator.crew) {

@@ -22,6 +22,10 @@ import com.mygdx.auber.Pathfinding.GraphCreator;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Powerups.ArrestUp;
 import com.mygdx.auber.Powerups.PowerUp;
+import com.mygdx.auber.Powerups.FreezeUp;
+import com.mygdx.auber.Powerups.SpeedUp;
+import com.mygdx.auber.Powerups.ShieldUp;
+import com.mygdx.auber.Powerups.HighlightUp;
 import com.mygdx.auber.Scenes.Hud;
 import com.mygdx.auber.ScrollingBackground;
 import com.mygdx.auber.entities.KeySystemManager;
@@ -74,6 +78,8 @@ public class PlayScreen implements Screen {
     private ArrayList<PowerUp> powerUps;
     /** The list of powerups to remove from the game on the next frame. */
     private ArrayList<PowerUp> powerUpsToRemove;
+    /** The list of powerups to add to the game world. */
+    private ArrayList<PowerUp> powerUpsToAdd;
 
     /**
      * Class constructor.
@@ -119,12 +125,13 @@ public class PlayScreen implements Screen {
 
         powerUps = new ArrayList<PowerUp>();
         powerUpsToRemove = new ArrayList<PowerUp>();
+        powerUpsToAdd = new ArrayList<PowerUp>();
 
-        powerUps.add(new ArrestUp(new Vector2(
-            Config.PLAYER_START_X, Config.PLAYER_START_Y - 200)));
-
-        powerUps = new ArrayList<PowerUp>();
-        powerUpsToRemove = new ArrayList<PowerUp>();
+        powerUpsToAdd.add(new ArrestUp(new Vector2(1700,2800)));
+        powerUpsToAdd.add(new SpeedUp(new Vector2(1700,2800)));
+        powerUpsToAdd.add(new FreezeUp(new Vector2(1700,2800)));
+        powerUpsToAdd.add(new ShieldUp(new Vector2(1700,2800)));
+        powerUpsToAdd.add(new HighlightUp(new Vector2(1700,2800)));
 
         for (int i = 0; i < NUMBER_OF_INFILTRATORS; i++) {
             // System.out.println("Infiltrator created!");
@@ -223,7 +230,11 @@ public class PlayScreen implements Screen {
 
         renderer.setView(camera); // Needed for some reason
 
-        if (gameOver()) {
+        if (powerUps.size() == 0 && powerUpsToAdd.size() > 0) {
+            powerUps.add(powerUpsToAdd.remove(0));
+        }
+
+        if(gameOver()){
             System.out.println("Lose");
             game.setScreen(new GameOverScreen(game, false));
             return;
