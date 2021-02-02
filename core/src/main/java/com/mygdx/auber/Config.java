@@ -62,6 +62,21 @@ public final class Config {
      * seconds. */
     public static final float ARRESTUP_TIME = 10f;
 
+    /** The amount of crew to add per difficulty level increase. */
+    public static final int CREW_COUNT_DIFFICULTY_MULTIPLIER = 40;
+    /**
+     * The amount of incorrect arrests to remove per difficulty level increase.
+     */
+    public static final int INCORRECT_ARREST_DIFFICULTY_MULTIPLIER = 3;
+    /** The x position the player starts at. */
+    public static final int PLAYER_START_X = 1700;
+    /** The y position the player starts at. */
+    public static final int PLAYER_START_Y = 3000;
+    /** The x position the powerups spawn at. */
+    public static final int POWERUP_START_X = 1700;
+    /** The y position the powerups spawn at. */
+    public static final int POWERUP_START_Y = 2800;
+
     /** The red component of the arrestup powerup's default colour. */
     public static final float DEFAULT_FREEZEUP_RED = 0.5f;
     /** The green component of the arrestup powerup's default colour. */
@@ -91,4 +106,7 @@ public final class Config {
     /** The time that the arrestup powerup affects the player for in
      * seconds. */
     public static final float HIGHLIGHTUP_TIME = 10f;
+
+    /** The amount of systems that can be destroyed before the player loses. */
+    public static final int MAX_LOST_SYSTEMS = 15;
 }

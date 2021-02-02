@@ -18,9 +18,11 @@ import com.mygdx.auber.Auber;
 public class TutorialScreen implements Screen {
 
     private Viewport viewport;
-    Stage stage;
-    Array<Image> images = new Array<>();// Create array of images to be iterated through when moving through tutorial
-    Integer i = 0;// Used for tracking current tutorial image
+    private Stage stage;
+    private Array<Image> images = new Array<>();
+    // Create array of images to be iterated through when moving through
+    // tutorial
+    private int tutorialPage = 0;// Used for tracking current tutorial image
 
     private Auber game;
 
@@ -46,18 +48,18 @@ public class TutorialScreen implements Screen {
         stage.addActor(tutTable);
         tutTable.setFillParent(true);// Fills stage with the table to make it the correct dimensions and to resize
                                      // with the screen
-        tutTable.add(images.get(i));
+        tutTable.add(images.get(tutorialPage));
         stage.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (i == images.size - 1) {// Change i to number of tutorial images - 1
+                if (tutorialPage == images.size - 1) {// Change i to number of tutorial images - 1
                     game.setScreen(new MainMenuScreen(game));// Change screen to main menu if on the final tutorial
                                                              // image
                 } else {
 
-                    tutTable.removeActor(images.get(i));// Removes current image from the table
-                    i++;// Increases i to get the new image
-                    tutTable.add(images.get(i));// Gets the next tutorial image from the array
+                    tutTable.removeActor(images.get(tutorialPage));// Removes current image from the table
+                    tutorialPage++;// Increases i to get the new image
+                    tutTable.add(images.get(tutorialPage));// Gets the next tutorial image from the array
                 }
 
             }
