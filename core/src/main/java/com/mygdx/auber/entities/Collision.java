@@ -6,8 +6,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 class Collision {
-
+    /** Whether there is a collision on the x axis. */
     private boolean collideX;
+    /** Whether there is a collision on the y axis. */
     private boolean collideY;
 
     /**
@@ -51,8 +52,9 @@ class Collision {
             // Check if cell contains blocked property
             boolean collides = isCellBlocked(
                 collisionLayer, sprite.getX(), sprite.getY() + step);
-            if (collides)
+            if (collides) {
                 return true;
+            }
         }
         return false;
     }
@@ -63,7 +65,7 @@ class Collision {
      *
      * @param sprite         A Sprite object of the character.
      * @param collisionLayer Collision layer in the Tiled map.
-     * @return True if there is a on the top of the sprite that contains 
+     * @return True if there is a on the top of the sprite that contains
      * "blocked", else returns false.
      */
     public boolean collidesTop(
@@ -97,53 +99,53 @@ class Collision {
             // Check if cell contains blocked property
             boolean collides = isCellBlocked(
                 collisionLayer, sprite.getX() + step, sprite.getY());
-            if (collides)
+            if (collides) {
                 return true;
+            }
         }
         return false;
     }
 
     /**
      * "Checks a cell and returns a bool for whether the cell contains the key
-     * "blocked" or not
-     * @param collisionLayer Collision layer in the Tiled map
-     * @param x              X coordinate of the cell to check
-     * @param y              Y coordinate of the cell to check
-     * @return True if cell contains "blocked", else false
+     * "blocked" or not.
+     * @param collisionLayer Collision layer in the Tiled map.
+     * @param x              X coordinate of the cell to check.
+     * @param y              Y coordinate of the cell to check.
+     * @return True if cell contains "blocked", else false.
      */
     private boolean isCellBlocked(
         final TiledMapTileLayer collisionLayer, final float x, final float y) {
         TiledMapTileLayer.Cell cell = collisionLayer.getCell(
             (int) (x / collisionLayer.getTileWidth()),
-                (int) (y / collisionLayer.getTileHeight())); 
+                (int) (y / collisionLayer.getTileHeight()));
                 // Set variable cell to the cell at specified x,y coordinate
-        return cell != null && cell.getTile() != null 
-            && cell.getTile().getProperties().containsKey("blocked"); 
+        return cell != null && cell.getTile() != null
+            && cell.getTile().getProperties().containsKey("blocked");
         // If cell is not null, and the cell contains "blocked", return true,
         // else false
     }
 
     /**
-     * Checks for collision in the direction of movement
-     * 
-     * @param sprite          Sprite being used by object
+     * Checks for collision in the direction of movement.
+     * @param sprite          Sprite being used by object.
      * @param collisionLayers TiledMapTileLayer to search for tiles to collide
-     * with
-     * @param velocity        Vector2 velocity of the object
-     * @param collision       Collision object
-     * @return Returns a vector with x/y changed to account for collision
+     * with.
+     * @param velocity        Vector2 velocity of the object.
+     * @param collision       Collision object.
+     * @return Returns a vector with x/y changed to account for collision.
      */
     public Vector2 checkForCollision(final Sprite sprite,
         final Array<TiledMapTileLayer> collisionLayers, final Vector2 velocity,
             final Collision collision) {
-        float oldX = sprite.getX(), oldY = sprite.getY();
+        float oldX = sprite.getX();
+        float oldY = sprite.getY();
         collideX = false;
-        collideY = false; 
+        collideY = false;
         // Recording the old x,y coords and setting the bool values to false
 
-        for (TiledMapTileLayer collisionLayer : 
+        for (TiledMapTileLayer collisionLayer : collisionLayers) {
         // Checks across all layers in the array of layers given as an argument
-        collisionLayers) {
             // Move on x
             if (velocity.x < 0) {
                 collideX = collision.collidesLeft(sprite, collisionLayer);
