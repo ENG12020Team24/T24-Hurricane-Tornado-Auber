@@ -28,19 +28,20 @@ public class TutorialScreen implements Screen {
     private int tutorialPage = 0;
     // Used for tracking current tutorial image
 
+    /** The currently running instance of Auber. */
     private Auber game;
 
     /**
-     * Class constructor
-     * @param game The currently running instance of the game.
+     * Class constructor.
+     * @param currentGame The currently running instance of the game.
      */
-    public TutorialScreen(final Auber game) {
-        this.game = game;
+    public TutorialScreen(final Auber currentGame) {
+        this.game = currentGame;
 
         viewport = new ExtendViewport(
             Auber.VIRTUAL_WIDTH, Auber.VIRTUAL_HEIGHT,
                 new OrthographicCamera());
-        stage = new Stage(viewport, ((Auber) game).getBatch());
+        stage = new Stage(viewport, ((Auber) currentGame).getBatch());
         Gdx.input.setInputProcessor(stage);
 
         images.add(new Image(new Texture("Tutorial1.png")));
@@ -61,16 +62,18 @@ public class TutorialScreen implements Screen {
         tutTable.add(images.get(tutorialPage));
         stage.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public void clicked(final InputEvent event, final float x,
+                final float y) {
                 if (tutorialPage == images.size - 1) {
                     // Change i to number of tutorial images - 1
-                    game.setScreen(new MainMenuScreen(game));
+                    currentGame.setScreen(new MainMenuScreen(currentGame));
                     // Change screen to main menu if on the final tutorial
                     // image
                 } else {
                     tutTable.removeActor(images.get(tutorialPage));
                     // Removes current image from the table
-                    tutorialPage++;// Increases i to get the new image
+                    tutorialPage++;
+                    // Increases i to get the new image
                     tutTable.add(images.get(tutorialPage));
                     // Gets the next tutorial image from the array
                 }
