@@ -61,4 +61,15 @@ public final class Config {
     /** The time that the arrestup powerup affects the player for in
      * seconds. */
     public static final float ARRESTUP_TIME = 10f;
+
+    /** The amount of crew to add per difficulty level increase. */
+    public static final int CREW_COUNT_DIFFICULTY_MULTIPLIER = 40;
+    /**
+     * The amount of incorrect arrests to remove per difficulty level increase.
+     */
+    public static final int INCORRECT_ARREST_DIFFICULTY_MULTIPLIER = 3;
+    /** The x position the player starts at. */
+    public static final int PLAYER_START_X = 1700;
+    /** The y position the player starts at. */
+    public static final int PLAYER_START_Y = 3000;
 }

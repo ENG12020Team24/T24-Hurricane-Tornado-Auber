@@ -294,7 +294,7 @@ public class Player extends Sprite implements InputProcessor {
             return false;
         }
         Vector3 vec = new Vector3(screenX, screenY, 0);
-        PlayScreen.camera.unproject(vec);
+        PlayScreen.getCamera().unproject(vec);
         Vector2 point = new Vector2(vec.x, vec.y); // Gets the x,y coordinate of mouse press and converts it to world
                                                    // coordinates
 
