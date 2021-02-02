@@ -47,7 +47,7 @@ public class KeySystemTests {
     
     @Test
     public void system_safe_test() throws InterruptedException{
-        keySystem_safe = KeySystemManager.keySystems.get(1);
+        keySystem_safe = KeySystemManager.keySystems.get(2);
         TimeUnit.SECONDS.sleep(30);
         assertEquals(false, keySystem_safe.isDestroyed());
     }
