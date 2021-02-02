@@ -37,6 +37,10 @@ public class KeySystemManager {
                                                                                                                        // not
                                                                                                                        // null
                 {
+                    // System.out.print("i: ");
+                    // System.out.print(i);
+                    // System.out.print(", j: ");
+                    // System.out.println(j);
                     String name = (String) cell.getTile().getProperties().get("name");
                     Vector2 position = new Vector2(x, y);
                     KeySystem keySystem = new KeySystem(cell, name, position);
