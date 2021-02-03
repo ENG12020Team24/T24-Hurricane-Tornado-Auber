@@ -51,14 +51,14 @@ public class NPCCreator {
     public static void removeInfiltrator(Player p, int id) {
         for (Infiltrator infiltrator : infiltrators) {
             if (infiltrator.index == id) {
-                if (infiltrator.isDestroying) {
+                if (infiltrator.isDestroying()) {
                     KeySystemManager.getClosestKeySystem(infiltrator.getX(), infiltrator.getY()).stopDestroy();
                     double chance = Math.random();
                     if (chance > .25f) {
                         p.takeDamage(10);
                     } // Random chance of player taking damage upon arresting infiltrator
                 }
-                infiltrator.isDestroying = false;
+                infiltrator.setDestroying(false);
                 infiltrator.step(p, 0.001f);
                 Prisoners.addPrisoner(infiltrator);
             }

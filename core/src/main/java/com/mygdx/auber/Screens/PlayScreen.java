@@ -143,12 +143,13 @@ public class PlayScreen implements Screen {
             // System.out.println("Infiltrator created!");
             if (i == NUMBER_OF_INFILTRATORS - 1) {
                 NPCCreator.createInfiltrator(
-                    Infiltrator.hardSprites.random(), MapGraph.getRandomNode(),
-                        graphCreator.getMapGraph());
+                    Infiltrator.getHardSprites().random(),
+                    MapGraph.getRandomNode(),
+                    graphCreator.getMapGraph());
                 break;
             }
             NPCCreator.createInfiltrator(
-                Infiltrator.easySprites.random(), MapGraph.getRandomNode(),
+                Infiltrator.getEasySprites().random(), MapGraph.getRandomNode(),
                     graphCreator.getMapGraph());
         } // Creates numberOfInfiltrators infiltrators, gives them a random
           // hard or easy sprite

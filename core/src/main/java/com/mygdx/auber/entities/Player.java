@@ -80,12 +80,12 @@ public class Player extends Sprite implements InputProcessor {
         for (KeySystem keySystem : KeySystemManager.getBeingDestroyedKeySystems()) {
 
             Vector2 position = new Vector2(this.getX(), this.getY());
-            double angle = Math.atan((keySystem.position.x - position.x) / (keySystem.position.y - position.y));
+            double angle = Math.atan((keySystem.getPosition().x - position.x) / (keySystem.getPosition().y - position.y));
             ;
 
             angle = Math.toDegrees(angle);
 
-            if (this.getY() > keySystem.position.y) {
+            if (this.getY() > keySystem.getPosition().y) {
                 angle = angle - 180;
             }
 
