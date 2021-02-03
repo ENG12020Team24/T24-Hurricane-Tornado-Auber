@@ -74,11 +74,10 @@ public class NPCCreator {
     }
 
     /**
-     * Removes crewmember for given id
-     * 
-     * @param id id to remove
+     * Removes crewmember for given id.
+     * @param id id to remove.
      */
-    public static void removeCrewmember(int id) {
+    public static void removeCrewmember(final int id) {
         CrewMembers newPrisoner = crew.get(id);
         Prisoners.addPrisoner(newPrisoner);
 
