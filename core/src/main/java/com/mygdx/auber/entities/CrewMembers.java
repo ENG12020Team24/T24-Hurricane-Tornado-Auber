@@ -2,6 +2,7 @@ package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.auber.Config;
 import com.mygdx.auber.Pathfinding.GraphCreator;
@@ -37,7 +38,7 @@ public final class CrewMembers extends NPC {
     public void step(final float delta) {
         this.moveNPC(delta);
 
-        this.elapsedTime += delta;
+        this.incrementElapsedTime(delta);
         this.checkCollision(Config.CREW_MEMBER_SPEED);
 
         // this.collision.checkForCollision(this, layer, this.velocity,
@@ -45,9 +46,10 @@ public final class CrewMembers extends NPC {
         // //This line enables collision, need to give same layers as player
         // though, wouldn't recommend
 
-        if ((this.elapsedTime >= timeToWait) && this.pathQueue.isEmpty()) {
+        if ((this.getElapsedTime() >= timeToWait)
+            && this.getPathQueue().isEmpty()) {
             // If wait time has elapsed and no where else to go in path
-            this.elapsedTime = 0;
+            this.resetElapsedTime();
             reachDestination();
         }
     }
@@ -60,8 +62,7 @@ public final class CrewMembers extends NPC {
      */
     @Override
     public void reachDestination() {
-        this.velocity.x = 0;
-        this.velocity.y = 0;
+        this.setVelocity(new Vector2(0, 0));
         timeToWait = Math.random() * MAX_WAIT_TIME;
 
         double chance = Math.random();
@@ -74,7 +75,7 @@ public final class CrewMembers extends NPC {
             Node newGoal;
             do {
                 newGoal = MapGraph.getNodes().random();
-            } while (newGoal == previousNode);
+            } while (newGoal == getPreviousNode());
             setGoal(newGoal, Config.CREW_MEMBER_SPEED);
             // 4/5 chance of going to a random node
         }
@@ -118,14 +119,6 @@ public final class CrewMembers extends NPC {
         }
     } // Low chance of anime sprites (Always innocent) and high chance of
       // construction worker or alien
-
-    /**
-     * Sets the index of this crew member.
-     * @param newIndex The new index of this crew member.
-     */
-    public void setIndex(final int newIndex) {
-        this.index = newIndex;
-    }
 
     /**
      * Method implemented from abstract superclass.

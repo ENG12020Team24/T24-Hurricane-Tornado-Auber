@@ -218,7 +218,7 @@ public class PlayScreen implements Screen {
      * @return Boolean If the game is won or not.
      */
     public boolean gameWin() {
-        return NPCCreator.infiltrators.isEmpty();
+        return !NPCCreator.hasInfiltrators();
     }
 
     /**
@@ -273,7 +273,7 @@ public class PlayScreen implements Screen {
                 player.getY() + player.getHeight() / 2, 0);
             // Sets camera to centre of player position
         } else {
-            CrewMembers crew = NPCCreator.crew.get(0);
+            CrewMembers crew = NPCCreator.getCrew().get(0);
             camera.position.set(
                 crew.getX() + crew.getWidth() / 2,
                 crew.getY() + crew.getHeight() / 2, 0);

@@ -301,20 +301,20 @@ public class Player extends Sprite implements InputProcessor {
         Vector2 point = new Vector2(vec.x, vec.y); // Gets the x,y coordinate of mouse press and converts it to world
                                                    // coordinates
 
-        for (Infiltrator infiltrator : NPCCreator.infiltrators) {
+        for (Infiltrator infiltrator : NPCCreator.getInfiltrators()) {
             if (infiltrator.getBoundingRectangle().contains(point)) {
                 if (Vector2.dst(this.getX(), this.getY(), infiltrator.getX(), infiltrator.getY()) < arrestRadius) {
-                    NPCCreator.removeInfiltrator(this, infiltrator.index);
+                    NPCCreator.removeInfiltrator(this, infiltrator.getIndex());
                     Hud.incrementArrestedInfiltrators();
                     return true;
                 }
             }
         } // If an infiltrator was clicked, remove it from the list
 
-        for (CrewMembers crewMember : NPCCreator.crew) {
+        for (CrewMembers crewMember : NPCCreator.getCrew()) {
             if (crewMember.getBoundingRectangle().contains(point)) {
                 if (Vector2.dst(this.getX(), this.getY(), crewMember.getX(), crewMember.getY()) < arrestRadius) {
-                    NPCCreator.removeCrewmember(crewMember.index);
+                    NPCCreator.removeCrewmember(crewMember.getIndex());
                     Hud.incrementIncorrectArrests();
                     return true;
                 }

@@ -61,14 +61,14 @@ public abstract class NPC extends Sprite {
      * movement
      */
     public static void updateNPC(final Player p, final float delta) {
-        if (NPCCreator.crew.notEmpty()) {
-            for (CrewMembers crewMember : NPCCreator.crew) {
+        if (NPCCreator.hasCrew()) {
+            for (CrewMembers crewMember : NPCCreator.getCrew()) {
                 crewMember.step(delta);
             }
         }
 
-        if (NPCCreator.infiltrators.notEmpty()) {
-            for (Infiltrator infiltrator : NPCCreator.infiltrators) {
+        if (NPCCreator.hasInfiltrators()) {
+            for (Infiltrator infiltrator : NPCCreator.getInfiltrators()) {
                 infiltrator.step(p, delta);
             }
         }
@@ -171,7 +171,7 @@ public abstract class NPC extends Sprite {
      * @param batch Batch for the NPCs to render in.
      */
     public static void render(final Batch batch) {
-        for (Infiltrator infiltrator : NPCCreator.infiltrators) {
+        for (Infiltrator infiltrator : NPCCreator.getInfiltrators()) {
             infiltrator.draw(batch);
             if (Infiltrator.isHighlighted()) {
                 infiltrator.setColor(Color.RED);
@@ -180,7 +180,7 @@ public abstract class NPC extends Sprite {
             }
         }
 
-        for (CrewMembers crewMember : NPCCreator.crew) {
+        for (CrewMembers crewMember : NPCCreator.getCrew()) {
             crewMember.draw(batch);
         }
     }
@@ -189,11 +189,11 @@ public abstract class NPC extends Sprite {
      * Dispose method to be called in dispose method of screen.
      */
     public static void disposeNPC() {
-        for (Infiltrator infiltrator : NPCCreator.infiltrators) {
+        for (Infiltrator infiltrator : NPCCreator.getInfiltrators()) {
             infiltrator.dispose();
 
         }
-        for (CrewMembers crewMember : NPCCreator.crew) {
+        for (CrewMembers crewMember : NPCCreator.getCrew()) {
             crewMember.dispose();
         }
 
@@ -205,5 +205,72 @@ public abstract class NPC extends Sprite {
      * reachDestination().
      */
     public abstract void reachDestination();
+
+    /** Gets the index of this NPC.
+     * @return the index of this NPC.
+     */
+    public int getIndex() {
+        return index;
+    }
+
+    /** Sets the index of this NPC.
+     * @param newIndex The new index for this NPC.
+     */
+    public void setIndex(final int newIndex) {
+        this.index = newIndex;
+    }
+
+    /** Gets this NPC's velocity.
+     * @return this NPC's velocity.
+     */
+    public Vector2 getVelocity() {
+        return velocity;
+    }
+
+    /** Sets this NPC's velocity.
+     * @param newVelocity The new velocity for this NPC.
+     */
+    public void setVelocity(final Vector2 newVelocity) {
+        this.velocity = newVelocity;
+    }
+
+    /**
+     * Gets the previous node that this NPC visited.
+     * @return The previous node that this NPC visited.
+     */
+    public Node getPreviousNode() {
+        return previousNode;
+    }
+
+    /** Returns how long this NPC has been waiting for.
+     * @return the elapsedTime variable.
+     */
+    public float getElapsedTime() {
+        return elapsedTime;
+    }
+
+    /** Sets the elapsed time to 0. */
+    public void resetElapsedTime() {
+        this.elapsedTime = 0;
+    }
+
+    /** Returns the path this NPC is following.
+     * @return The path that this NPC is following.
+     */
+    public Queue<Node> getPathQueue() {
+        return pathQueue;
+    }
+
+    /** Increases the elapsed time by the given value.
+     * @param delta The amount to increase the elapsed time by.
+     */
+    public void incrementElapsedTime(final float delta) {
+        this.elapsedTime += delta;
+    }
+
+    /** Clears this NPC's pathQueue. */
+    public void clearPathQueue() {
+        this.pathQueue.clear();
+    }
 
 }

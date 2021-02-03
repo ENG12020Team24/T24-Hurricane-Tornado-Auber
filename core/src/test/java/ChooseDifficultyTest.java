@@ -13,7 +13,7 @@ import com.mygdx.auber.Auber;
 @RunWith(GdxTestRunner.class)
 public class ChooseDifficultyTest {
     @Test
-    public void firstTest(){
+    public void firstTest() {
         //Auber a = new Auber();
         //ChooseDifficultyScreen s = new ChooseDifficultyScreen(a);
         //PlayScreen playTest = new PlayScreen(a, false, 0);
