@@ -53,6 +53,7 @@ public class InfiltratorTests {
     @Test
     public void NumberOfInfiltratorsTest(){
         assertEquals("Error: Not 8 infiltrators", PlayScreen.getNumberOfInfiltrators(),8);
+
     }
 
     @Test
