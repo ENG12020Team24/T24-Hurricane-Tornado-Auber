@@ -27,7 +27,7 @@ public class MapGraph implements IndexedGraph<Node> {
      * increases the index by one.
      * @param node the Node to add.
      */
-    public static void addNode(final Node node) {
+    public void addNode(final Node node) {
         /* Sets node index to current lastNodeIndex, increments index by one,
          adds node to the list of nodes. */
         node.setIndex(lastNodeIndex);
@@ -59,7 +59,7 @@ public class MapGraph implements IndexedGraph<Node> {
      * @param fromNode Node path comes from.
      * @param toNode   Node path goes to.
      */
-    public static void connectNodes(final Node fromNode, final Node toNode) {
+    public void connectNodes(final Node fromNode, final Node toNode) {
         /* Adds a path from node to node, unless node is already in the
         pathsMap. */
         Path path = new Path(fromNode, toNode);

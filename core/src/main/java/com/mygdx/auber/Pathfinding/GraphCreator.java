@@ -79,7 +79,7 @@ public final class GraphCreator extends ApplicationAdapter {
                 && (cell.getTile().getProperties().containsKey("node"))) {
                     // If ID matches floor/corridor tiles, and is not null
                     Node node = new Node(x, y);
-                    MapGraph.addNode(node);
+                    mapGraph.addNode(node);
                     // Create new node and add it to the map graph
                     if (cell.getTile().getProperties()
                     .containsKey("keysystemnode")) {
@@ -101,7 +101,7 @@ public final class GraphCreator extends ApplicationAdapter {
             Array<Node> neighbourNodes = getNeighbourNodes(node);
             // For every node in the map, get its neighbours
             for (Node neighbourNode : neighbourNodes) {
-                MapGraph.connectNodes(node, neighbourNode);
+                mapGraph.connectNodes(node, neighbourNode);
                 // For each neighbour, connect it to the original node
             }
         }

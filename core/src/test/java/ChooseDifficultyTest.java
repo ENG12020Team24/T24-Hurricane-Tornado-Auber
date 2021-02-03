@@ -14,7 +14,7 @@ import com.mygdx.auber.Auber;
 public class ChooseDifficultyTest {
     @Test
     public void firstTest(){
-        Auber a = new Auber();
+        //Auber a = new Auber();
         //ChooseDifficultyScreen s = new ChooseDifficultyScreen(a);
         //PlayScreen playTest = new PlayScreen(a, false, 0);
         //int incorrectArrestTest = 3;
