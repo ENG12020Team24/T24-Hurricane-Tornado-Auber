@@ -31,7 +31,7 @@ public class KeySystemTests {
 
     @Test
     public void system_destroyed_test() throws InterruptedException{
-        keySystem_destroy = KeySystemManager.keySystems.get(0);
+        keySystem_destroy = KeySystemManager.getKeySystems().get(0);
         keySystem_destroy.startDestroy();
         TimeUnit.SECONDS.sleep(31);
         assertEquals(true, keySystem_destroy.isDestroyed());
@@ -39,7 +39,7 @@ public class KeySystemTests {
 
     @Test
     public void system_not_destroyed_test() throws InterruptedException{
-        keySystem_part_destroy = KeySystemManager.keySystems.get(1);
+        keySystem_part_destroy = KeySystemManager.getKeySystems().get(1);
         keySystem_part_destroy.startDestroy();
         TimeUnit.SECONDS.sleep(5);
         assertEquals(false, keySystem_part_destroy.isDestroyed());
@@ -47,7 +47,7 @@ public class KeySystemTests {
     
     @Test
     public void system_safe_test() throws InterruptedException{
-        keySystem_safe = KeySystemManager.keySystems.get(2);
+        keySystem_safe = KeySystemManager.getKeySystems().get(2);
         TimeUnit.SECONDS.sleep(30);
         assertEquals(false, keySystem_safe.isDestroyed());
     }

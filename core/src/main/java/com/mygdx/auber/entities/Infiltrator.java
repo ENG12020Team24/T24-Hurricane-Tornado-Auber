@@ -155,7 +155,7 @@ public final class Infiltrator extends NPC {
             if (keySystem.isSafe()) {
                 this.isDestroying = true;
                 keySystem.startDestroy();
-                timeToWait = KeySystem.destructionTime
+                timeToWait = Config.SYSTEM_DESTRUCTION_TIME
                     / MILLISECONDS_IN_SECONDS;
                 return;
             }

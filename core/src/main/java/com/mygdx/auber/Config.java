@@ -111,4 +111,7 @@ public final class Config {
     public static final int MAX_LOST_SYSTEMS = 15;
     /** The speed of the background scroll in pixels per second. */
     public static final float BACKGROUND_SCROLL_SPEED = 30;
+
+    /** The time to destroy a system in milliseconds. */
+    public static final float SYSTEM_DESTRUCTION_TIME = 30000;
 }
