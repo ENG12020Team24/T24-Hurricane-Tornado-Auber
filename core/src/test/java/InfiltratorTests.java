@@ -33,7 +33,7 @@ public class InfiltratorTests {
     Node node = new Node(2416, 2768);
     Node node2 = new Node(2416, 3312);
     Infiltrator infiltrator_invisible, infiltrator_damage, infiltrator_stop_healing;
-    Sprite doctor=new Sprite(new Texture("assets/Doctor.png"));
+    Sprite doctor=new Sprite(new Texture("assets/Tutorial3.png"));
     Player player;
     Array<TiledMapTileLayer> playerCollisionLayers = new Array<>();
 
@@ -42,6 +42,7 @@ public class InfiltratorTests {
      */
     @Test
     public void NumberOfInfiltratorsTest(){
+        //System.out.println(doctor.getHeight());
         assertEquals("Error: Not 8 infiltrators", PlayScreen.getNumberOfInfiltrators(),8);
     }
 
@@ -98,7 +99,7 @@ public class InfiltratorTests {
         player.update(16);
         player.heal(0);
         assertEquals("Error: Player can heal whilst healing is blocked",
-            100, player.getHealth(),0.000001);
+            100, player.getHealth(), 0.000001);
     }
 
     /**
