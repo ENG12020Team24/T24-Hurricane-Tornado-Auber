@@ -20,7 +20,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.Array;
 
-//import java.util.concurrent.TimeUnit;
 
 import org.junit.runner.RunWith;
 
@@ -33,7 +32,7 @@ public class InfiltratorTests {
     Node node = new Node(2416, 2768);
     Node node2 = new Node(2416, 3312);
     Infiltrator infiltrator_invisible, infiltrator_damage, infiltrator_stop_healing;
-    Sprite doctor=new Sprite(new Texture("assets/Tutorial3.png"));
+    Sprite doctor=new Sprite(new Texture("assets/Tutorial3.png")); //for janky reasons
     Player player;
     Array<TiledMapTileLayer> playerCollisionLayers = new Array<>();
 
@@ -89,6 +88,26 @@ public class InfiltratorTests {
     public void InfiltratorStopPlayerHealingNonPermentant(){
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get("Tile Layer 1"));
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2));
+        player = new Player(doctor, playerCollisionLayers,false);
+        mapGraph.addNode(node);
+        mapGraph.addNode(node2);
+        mapGraph.connectNodes(node, node2);
+        infiltrator_stop_healing=new Infiltrator(doctor, node, mapGraph);
+        infiltrator_stop_healing.stopAuberHealing();
+        player.takeDamage(30);
+        player.update(16);
+        player.heal(20);
+        assertEquals("Error: Player can heal whilst healing is blocked",
+            true, 90 <= player.getHealth());
+    }
+
+    /**
+     * Tests that the stopping of healing isn't permenant (takes 15 seconds) for demo mode
+     */
+    @Test
+    public void InfiltratorStopPlayerHealingNonPermentantDemo(){
+        playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get("Tile Layer 1"));
+        playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2));
         player = new Player(doctor, playerCollisionLayers,true);
         mapGraph.addNode(node);
         mapGraph.addNode(node2);
@@ -97,7 +116,7 @@ public class InfiltratorTests {
         infiltrator_stop_healing.stopAuberHealing();
         player.takeDamage(30);
         player.update(16);
-        player.heal(0);
+        player.heal(20);
         assertEquals("Error: Player can heal whilst healing is blocked",
             100, player.getHealth(),0.000001);
     }
