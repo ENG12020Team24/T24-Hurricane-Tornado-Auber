@@ -1,8 +1,13 @@
 package com.mygdx.auber.entities;
 
+import java.util.Arrays;
+
+import javax.print.event.PrintEvent;
+
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
@@ -50,6 +55,11 @@ public class Prisoners {
         sprite.setPosition(positions.random().x, positions.random().y);
     }
 
+    public static void addPrisoner(Sprite sprite, int x, int y) {
+        prisoners.add(sprite);
+        sprite.setPosition(x, y);
+    }
+
     /**
      * Renders the sprites in the prison
      * 
@@ -62,4 +72,35 @@ public class Prisoners {
             }
         }
     }
+
+    // TODO: Understand why prisoners is currently nothing?
+    public static String encode() {
+        Array<Vector2> prisonerLocations = new Array<>();
+        System.out.print("Encoding prisoners.");
+        System.out.print(Prisoners.prisoners.size);
+
+        for (Sprite sprite : Prisoners.prisoners) {
+            prisonerLocations.add(new Vector2(sprite.getX(), sprite.getY()));
+        }
+        return prisonerLocations.toString();
+    }
+
+    // TODO: Needs testing.
+    public static void LoadFromString(String value1) {
+        String value = "[(1936.0,3632.0), (1968.0,3632.0), (2032.0,3632.0), (2064.0,3632.0), (2128.0,3632.0), (2160.0,3632.0)]";
+        // [(1936.0,3632.0), (1968.0,3632.0), (2032.0,3632.0), (2064.0,3632.0), (2128.0,3632.0), (2160.0,3632.0)]
+        Prisoners.prisoners = new Array<>();    // Reset the list of prisoners.
+        String[] values = value.split(",");
+        // Remove the brackets from each value so we just have the float coordinate.
+        for (int i = 0; i < values.length; i++) {
+            values[i] = values[i].replace("[", "");
+            values[i] = values[i].replace("]", "");
+            values[i] = values[i].replace("(", "");
+            values[i] = values[i].replace(")", "");
+        }
+        for (int i = 0; i < values.length - 2; i+=2) {
+            Prisoners.addPrisoner(new Sprite(), Integer.valueOf(values[i]), Integer.valueOf(values[i]));
+        }
+    }
+
 }
