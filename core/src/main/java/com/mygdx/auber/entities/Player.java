@@ -62,9 +62,12 @@ public class Player extends Sprite implements InputProcessor {
         this.collisionLayer = collisionLayer;
         this.collision = new Collision();
         this.demo = demo;
-        this.arrow = new Sprite(new Texture("assets/arrow.png"));
+        if (sprite.getHeight()==32.0f){
+             this.arrow = new Sprite(new Texture("arrow.png"));
+        } else{
+            this.arrow = new Sprite(new Texture("assets/arrow.png"));
+        }
         arrow.setOrigin(arrow.getWidth() / 2, 0);
-
         if (demo) {
             this.setAlpha(0.01f);
         }
