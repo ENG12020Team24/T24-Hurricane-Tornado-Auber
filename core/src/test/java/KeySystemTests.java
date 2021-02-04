@@ -25,10 +25,11 @@ public class KeySystemTests {
     KeySystem keySystem_part_destroy;
     KeySystem keySystem_safe;
 
-    /* Tests whether a system is destroyed if it is being destroyed for 30 seconds.
+    /**
+     * Tests whether a system is destroyed if it is being destroyed for 30 seconds.
      * It should not be.
      * @throws InterruptedException if sleep can't work.
-    */ 
+     */
     @Test
     public void system_destroyed_test() throws InterruptedException{
         keySystem_destroy = KeySystemManager.getKeySystems().get(0);
