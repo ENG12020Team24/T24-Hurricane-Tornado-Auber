@@ -34,6 +34,7 @@ public class PlayerTests {
     MapGraph mapGraph = new MapGraph();
     Node node = new Node(2416, 2768);
     Node node2 = new Node(2446, 3312);
+    Node node3 = new Node(500, 5000);
     Sprite sprite = new Sprite(new Texture("assets/Tutorial3.png")); // for janky reasons
     Player player;
     Array<TiledMapTileLayer> playerCollisionLayers = new Array<>();
@@ -92,7 +93,9 @@ public class PlayerTests {
         player = new Player(sprite, playerCollisionLayers, true);
         mapGraph.addNode(node);
         mapGraph.addNode(node2);
+        mapGraph.addNode(node3);
         mapGraph.connectNodes(node, node2);
+        mapGraph.connectNodes(node, node3);
 
         frozen_infiltrator = new Infiltrator(sprite, node, mapGraph);
         not_frozen_crew = new CrewMembers(sprite, node, mapGraph);
