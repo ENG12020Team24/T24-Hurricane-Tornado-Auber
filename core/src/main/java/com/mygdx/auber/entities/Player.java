@@ -26,6 +26,7 @@ public class Player extends Sprite implements InputProcessor {
     public final Array<TiledMapTileLayer> collisionLayer;
     public static float x, y;
     public boolean demo;
+    public final static int CANT_HEAL_TIME = 15;
 
     private float health;
     float SPEED = 1.3f;
@@ -61,7 +62,7 @@ public class Player extends Sprite implements InputProcessor {
         this.collisionLayer = collisionLayer;
         this.collision = new Collision();
         this.demo = demo;
-        this.arrow = new Sprite(new Texture("arrow.png"));
+        this.arrow = new Sprite(new Texture("assets/arrow.png"));
         arrow.setOrigin(arrow.getWidth() / 2, 0);
 
         if (demo) {
@@ -166,7 +167,7 @@ public class Player extends Sprite implements InputProcessor {
         if (!canHeal) {
             healStopTime += delta;
         } // If cant heal, add time to healStopTime
-        if (healStopTime >= 15) {
+        if (healStopTime >= CANT_HEAL_TIME){
             healStopTime = 0;
             canHeal = true;
         } // After 15 seconds the player can heal again
