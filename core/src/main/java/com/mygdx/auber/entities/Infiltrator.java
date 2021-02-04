@@ -56,11 +56,11 @@ public final class Infiltrator extends NPC {
 
         if (isDestroying) {
             KeySystem keySystem = KeySystemManager.getClosestKeySystem(
-                previousNode.getX(), previousNode.getY());
+                getPreviousNode().getX(), getPreviousNode().getY());
 
             if (keySystem.isDestroyed()) {
                 this.isDestroying = false;
-                this.pathQueue.clear();
+                this.clearPathQueue();
                 this.setGoal(
                     MapGraph.getRandomNode(), Config.INFILTRATOR_SPEED);
             }
@@ -88,7 +88,7 @@ public final class Infiltrator extends NPC {
         // longer than 10 seconds set isInvisible to false. If not
         // timeInvisible, set  the alpha to 1 and time to 0
 
-        this.elapsedTime += delta;
+        this.incrementElapsedTime(delta);
         this.checkCollision(Config.INFILTRATOR_SPEED);
         // Add elapsed time and check collisions
 
@@ -96,8 +96,9 @@ public final class Infiltrator extends NPC {
             // this, layer, this.velocity, collision);
 
         // System.out.println(elapsedTime + " - " + timeToWait);
-        if ((this.elapsedTime >= timeToWait) && this.pathQueue.isEmpty()) {
-            this.elapsedTime = 0;
+        if ((this.getElapsedTime() >= timeToWait)
+            && this.getPathQueue().isEmpty()) {
+            this.resetElapsedTime();
             reachDestination();
         }
         // If there is no queue and elapsed time is greater than time to
@@ -127,11 +128,10 @@ public final class Infiltrator extends NPC {
      */
     @Override
     public void reachDestination() {
-        this.velocity.x = 0;
-        this.velocity.y = 0;
+        this.setVelocity(new Vector2(0, 0));
         timeToWait = Math.random() * MAX_SECONDS_BETWEEN_MOVEMENTS;
 
-        if ((Math.random() < (1 / (double) NPCCreator.infiltrators.size))
+        if ((Math.random() < (1 / (double) NPCCreator.getInfiltrators().size))
             && !this.isDestroying
             && !this.isInvisible
             && KeySystemManager.safeKeySystemsCount() != 0) {
@@ -143,10 +143,10 @@ public final class Infiltrator extends NPC {
         // If not invisible or currently destroying a key system, random chance
         // to go destroying a key system
 
-        if (pathQueue.size == 0 && GraphCreator.getKeySystemNodes()
-            .contains(this.previousNode, true)) {
+        if (getPathQueue().size == 0 && GraphCreator.getKeySystemNodes()
+            .contains(this.getPreviousNode(), true)) {
             KeySystem keySystem = KeySystemManager.getClosestKeySystem(
-                previousNode.getX(), previousNode.getY());
+                getPreviousNode().getX(), getPreviousNode().getY());
             if (keySystem == null) {
                 this.isDestroying = false;
                 setGoal(MapGraph.getRandomNode(), Config.INFILTRATOR_SPEED);
@@ -166,7 +166,7 @@ public final class Infiltrator extends NPC {
         Node newGoal;
         do {
             newGoal = MapGraph.getNodes().random();
-        } while (newGoal == previousNode);
+        } while (newGoal == getPreviousNode());
         setGoal(newGoal, Config.INFILTRATOR_SPEED);
         // Set a new goal node and start moving towards it
 
@@ -177,7 +177,7 @@ public final class Infiltrator extends NPC {
      * isDestroying to true.
      */
     public void destroyKeySystem() {
-        this.pathQueue.clear();
+        this.clearPathQueue();
         Node keySystemNode = GraphCreator.getKeySystemNodes().random();
         KeySystem keySystem = KeySystemManager.getClosestKeySystem(
             keySystemNode.getX(), keySystemNode.getY());
@@ -215,7 +215,7 @@ public final class Infiltrator extends NPC {
             this.stopAuberHealing();
         } // 1/3 chance of using each ability
 
-        this.pathQueue.clear();
+        this.clearPathQueue();
         this.setGoal(MapGraph.getRandomNode(), Config.INFILTRATOR_SPEED);
         // After using an ability, go somewhere random
     }
@@ -264,14 +264,6 @@ public final class Infiltrator extends NPC {
             new Texture("InfiltratorAlien.png")));
         Infiltrator.hardSprites.add(new Sprite(new Texture("AlienStand.png")));
         Infiltrator.hardSprites.add(new Sprite(new Texture("HumanStand.png")));
-    }
-
-    /**
-     * Sets the index for this Infiltrator.
-     * @param newIndex The new index for this Infiltrator.
-     */
-    public void setIndex(final int newIndex) {
-        this.index = newIndex;
     }
 
     /**
