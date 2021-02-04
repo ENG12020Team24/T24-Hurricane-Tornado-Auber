@@ -26,7 +26,8 @@ public class KeySystemTests {
     KeySystem keySystem_safe;
 
     /* Tests whether a system is destroyed if it is being destroyed for 30 seconds.
-    It should be.
+     * It should not be.
+     * @throws InterruptedException if sleep can't work.
     */ 
     @Test
     public void system_destroyed_test() throws InterruptedException{
@@ -36,9 +37,11 @@ public class KeySystemTests {
         assertEquals("Error: keySystem not destroyed when it should be." , true, keySystem_destroy.isDestroyed());
     }
 
-    /* Tests whether a system is destroyed if it is being destroyed for 5 seconds.
-    It should not be.
-    */ 
+    /**
+     * Tests whether a system is destroyed if it is being destroyed for 5 seconds.
+     * It should not be.
+     * @throws InterruptedException if sleep can't work.
+     */
     @Test
     public void system_not_destroyed_test() throws InterruptedException{
         keySystem_part_destroy = KeySystemManager.getKeySystems().get(1);
@@ -47,9 +50,11 @@ public class KeySystemTests {
         assertEquals("Error: keySystem destroyed when it should not be.", false, keySystem_part_destroy.isDestroyed());
     }
 
-    /* Tests whether a system is destroyed if it is not destroyed for 30 seconds.
-    It should not be.
-    */ 
+    /**
+     * Tests whether a system is destroyed if it is not destroyed for 30 seconds.
+     * It should not be.
+     * @throws InterruptedException if sleep can't work.
+     */ 
     @Test
     public void system_safe_test() throws InterruptedException{
         keySystem_safe = KeySystemManager.getKeySystems().get(2);
