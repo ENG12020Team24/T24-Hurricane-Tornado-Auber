@@ -62,7 +62,8 @@ public class Player extends Sprite implements InputProcessor {
         this.collisionLayer = collisionLayer;
         this.collision = new Collision();
         this.demo = demo;
-        if (sprite.getHeight()==32.0f){
+        if (sprite.getHeight()==32.0f){ // very janky but keeps tests from failing
+                                        // because there's a pathing problem
              this.arrow = new Sprite(new Texture("arrow.png"));
         } else{
             this.arrow = new Sprite(new Texture("assets/arrow.png"));
