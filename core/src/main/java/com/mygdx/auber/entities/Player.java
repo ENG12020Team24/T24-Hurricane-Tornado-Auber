@@ -1,5 +1,9 @@
 package com.mygdx.auber.entities;
 
+import java.util.Arrays;
+
+import javax.print.event.PrintEvent;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -34,6 +38,7 @@ public class Player extends Sprite implements InputProcessor {
     private boolean isAHeld;
     private boolean isSHeld;
     private boolean isDHeld;
+    
     private boolean usingSpeedPowerUp;
     private boolean usingArrestPowerUp;
     private static boolean isUsingShield = false;
@@ -47,6 +52,9 @@ public class Player extends Sprite implements InputProcessor {
 
     private Vector2 infirmaryPosition = new Vector2();
     public Array<Vector2> teleporters = new Array<>();
+
+    private boolean requestedPause = false;
+    private boolean requestedSave = false;
 
     public Player(Sprite sprite, Array<TiledMapTileLayer> collisionLayer, boolean demo) {
         super(sprite);
@@ -273,6 +281,13 @@ public class Player extends Sprite implements InputProcessor {
             case Input.Keys.D:
                 isDHeld = false;
                 break;
+            case Input.Keys.ESCAPE:     // When escape is clicked, toggle the requested pause variable.
+                requestedPause = !requestedPause;
+                break;
+            case Input.Keys.P:  // When P is clicked, save the game.
+                requestedPause = true;
+                requestedSave = true;
+                break;
         } // Set key lifted to false
         return true;
     }
@@ -293,7 +308,7 @@ public class Player extends Sprite implements InputProcessor {
      */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (demo) {
+        if (demo || requestedPause) { // If it is a demo, or the game is paused then do nothing.
             return false;
         }
         Vector3 vec = new Vector3(screenX, screenY, 0);
@@ -487,4 +502,28 @@ public class Player extends Sprite implements InputProcessor {
     public Vector2 getPosition() {
         return new Vector2(x, y);
     }
+
+    public boolean getRequestedPause() {
+        return this.requestedPause;
+    }
+
+    public boolean getRequestedSave() {
+        return this.requestedSave;
+    }
+
+    public boolean setRequestedPause(boolean value) {
+        this.requestedPause = value;
+        return value;
+    }
+
+    public void HandledSave() { // This is called when saving has been handled.
+        this.requestedSave = false;
+        System.out.println("Hadled save");
+    }
+
+    public String encode() {
+        String[] r = {String.valueOf(this.x), String.valueOf(this.y), String.valueOf(this.health), String.valueOf(this.canHeal), String.valueOf(this.healStopTime), String.valueOf(this.usingArrestPowerUp), String.valueOf(this.usingSpeedPowerUp)}; 
+        return Arrays.toString(r);
+    }
+
 }

@@ -36,7 +36,15 @@ import com.mygdx.auber.entities.Infiltrator;
 import com.mygdx.auber.entities.CrewMembers;
 import com.mygdx.auber.entities.NPC;
 import com.mygdx.auber.entities.NPCCreator;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class PlayScreen implements Screen {
     /** The instance of the game that is running. */
@@ -81,6 +89,8 @@ public class PlayScreen implements Screen {
     private ArrayList<PowerUp> powerUpsToRemove;
     /** The list of powerups to add to the game world. */
     private ArrayList<PowerUp> powerUpsToAdd;
+
+    private boolean forcePause = false;
 
     /**
      * Class constructor.
@@ -179,7 +189,7 @@ public class PlayScreen implements Screen {
         player.findInfirmary(
             (TiledMapTileLayer) map.getLayers().get("Systems"));
         // Finds infirmary
-        player.teleporters = player.getTeleporterLocations(
+        player.teleporters = Player.getTeleporterLocations(
             (TiledMapTileLayer) map.getLayers().get("Systems"));
 
         renderer = new OrthogonalTiledMapRenderer(map);
@@ -226,30 +236,94 @@ public class PlayScreen implements Screen {
      * @param time Time between last frame and this frame.
      */
     public void update(final float time) {
-        NPC.updateNPC(player, time);
-        player.update(time);
-        hud.update(player);
-        camera.update();
-        // Updating everything that needs to be updated
 
-        // debugText();
+        if (player.getRequestedSave()) { // If the player has requested for the game to be saved.
+            
+            // First we have to force pause the game, otherwise we have issues.
+            this.forcePause = true;
 
-        renderer.setView(camera); // Needed for some reason
+            JFileChooser chooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Game Files", "gme");
+            chooser.setFileFilter(filter);
+            JFrame f = new JFrame();
+            f.setVisible(true);
+            f.toFront();
+            f.setVisible(false);
+            int res = chooser.showSaveDialog(f);
+            f.dispose();
+            if (res == JFileChooser.APPROVE_OPTION) {
+                this.SaveGame(chooser.getSelectedFile().toString() + ".gme");
+            }
 
-        if (powerUps.size() == 0 && powerUpsToAdd.size() > 0) {
-            powerUps.add(powerUpsToAdd.remove(0));
+            player.HandledSave();   // Tell the player that saving has been handled so that the flag is reset.
+        } else {
+            if (player.getRequestedPause() || player.getRequestedSave()) {   // If the player has requested for the game to be paused we need to update differently.
+                renderer.setView(camera);
+                /**
+                *   TODO: render a pause screen instead of the game world, with resume game, save game, and exit buttons. Currently the game just freezes and user inputs
+                *       are all ignored (except for escape clicks) until the game is unpaused.
+                */
+            } else {
+                NPC.updateNPC(player, time);
+                player.update(time);
+                hud.update(player);
+                camera.update();
+                // Updating everything that needs to be updated
+    
+                // debugText();
+    
+                renderer.setView(camera); // Needed for some reason
+    
+                if (powerUps.size() == 0 && powerUpsToAdd.size() > 0) {
+                    powerUps.add(powerUpsToAdd.remove(0));
+                }
+    
+                if (gameOver()) {
+                    System.out.println("Lose");
+                    game.setScreen(new GameOverScreen(game, false));
+                    return;
+                } // If game over, show game over screen and dispose of all assets
+                if (gameWin()) {
+                    System.out.println("Win");
+                    game.setScreen(new GameOverScreen(game, true));
+                    return;
+                } // If game won, show game win screen and dispose of all assets
+            }
+        }
+        
+
+        
+    }
+
+    // TODO: Save the list of power ups in the game, the power ups to remove, and the power ups to add.
+    //         Also need to save the state of the Infiltrator and CrewMembers singleton classes, unsure as to why these are singleton?
+    private void SaveGame(String path) {
+        File gameFile = new File(path);
+        try {
+            if (gameFile.createNewFile()) {
+                FileWriter writer = new FileWriter(path);
+                
+                // write file now
+                writer.write(Prisoners.encode());
+                writer.write(System.lineSeparator());
+                writer.write(this.player.encode());
+                writer.write(System.lineSeparator());
+                writer.write(String.valueOf(this.numberOfCrew));
+                writer.write(System.lineSeparator());
+                writer.write(String.valueOf(maxIncorrectArrests));
+                writer.write(System.lineSeparator());
+                writer.write(String.valueOf(this.difficulty));
+                writer.write(System.lineSeparator());
+                // end of writing file
+
+                writer.close();
+                System.out.print("");
+            }
+        } catch (IOException e) {
+            System.out.print("Error creating file.");
+            e.printStackTrace();
         }
 
-        if (gameOver()) {
-            System.out.println("Lose");
-            game.setScreen(new GameOverScreen(game, false));
-            return;
-        } // If game over, show game over screen and dispose of all assets
-        if (gameWin()) {
-            System.out.println("Win");
-            game.setScreen(new GameOverScreen(game, true));
-            return;
-        } // If game won, show game win screen and dispose of all assets
     }
 
     /** The value to use for the colour when clearing the background. */
