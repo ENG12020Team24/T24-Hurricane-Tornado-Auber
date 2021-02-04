@@ -179,8 +179,8 @@ public class PlayScreen implements Screen {
         player.findInfirmary(
             (TiledMapTileLayer) map.getLayers().get("Systems"));
         // Finds infirmary
-        player.teleporters = player.getTeleporterLocations(
-            (TiledMapTileLayer) map.getLayers().get("Systems"));
+        player.setTeleporters(Player.getTeleporterLocations(
+            (TiledMapTileLayer) map.getLayers().get("Systems")));
 
         renderer = new OrthogonalTiledMapRenderer(map);
         // Creates a new renderer with the given map

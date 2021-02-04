@@ -117,7 +117,7 @@ public final class Hud {
             KeySystemManager.keySystemsCount()));
         playerHealthLabel.setText(String.format("Health: %02d",
             (int) p.getHealth()));
-        if (!Player.canHeal) {
+        if (!Player.canHeal()) {
             playerHealthLabel.setStyle(new Label.LabelStyle(font,
                 Color.FIREBRICK));
         } else {
