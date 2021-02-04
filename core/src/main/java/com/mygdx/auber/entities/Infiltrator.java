@@ -195,7 +195,7 @@ public final class Infiltrator extends NPC {
 
 
     /** The amount to damage Auber by if Auber is to be damaged. */
-    private static final int AUBER_DAMAGE_VALUE = 15;
+    public static final int AUBER_DAMAGE_VALUE = 15;
     /** The number of different abilities Auber can use. */
     private static final int AUBER_ABILITY_COUNT = 3;
     /**
@@ -228,7 +228,7 @@ public final class Infiltrator extends NPC {
      * Sets the sprite alpha to 0, records the time the invisibility started,
      * sets isInvisible to true.
      */
-    private void goInvisible() {
+    public void goInvisible() {
         this.isInvisible = true;
         this.isDestroying = false;
         this.timeInvisible = 0;
@@ -240,7 +240,7 @@ public final class Infiltrator extends NPC {
      * @param p      The player to damage.
      * @param amount Int amount of damage to deal.
      */
-    private void damageAuber(final Player p, final int amount) {
+    public void damageAuber(final Player p, final int amount) {
         p.takeDamage(amount);
     }
 
@@ -249,7 +249,7 @@ public final class Infiltrator extends NPC {
      * being able to heal.
      * @param p The current instance of the player.
      */
-    private void stopAuberHealing(final Player p) {
+    public void stopAuberHealing(final Player p) {
         // System.out.println("Stopped healing");
         Player.setCanHeal(false);
         p.resetHealStopTime();
@@ -325,5 +325,20 @@ public final class Infiltrator extends NPC {
      */
     public static Array<Sprite> getHardSprites() {
         return hardSprites;
+    }
+
+    /**
+     * Gets if infiltrator is destroying. Used for testing.
+     * @return if this infiltrator is destroying
+     */
+    public boolean getIsDestroying() {
+        return isDestroying;
+    }
+
+    /**
+     * Sets if infiltrator is destroying. Used for testing ONLY.
+     */
+    public void setIsDestroying() {
+        this.isDestroying = true;
     }
 }

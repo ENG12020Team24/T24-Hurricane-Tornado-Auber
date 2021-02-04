@@ -1,5 +1,9 @@
 package com.mygdx.auber.entities;
 
+import java.util.Arrays;
+
+import javax.print.event.PrintEvent;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -44,9 +48,9 @@ public final class Player extends Sprite implements InputProcessor {
     private boolean isSHeld;
     /** Stores whether the D key is held. */
     private boolean isDHeld;
-    /** Stores whether the player is using the highlight powerup. */
-    private boolean usingSpeedPowerUp;
-    /** Stores whether the player is using the highlight powerup. */
+    /** Stores whether the player is using the speed powerup. */
+    private boolean isUsingSpeedPowerUp;
+    /** Stores whether the player is using the arrest powerup. */
     private boolean isUsingArrestPowerUp;
     /** Stores whether the player is using the shield powerup. */
     private static boolean isUsingShieldPowerUp = false;
@@ -71,6 +75,11 @@ public final class Player extends Sprite implements InputProcessor {
     private static final float AUBER_DEMO_ALPHA = 0.01f;
     /** The maximum health that Auber can have. */
     private static final int AUBER_MAX_HEALTH = 100;
+
+    /** Whether the user has requested pause. */
+    private boolean requestedPause = false;
+    /** Whether the user has requested save. */
+    private boolean requestedSave = false;
 
     /** Class constructor.
      * @param newSprite The sprite to use for the player.
@@ -247,7 +256,7 @@ public final class Player extends Sprite implements InputProcessor {
         }
 
         float speed;
-        if (!usingSpeedPowerUp) {
+        if (!isUsingSpeedPowerUp) {
             speed = Config.NORMAL_PLAYER_SPEED;
         } else {
             speed = Config.FAST_PLAYER_SPEED;
@@ -334,6 +343,14 @@ public final class Player extends Sprite implements InputProcessor {
             case Input.Keys.D:
                 isDHeld = false;
                 break;
+            case Input.Keys.ESCAPE:
+            // When escape is clicked, toggle the requested pause variable.
+                requestedPause = !requestedPause;
+                break;
+            case Input.Keys.P:  // When P is clicked, save the game.
+                requestedPause = true;
+                requestedSave = true;
+                break;
             default:
         } // Set key lifted to false
         return true;
@@ -355,7 +372,8 @@ public final class Player extends Sprite implements InputProcessor {
     @Override
     public boolean touchDown(final int screenX, final int screenY,
         final int pointer, final int button) {
-        if (demo) {
+        if (demo || requestedPause) {
+            // If it is a demo, or the game is paused then do nothing.
             return false;
         }
         Vector3 vec = new Vector3(screenX, screenY, 0);
@@ -512,7 +530,7 @@ public final class Player extends Sprite implements InputProcessor {
      * @param inUse Whether the player is using the speed powerup.
      */
     public void speedUp(final boolean inUse) {
-        usingSpeedPowerUp = inUse;
+        isUsingSpeedPowerUp = inUse;
 
     };
 
@@ -605,4 +623,43 @@ public final class Player extends Sprite implements InputProcessor {
     public void setTeleporters(final Array<Vector2> newTeleporters) {
         this.teleporters = newTeleporters;
     }
+    /** Returns whether the user has requested pause.
+     * @return Whether the user has requested pause.
+     */
+    public boolean getRequestedPause() {
+        return this.requestedPause;
+    }
+
+    /** Returns whether the user has requested save.
+     * @return Whether the user has requested save.
+     */
+    public boolean getRequestedSave() {
+        return this.requestedSave;
+    }
+
+    /** Sets whether the user has requested pause.
+     * @param value Whether the user has requested pause.
+     */
+    public void setRequestedPause(final boolean value) {
+        this.requestedPause = value;
+    }
+
+    /** Called when the player has been saved. */
+    public void handledSave() { // This is called when saving has been handled.
+        this.requestedSave = false;
+        System.out.println("Handled save");
+    }
+
+    /** Encodes this Player to a string.
+     * @return This Player encoded as a string.
+    */
+    public String encode() {
+        String[] r = {String.valueOf(this.x), String.valueOf(this.y),
+            String.valueOf(this.health), String.valueOf(this.canHeal),
+            String.valueOf(this.healStopTime),
+            String.valueOf(this.isUsingArrestPowerUp),
+            String.valueOf(this.isUsingSpeedPowerUp)};
+        return Arrays.toString(r);
+    }
+
 }
