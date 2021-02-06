@@ -38,9 +38,11 @@ import com.mygdx.auber.entities.NPC;
 import com.mygdx.auber.entities.NPCCreator;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -204,6 +206,127 @@ public class PlayScreen implements Screen {
 
     }
 
+   /**
+     * Class constructor.
+     * @param currentGame    The currently running instance of the game.
+     * @param isDemo         Whether the game is running in demo mode or not.
+     * @param gameDifficulty The difficulty of the game.
+     * @param path The file path of the game file to be loaded.
+     */
+    public PlayScreen(
+        final Auber currentGame, final boolean isDemo,
+            final int gameDifficulty, String path) {
+        this.game = currentGame;
+        this.demo = isDemo;
+        
+
+        String encodedPlayer = "", diff = "", e1 = "", e2 = "", e3 = "", e4 = "", e5 = "", e6 = "", e7 = "";
+        try {
+            File file = new File(path);
+            Scanner reader = new Scanner(file);
+            encodedPlayer = reader.nextLine();
+            diff = reader.nextLine();
+            e1 = reader.nextLine();
+            e2 = reader.nextLine();
+            e3 = reader.nextLine();
+            e4 = reader.nextLine();
+            e5 = reader.nextLine();
+            e6 = reader.nextLine();
+            e7 = reader.nextLine();
+            reader.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+              System.out.println("Unrecognisable file type.");
+        }
+
+        this.difficulty = Integer.valueOf(diff);
+        this.numberOfCrew = Config.CREW_COUNT_DIFFICULTY_MULTIPLIER
+            * (this.difficulty + 1);
+        this.maxIncorrectArrests = Config.INCORRECT_ARREST_DIFFICULTY_MULTIPLIER
+            * (Config.INCORRECT_ARREST_DIFFICULTY_MULTIPLIER - this.difficulty);
+        camera = new OrthographicCamera();
+        viewport = new ExtendViewport(
+            Auber.VIRTUAL_WIDTH, Auber.VIRTUAL_HEIGHT, camera);
+        shapeRenderer = new ShapeRenderer();
+        scrollingBackground = new ScrollingBackground();
+        // Creating a new camera, viewport, hud and scrolling background,
+        // setting the viewport to camera and virtual height/width
+
+        mapLoader = new TmxMapLoader();
+
+        map = mapLoader.load("AuberMap.tmx");
+        // Creates a new map loader and loads the map into map
+
+        Infiltrator.createInfiltratorSprites();
+        CrewMembers.createCrewSprites();
+        // Generates the infiltrator and crewmember sprites
+
+        graphCreator = new GraphCreator(
+            (TiledMapTileLayer) map.getLayers().get("Tile Layer 1"));
+        // Generates all the nodes and paths for the given map layer
+        keySystemManager = new KeySystemManager(
+            (TiledMapTileLayer) map.getLayers().get("Systems"));
+        // Generates key systems
+        prisoners = new Prisoners(
+            (TiledMapTileLayer) map.getLayers().get("OutsideWalls+Lining"));
+
+        powerUps = new ArrayList<PowerUp>();
+        powerUpsToRemove = new ArrayList<PowerUp>();
+        powerUpsToAdd = new ArrayList<PowerUp>();
+
+        powerUpsToAdd.add(new ArrestUp(
+            new Vector2(Config.POWERUP_START_X, Config.POWERUP_START_Y)));
+        powerUpsToAdd.add(new SpeedUp(
+            new Vector2(Config.POWERUP_START_X, Config.POWERUP_START_Y)));
+        powerUpsToAdd.add(new FreezeUp(
+            new Vector2(Config.POWERUP_START_X, Config.POWERUP_START_Y)));
+        powerUpsToAdd.add(new ShieldUp(
+            new Vector2(Config.POWERUP_START_X, Config.POWERUP_START_Y)));
+        powerUpsToAdd.add(new HighlightUp(
+            new Vector2(Config.POWERUP_START_X, Config.POWERUP_START_Y)));
+
+       Infiltrator.loadFromEncoding(e1, e2, e3, e4);
+
+        if (isDemo) {
+            NPCCreator.createCrew(new Sprite(
+                new Texture("AuberStand.png")), MapGraph.getRandomNode(),
+                    graphCreator.getMapGraph());
+        }
+
+        for (int i = 0; i < numberOfCrew; i++) {
+            NPCCreator.createCrew(
+                CrewMembers.selectSprite(), MapGraph.getRandomNode(),
+                graphCreator.getMapGraph());
+        } // Creates numberOfCrew crewmembers, gives them a random sprite
+
+        Array<TiledMapTileLayer> playerCollisionLayers = new Array<>();
+        playerCollisionLayers.add(
+            (TiledMapTileLayer) map.getLayers().get("Tile Layer 1"));
+        playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2));
+        // The layers on which the player will collide
+
+        player = new Player(new Sprite(
+            new Texture("AuberStand.png")), playerCollisionLayers, isDemo);
+        player.setPosition(Config.PLAYER_START_X, Config.PLAYER_START_Y);
+        // Creates a player and sets him to the given position
+        player.findInfirmary(
+            (TiledMapTileLayer) map.getLayers().get("Systems"));
+        // Finds infirmary
+        player.teleporters = Player.getTeleporterLocations(
+            (TiledMapTileLayer) map.getLayers().get("Systems"));
+
+        renderer = new OrthogonalTiledMapRenderer(map);
+        // Creates a new renderer with the given map
+
+        camera.position.set(player.getX(), player.getY(), 0);
+        // Sets the camera position to the player
+
+        Gdx.input.setInputProcessor(player);
+        // Sets the input to be handled by the player class
+        hud = new Hud(currentGame.getBatch(), this, player);
+
+    }
     /**
      * Method implemented from abstract superclass.
      */
@@ -304,16 +427,11 @@ public class PlayScreen implements Screen {
                 FileWriter writer = new FileWriter(path);
                 
                 // write file now
-                writer.write(Prisoners.encode());
-                writer.write(System.lineSeparator());
                 writer.write(this.player.encode());
-                writer.write(System.lineSeparator());
-                writer.write(String.valueOf(this.numberOfCrew));
-                writer.write(System.lineSeparator());
-                writer.write(String.valueOf(maxIncorrectArrests));
                 writer.write(System.lineSeparator());
                 writer.write(String.valueOf(this.difficulty));
                 writer.write(System.lineSeparator());
+                writer.write(NPCCreator.encode());                  // Saves encoded data of all the NPCs in the game.
                 // end of writing file
 
                 writer.close();
@@ -509,4 +627,5 @@ public class PlayScreen implements Screen {
     public static OrthographicCamera getCamera() {
         return camera;
     }
+
 }

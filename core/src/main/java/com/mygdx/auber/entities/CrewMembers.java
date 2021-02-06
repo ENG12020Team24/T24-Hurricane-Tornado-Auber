@@ -126,4 +126,23 @@ public final class CrewMembers extends NPC {
     public void dispose() {
         crewSprites.clear();
     }
+
+    
+     /**
+     * Encodes data of all crew members into a recognisable string.
+     * @param sprites the set of crew members to encode.
+     * @return the encoded data of the given array of sprites.
+     */
+    public static String encode(Array<CrewMembers> crew) {
+        String r = "";
+
+        Array<Vector2> locations = new Array<>();
+        for (CrewMembers i : crew) {
+            locations.add(new Vector2(i.getX(), i.getY()));
+        }
+
+        r += locations.toString();
+        return r;
+    }
+
 }

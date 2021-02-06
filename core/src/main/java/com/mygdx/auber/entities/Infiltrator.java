@@ -1,8 +1,12 @@
 package com.mygdx.auber.entities;
 
+import javax.swing.Painter;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Quaternion;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.auber.Pathfinding.GraphCreator;
@@ -340,4 +344,48 @@ public final class Infiltrator extends NPC {
     public void setIsDestroying(){
         this.isDestroying=true;
     }
+
+     /**
+     * Encodes data of all infiltrators into a recognisable string.
+     * @param sprites the set of infiltrators to encode.
+     * @return the encoded data of the given array of sprites.
+     */
+    public static String encode(Array<Infiltrator> infiltrators) {
+        String r = "";
+
+        Array<Vector2> locations = new Array<>();
+        Array<Boolean> isDestroying = new Array<>();
+        Array<Boolean> isInvisible = new Array<>();
+        Array<Float> timeInvisible = new Array<>();
+
+        for (Infiltrator i : infiltrators) {
+            locations.add(new Vector2(i.getX(), i.getY()));
+            isDestroying.add(i.isDestroying);
+            isInvisible.add(i.isInvisible);
+            timeInvisible.add(i.timeInvisible);
+        }
+
+        r += locations.toString() + System.lineSeparator() + isDestroying.toString() + System.lineSeparator() + isInvisible.toString() + System.lineSeparator() + timeInvisible.toString();
+        
+        return r;
+    }
+
+    public static void loadFromEncoding(String coordinate, String isDestroying, String invisible, String timesInvisible) {
+
+        String[] splitCoordinates = coordinate.split(",");
+        // Remove useless stuff
+        for (int i = 0; i < splitCoordinates.length; i++) {
+            splitCoordinates[i] = splitCoordinates[i].replace("[", "");
+            splitCoordinates[i] = splitCoordinates[i].replace("]", "");
+            splitCoordinates[i] = splitCoordinates[i].replace("(", "");
+            splitCoordinates[i] = splitCoordinates[i].replace(")", "");
+        }
+
+        String[] splitDestroyings = isDestroying.split(",");
+        splitDestroyings[0] = splitDestroyings[0].replace("[", "");
+        splitDestroyings[splitDestroyings.length - 1] = splitDestroyings[splitDestroyings.length - 1].replace("]", "");
+        
+
+    }
+
 }
