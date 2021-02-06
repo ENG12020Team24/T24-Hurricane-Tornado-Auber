@@ -134,6 +134,8 @@ public class PlayScreen implements Screen {
         prisoners = new Prisoners(
             (TiledMapTileLayer) map.getLayers().get("OutsideWalls+Lining"));
 
+        MapGraph mapGraph = graphCreator.getMapGraph();
+
         powerUps = new ArrayList<PowerUp>();
         powerUpsToRemove = new ArrayList<PowerUp>();
         powerUpsToAdd = new ArrayList<PowerUp>();
@@ -154,25 +156,25 @@ public class PlayScreen implements Screen {
             if (i == NUMBER_OF_INFILTRATORS - 1) {
                 NPCCreator.createInfiltrator(
                     Infiltrator.getHardSprites().random(),
-                    MapGraph.getRandomNode(),
+                    mapGraph.getRandomNode(),
                     graphCreator.getMapGraph());
                 break;
             }
             NPCCreator.createInfiltrator(
-                Infiltrator.getEasySprites().random(), MapGraph.getRandomNode(),
+                Infiltrator.getEasySprites().random(), mapGraph.getRandomNode(),
                     graphCreator.getMapGraph());
         } // Creates numberOfInfiltrators infiltrators, gives them a random
           // hard or easy sprite
 
         if (isDemo) {
             NPCCreator.createCrew(new Sprite(
-                new Texture("AuberStand.png")), MapGraph.getRandomNode(),
+                new Texture("AuberStand.png")), mapGraph.getRandomNode(),
                     graphCreator.getMapGraph());
         }
 
         for (int i = 0; i < numberOfCrew; i++) {
             NPCCreator.createCrew(
-                CrewMembers.selectSprite(), MapGraph.getRandomNode(),
+                CrewMembers.selectSprite(), mapGraph.getRandomNode(),
                 graphCreator.getMapGraph());
         } // Creates numberOfCrew crewmembers, gives them a random sprite
 

@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import com.mygdx.auber.Screens.PlayScreen;
 import com.mygdx.auber.entities.CrewMembers;
 import com.mygdx.auber.entities.Infiltrator;
+import com.mygdx.auber.entities.KeySystemManager;
 import com.mygdx.auber.entities.NPC;
 import com.mygdx.auber.entities.NPCCreator;
 import com.mygdx.auber.entities.Player;
@@ -31,15 +32,18 @@ import org.mockito.internal.util.reflection.Whitebox;
 public class PlayerTests {
     TmxMapLoader mapLoader = new TmxMapLoader();
     TiledMap map = mapLoader.load("assets/AuberMap.tmx");
-    MapGraph mapGraph = new MapGraph();
-    Node node = new Node(2416, 2768);
-    Node node2 = new Node(2446, 3312);
-    Node node3 = new Node(500, 5000);
+    // MapGraph mapGraph = new MapGraph();
+    // Node node = new Node(2416, 2768);
+    // Node node2 = new Node(1968,2704);
+    // Node node3 = new Node(816,2832);
     Sprite sprite = new Sprite(new Texture("assets/Tutorial3.png")); // for janky reasons
     Player player;
     Array<TiledMapTileLayer> playerCollisionLayers = new Array<>();
 
-    Infiltrator frozen_infiltrator;
+    KeySystemManager keySystemManager = new KeySystemManager((TiledMapTileLayer) map.getLayers().get("Systems"));
+    GraphCreator graphCreator = new GraphCreator( (TiledMapTileLayer) map.getLayers().get("Tile Layer 1"));
+
+    Infiltrator frozen_infiltrator, infiltrator_damage_system;
     CrewMembers not_frozen_crew;
 
     /**
@@ -88,25 +92,35 @@ public class PlayerTests {
      */
     @Test
     public void FreezeUpTest() {
+        MapGraph mapGraph = graphCreator.getMapGraph();
+        // Node node = new Node(2416, 2768);
+        // Node node2 = new Node(1968,2704);
+        // Node node3 = new Node(816,2832);
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get("Tile Layer 1"));
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2));
         player = new Player(sprite, playerCollisionLayers, true);
-        mapGraph.addNode(node);
-        mapGraph.addNode(node2);
-        mapGraph.addNode(node3);
-        mapGraph.connectNodes(node, node2);
-        mapGraph.connectNodes(node, node3);
+        // mapGraph.addNode(node);
+        // mapGraph.addNode(node2);
+        // mapGraph.addNode(node3);
+        // mapGraph.connectNodes(node, node2);
+        // mapGraph.connectNodes(node, node3);
 
-        frozen_infiltrator = new Infiltrator(sprite, node, mapGraph);
-        not_frozen_crew = new CrewMembers(sprite, node, mapGraph);
+        frozen_infiltrator = new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph);
+        not_frozen_crew = new CrewMembers(sprite, mapGraph.getRandomNode(), mapGraph);
 
         Vector2 not_frozen_velocity = new Vector2(50f,50f);
 
         frozen_infiltrator.setVelocity(not_frozen_velocity);
         //not_frozen_crew.setVelocity(not_frozen_velocity);
-        not_frozen_crew.setGoal(node2,2);
+        Node node = mapGraph.getRandomNode();
+        while(node.getX() == ((Node) Whitebox.getInternalState(not_frozen_crew, "previousNode")).getX()
+            || node.getY() == ((Node) Whitebox.getInternalState(not_frozen_crew, "previousNode")).getY()){
+                node = mapGraph.getRandomNode();
+        }
 
-        //System.out.println(not_frozen_crew.getVelocity());
+        not_frozen_crew.setGoal(node,30);
+
+        //System.out.println(not_frozen_crew.getPreviousNode());
         player.setPosition(Config.POWERUP_START_X, Config.POWERUP_START_Y);
         
         FreezeUp freezeUp = new FreezeUp(new Vector2(Config.POWERUP_START_X, Config.POWERUP_START_Y));
@@ -115,6 +129,7 @@ public class PlayerTests {
         freezeUp.update(player);
         frozen_infiltrator.step(player,0.01f);
         not_frozen_crew.step(0.01f);
+        //System.out.println(not_frozen_crew.getPreviousNode());
         //System.out.println(not_frozen_crew.getVelocity());
         Vector2 frozen_velocity = new Vector2(0f,0f);
 
@@ -122,13 +137,52 @@ public class PlayerTests {
             frozen_velocity.x, ((Vector2) Whitebox.getInternalState(frozen_infiltrator, "velocity")).x, 0.1f);
         assertEquals("Error: FreezeUp powerup doesn't freeze infiltrators (still have y velocity)",
             frozen_velocity.y, ((Vector2) Whitebox.getInternalState(frozen_infiltrator, "velocity")).y, 0.1f);
-        assertEquals("Error: FreezeUp freezes crew members (don't have x velocity)",
-            true, frozen_velocity.x != ((Vector2) Whitebox.getInternalState(not_frozen_crew, "velocity")).x);
-        assertEquals("Error: FreezeUp freezes crew members (don't have y velocity)",
-            true, frozen_velocity.y != ((Vector2) Whitebox.getInternalState(not_frozen_crew, "velocity")).y);
+        assertNotEquals("Error: FreezeUp freezes crew members.",
+            true,
+            frozen_velocity.x == ((Vector2) Whitebox.getInternalState(not_frozen_crew, "velocity")).x &&
+            frozen_velocity.y == ((Vector2) Whitebox.getInternalState(not_frozen_crew, "velocity")).y);
     }
 
-        /**
+    /**
+     * Tests that the infiltrators can damage systems
+     */
+    @Test
+    public void DestroySystemsTest() {
+        MapGraph mapGraph = graphCreator.getMapGraph();
+        //Node node = new Node(1968,2704);
+        // Node node2 = new Node(1968,2704);
+        // Node node3 = new Node(816,2832);
+        playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get("Tile Layer 1"));
+        playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2));
+        player = new Player(sprite, playerCollisionLayers, true);
+        // mapGraph.addNode(node);
+        // mapGraph.addNode(node2);
+        // mapGraph.addNode(node3);
+        // mapGraph.connectNodes(node, node2);
+        // mapGraph.connectNodes(node, node3);
+        // mapGraph.connectNodes(node2, node3);
+
+        //GraphCreator.getKeySystemNodes().random(); //FFS
+        //System.out.println(GraphCreator.getKeySystemNodes());
+        //System.out.println(mapGraph.getNodes());
+        // System.out.println(node2);
+        // System.out.println(node3);
+        infiltrator_damage_system = new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph);
+        //System.out.println(GraphCreator.getKeySystemNodes());
+        infiltrator_damage_system.destroyKeySystem();
+        //not_frozen_crew.setVelocity(not_frozen_velocity);
+        //System.out.println(not_frozen_crew.getVelocity());
+        //player.setPosition(Config.POWERUP_START_X, Config.POWERUP_START_Y);
+        
+        infiltrator_damage_system.step(player,0.01f);
+
+        // assertEquals("Error: FreezeUp powerup doesn't freeze infiltrators (still have x velocity)",
+        //     frozen_velocity.x, ((Vector2) Whitebox.getInternalState(frozen_infiltrator, "velocity")).x, 0.1f);
+        // assertEquals("Error: FreezeUp powerup doesn't freeze infiltrators (still have y velocity)",
+        //     frozen_velocity.y, ((Vector2) Whitebox.getInternalState(frozen_infiltrator, "velocity")).y, 0.1f);
+    }
+
+    /**
      * Tests that the powerup HighlightUp freezes infiltrators
      */
     @Test

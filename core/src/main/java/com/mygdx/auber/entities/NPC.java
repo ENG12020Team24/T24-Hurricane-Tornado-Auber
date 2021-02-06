@@ -28,7 +28,7 @@ public abstract class NPC extends Sprite {
     /** Time elapsed since NPC last moved. */
     private float elapsedTime = 0f;
     /** Mapgraph for the NPC to reference. */
-    private MapGraph mapGraph;
+    public MapGraph mapGraph;
     /** Previous node the NPC visited. */
     private Node previousNode;
     /** pathQueue the NPC is currently traversing. */
@@ -50,7 +50,7 @@ public abstract class NPC extends Sprite {
         this.mapGraph = newMapGraph;
         this.previousNode = start;
         this.setPosition(start.getX(), start.getY());
-        this.setGoal(MapGraph.getRandomNode(), speed);
+        this.setGoal(mapGraph.getRandomNode(), speed);
         this.collision = new Collision();
     }
 
@@ -81,8 +81,10 @@ public abstract class NPC extends Sprite {
      */
     public void setGoal(final Node goal, final float speed) {
         GraphPath<Node> graphPath = mapGraph.findPath(previousNode, goal);
-
+        //System.out.println(graphPath.getCount());
+        // System.out.println(goal);
         for (int i = 1; i < graphPath.getCount(); i++) {
+            // System.out.println("aaa");
             this.pathQueue.addLast(graphPath.get(i));
         }
 
@@ -119,6 +121,7 @@ public abstract class NPC extends Sprite {
         this.velocity.y = 0;
 
         this.previousNode = this.pathQueue.first();
+        // System.out.println(pathQueue.size);
         this.pathQueue.removeFirst();
 
         if (this.pathQueue.size != 0) {

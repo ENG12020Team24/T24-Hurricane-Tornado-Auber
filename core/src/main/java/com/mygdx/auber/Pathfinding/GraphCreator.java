@@ -11,9 +11,9 @@ import com.badlogic.gdx.utils.Array;
 public final class GraphCreator extends ApplicationAdapter {
     // final is used to prevent subclassing
     /** Used to draw debug information. */
-    private ShapeRenderer shapeRenderer;
+    //private ShapeRenderer shapeRenderer;
     /** Used to draw debug information. */
-    private SpriteBatch batch;
+    //private SpriteBatch batch;
     /** Used to write debug text. */
     private BitmapFont font;
     /** The MapGraph created by this class. */
@@ -30,8 +30,8 @@ public final class GraphCreator extends ApplicationAdapter {
      * @param chosenTileLayer the layer on the map to check for the data.
      */
     public GraphCreator(final TiledMapTileLayer chosenTileLayer) {
-        shapeRenderer = new ShapeRenderer();
-        batch = new SpriteBatch();
+        //shapeRenderer = new ShapeRenderer();
+        //batch = new SpriteBatch();
         font = new BitmapFont();
 
         mapGraph = new MapGraph();
@@ -47,17 +47,17 @@ public final class GraphCreator extends ApplicationAdapter {
      */
     @Override
     public void render() {
-        for (Path path : MapGraph.getPaths()) {
-            path.render(shapeRenderer);
-        }
+        // for (Path path : MapGraph.getPaths()) {
+        //     path.render(shapeRenderer);
+        // }
 
-        for (Node node : MapGraph.getNodes()) {
-            node.render(shapeRenderer, batch, font, false);
-        }
+        // for (Node node : MapGraph.getNodes()) {
+        //     node.render(shapeRenderer, batch, font, false);
+        // }
 
-        for (Node node : nodePath) {
-            node.render(shapeRenderer, batch, font, true);
-        }
+        // for (Node node : nodePath) {
+        //     node.render(shapeRenderer, batch, font, true);
+        // }
     }
 
     /**
@@ -96,8 +96,8 @@ public final class GraphCreator extends ApplicationAdapter {
      * created.
      */
     public void generateConnections() {
-        for (int i = 0; i < MapGraph.getNodes().size; i++) {
-            Node node = MapGraph.getNodes().get(i);
+        for (int i = 0; i < mapGraph.getNodes().size; i++) {
+            Node node = mapGraph.getNodes().get(i);
             Array<Node> neighbourNodes = getNeighbourNodes(node);
             // For every node in the map, get its neighbours
             for (Node neighbourNode : neighbourNodes) {
@@ -119,17 +119,17 @@ public final class GraphCreator extends ApplicationAdapter {
         float x = node.getX();
         float y = node.getY();
 
-        if (MapGraph.getNode(x + tileLayer.getTileWidth(), y) != null) {
-            nodes.add(MapGraph.getNode(x + tileLayer.getTileWidth(), y));
+        if (mapGraph.getNode(x + tileLayer.getTileWidth(), y) != null) {
+            nodes.add(mapGraph.getNode(x + tileLayer.getTileWidth(), y));
         }
-        if (MapGraph.getNode(x - tileLayer.getTileWidth(), y) != null) {
-            nodes.add(MapGraph.getNode(x - tileLayer.getTileWidth(), y));
+        if (mapGraph.getNode(x - tileLayer.getTileWidth(), y) != null) {
+            nodes.add(mapGraph.getNode(x - tileLayer.getTileWidth(), y));
         }
-        if (MapGraph.getNode(x, y + tileLayer.getTileHeight()) != null) {
-            nodes.add(MapGraph.getNode(x, y + tileLayer.getTileHeight()));
+        if (mapGraph.getNode(x, y + tileLayer.getTileHeight()) != null) {
+            nodes.add(mapGraph.getNode(x, y + tileLayer.getTileHeight()));
         }
-        if (MapGraph.getNode(x, y - tileLayer.getTileHeight()) != null) {
-            nodes.add(MapGraph.getNode(x, y - tileLayer.getTileHeight()));
+        if (mapGraph.getNode(x, y - tileLayer.getTileHeight()) != null) {
+            nodes.add(mapGraph.getNode(x, y - tileLayer.getTileHeight()));
         }
 
         return nodes;
@@ -161,11 +161,11 @@ public final class GraphCreator extends ApplicationAdapter {
 
     @Override
     public void dispose() {
-        shapeRenderer.dispose();
-        batch.dispose();
+        // shapeRenderer.dispose();
+        // batch.dispose();
         font.dispose();
         keySystemsNodes.clear();
         nodePath.clear();
-        MapGraph.dispose();
+        //MapGraph.dispose();
     }
 }
