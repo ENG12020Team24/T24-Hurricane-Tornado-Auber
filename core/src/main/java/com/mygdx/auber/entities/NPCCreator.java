@@ -1,6 +1,7 @@
 package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
@@ -16,6 +17,53 @@ public class NPCCreator {
     private static int lastInfiltratorIndex = 0;
     /** The last index given to a crewmember. */
     private static int lastCrewIndex = 0;
+
+   
+    /**
+     * Encodes all of the NPCs in the game into a recognisable string.
+     * @return encoded data of all the NPCs in the game.
+     */
+    public static String encode() {
+        String r = "";
+        // Encode infiltrator related data.
+        r += Infiltrator.encode(NPCCreator.infiltrators) + System.lineSeparator();
+        r += String.valueOf(lastInfiltratorIndex) + System.lineSeparator();
+        r += CrewMembers.encode(NPCCreator.crew) + System.lineSeparator();
+        r += String.valueOf(lastCrewIndex);
+        return r;
+    }
+
+    public static void loadInfiltratorsFromEncoding(String coordinate, String isDestroying, String invisible, String timesInvisible, String lastInfiltratorIndex) {
+
+        String[] splitCoordinates = coordinate.split(",");
+        // Remove useless stuff
+        for (int i = 0; i < splitCoordinates.length; i++) {
+            splitCoordinates[i] = splitCoordinates[i].replace("[", "");
+            splitCoordinates[i] = splitCoordinates[i].replace("]", "");
+            splitCoordinates[i] = splitCoordinates[i].replace("(", "");
+            splitCoordinates[i] = splitCoordinates[i].replace(")", "");
+        }
+
+        String[] splitDestroyings = isDestroying.split(",");
+        splitDestroyings[0] = splitDestroyings[0].replace("[", "");
+        splitDestroyings[splitDestroyings.length - 1] = splitDestroyings[splitDestroyings.length - 1].replace("]", "");
+
+        String[] splitInvisibles = invisible.split(",");
+        splitInvisibles[0] = splitInvisibles[0].replace("[", "");
+        splitInvisibles[splitInvisibles.length - 1] = splitInvisibles[splitInvisibles.length - 1].replace("]", "");
+        
+        String[] splitTimeInvisible = timesInvisible.split(",");
+        splitTimeInvisible[0] = splitTimeInvisible[0].replace("[", "");
+        splitTimeInvisible[splitTimeInvisible.length - 1] = splitTimeInvisible[splitTimeInvisible.length - 1].replace("]", "");
+
+        for (int i = 0; i < splitDestroyings.length - 1; i++) {
+            
+        }
+        
+    }
+
+
+
 
     /**
      * Creates infiltrators, adds them to the array, sets its index and
