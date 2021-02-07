@@ -50,7 +50,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class PlayScreen implements Screen {
     /** The instance of the game that is running. */
-    private final Auber game;
+    private Auber game;
     /** The viewport used to draw the game. */
     private final Viewport viewport;
     /** The HUD displayed to the user. */
@@ -103,13 +103,7 @@ public class PlayScreen implements Screen {
     public PlayScreen(
         final Auber currentGame, final boolean isDemo,
             final int gameDifficulty) {
-        this.game = currentGame;
-        this.demo = isDemo;
-        this.difficulty = gameDifficulty;
-        this.numberOfCrew = Config.CREW_COUNT_DIFFICULTY_MULTIPLIER
-            * (gameDifficulty + 1);
-        this.maxIncorrectArrests = Config.INCORRECT_ARREST_DIFFICULTY_MULTIPLIER
-            * (Config.INCORRECT_ARREST_DIFFICULTY_MULTIPLIER - gameDifficulty);
+        initVariables(currentGame, isDemo, gameDifficulty);
         camera = new OrthographicCamera();
         viewport = new ExtendViewport(
             Auber.VIRTUAL_WIDTH, Auber.VIRTUAL_HEIGHT, camera);
@@ -206,6 +200,16 @@ public class PlayScreen implements Screen {
         // Sets the input to be handled by the player class
         hud = new Hud(currentGame.getBatch(), this, player);
 
+    }
+    private void initVariables(final Auber currentGame, final boolean isDemo,
+        final int gameDifficulty){
+        this.game = currentGame;
+        this.demo = isDemo;
+        this.difficulty = gameDifficulty;
+        this.numberOfCrew = Config.CREW_COUNT_DIFFICULTY_MULTIPLIER
+            * (gameDifficulty + 1);
+        this.maxIncorrectArrests = Config.INCORRECT_ARREST_DIFFICULTY_MULTIPLIER
+            * (Config.INCORRECT_ARREST_DIFFICULTY_MULTIPLIER - gameDifficulty);
     }
 
    /**
