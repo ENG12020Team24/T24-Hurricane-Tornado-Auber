@@ -166,6 +166,5 @@ public final class GraphCreator extends ApplicationAdapter {
         font.dispose();
         keySystemsNodes.clear();
         nodePath.clear();
-        //MapGraph.dispose();
     }
 }

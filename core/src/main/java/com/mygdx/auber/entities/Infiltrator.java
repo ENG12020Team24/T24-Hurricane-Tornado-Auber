@@ -190,7 +190,6 @@ public final class Infiltrator extends NPC {
             && KeySystemManager.safeKeySystemsCount() != 0) {
             destroyKeySystem();
         } else {
-            //System.out.println(keySystemNode);
             this.setGoal(keySystemNode, Config.INFILTRATOR_SPEED);
         }
         // If Key system is being destroyed or is already destroyed, select a
@@ -253,7 +252,6 @@ public final class Infiltrator extends NPC {
      * being able to heal.
      */
     public void stopAuberHealing() {
-        // System.out.println("Stopped healing");
         Player.canHeal = false;
         Player.healStopTime = 0;
     }

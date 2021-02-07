@@ -290,15 +290,17 @@ public class PlayScreen implements Screen {
 
        Infiltrator.loadFromEncoding(e1, e2, e3, e4);
 
+       MapGraph mapGraph = graphCreator.getMapGraph();
+
         if (isDemo) {
             NPCCreator.createCrew(new Sprite(
-                new Texture("AuberStand.png")), MapGraph.getRandomNode(),
+                new Texture("AuberStand.png")), mapGraph.getRandomNode(),
                     graphCreator.getMapGraph());
         }
 
         for (int i = 0; i < numberOfCrew; i++) {
             NPCCreator.createCrew(
-                CrewMembers.selectSprite(), MapGraph.getRandomNode(),
+                CrewMembers.selectSprite(), mapGraph.getRandomNode(),
                 graphCreator.getMapGraph());
         } // Creates numberOfCrew crewmembers, gives them a random sprite
 
