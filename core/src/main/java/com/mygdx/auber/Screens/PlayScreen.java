@@ -215,24 +215,25 @@ public class PlayScreen implements Screen {
      */
     public PlayScreen(
         final Auber currentGame, final boolean isDemo,
-            final int gameDifficulty, String path) {
+            String path) {
         this.game = currentGame;
         this.demo = isDemo;
         
 
-        String encodedPlayer = "", diff = "", e1 = "", e2 = "", e3 = "", e4 = "", e5 = "", e6 = "", e7 = "";
+        String encodedPlayer = "", diff = "", e1 = "", e2 = "", e3 = "", e4 = "", e5 = "", e6 = "", e7 = "", e8 = "";
         try {
             File file = new File(path);
             Scanner reader = new Scanner(file);
             encodedPlayer = reader.nextLine();
             diff = reader.nextLine();
-            e1 = reader.nextLine();
-            e2 = reader.nextLine();
-            e3 = reader.nextLine();
-            e4 = reader.nextLine();
-            e5 = reader.nextLine();
-            e6 = reader.nextLine();
-            e7 = reader.nextLine();
+            e1 = reader.nextLine(); // Infiltrator locations.
+            e2 = reader.nextLine(); // Infiltrator is destroying
+            e3 = reader.nextLine(); // Infiltrator is invisible.
+            e4 = reader.nextLine(); // Infiltratpr time invisible.
+            e5 = reader.nextLine(); // Infiltrator is hard sprite.
+            e6 = reader.nextLine(); // Last infiltrator index.
+            e7 = reader.nextLine(); // Locations of all crew members.
+            e8 = reader.nextLine(); // Last crew index.
             reader.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -286,19 +287,16 @@ public class PlayScreen implements Screen {
         powerUpsToAdd.add(new HighlightUp(
             new Vector2(Config.POWERUP_START_X, Config.POWERUP_START_Y)));
 
-       Infiltrator.loadFromEncoding(e1, e2, e3, e4);
+       NPCCreator.loadInfiltratorsFromEncoding(e1, e2, e3, e4, e5, e6, graphCreator.getMapGraph());
 
         if (isDemo) {
             NPCCreator.createCrew(new Sprite(
                 new Texture("AuberStand.png")), MapGraph.getRandomNode(),
                     graphCreator.getMapGraph());
         }
+        
 
-        for (int i = 0; i < numberOfCrew; i++) {
-            NPCCreator.createCrew(
-                CrewMembers.selectSprite(), MapGraph.getRandomNode(),
-                graphCreator.getMapGraph());
-        } // Creates numberOfCrew crewmembers, gives them a random sprite
+        NPCCreator.LoadCrewFromEncoding(e7, e8, graphCreator.getMapGraph());
 
         Array<TiledMapTileLayer> playerCollisionLayers = new Array<>();
         playerCollisionLayers.add(
@@ -306,9 +304,20 @@ public class PlayScreen implements Screen {
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2));
         // The layers on which the player will collide
 
+
+        String[] splitPlayer = encodedPlayer.split(",");
+                
+        splitPlayer[0] = splitPlayer[0].replace("[", "");
+        splitPlayer[splitPlayer.length - 1] = splitPlayer[splitPlayer.length - 1].replace("]", "");
+
         player = new Player(new Sprite(
             new Texture("AuberStand.png")), playerCollisionLayers, isDemo);
-        player.setPosition(Config.PLAYER_START_X, Config.PLAYER_START_Y);
+        player.setPosition(Float.valueOf(splitPlayer[0]), Float.valueOf(splitPlayer[1]));
+        player.setHealth(Float.valueOf(splitPlayer[2]));
+        player.setCanHeal(Boolean.valueOf(splitPlayer[3]));
+        player.setHealStopTime(Float.valueOf(splitPlayer[4]));
+        player.setUsingArrestPowerUp(Boolean.valueOf(splitPlayer[5]));
+        player.setUsingSpeedPowerUp(Boolean.valueOf(splitPlayer[6]));
         // Creates a player and sets him to the given position
         player.findInfirmary(
             (TiledMapTileLayer) map.getLayers().get("Systems"));
