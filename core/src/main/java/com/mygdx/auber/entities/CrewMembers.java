@@ -142,7 +142,7 @@ public final class CrewMembers extends NPC {
 
         Array<Vector2> locations = new Array<>();
         for (CrewMembers i : crew) {
-            locations.add(new Vector2(i.getX(), i.getY()));
+            locations.add(new Vector2(i.getPreviousNode().getX(), i.getPreviousNode().getY()));
         }
 
         r += locations.toString();

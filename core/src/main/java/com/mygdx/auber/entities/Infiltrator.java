@@ -29,6 +29,8 @@ public final class Infiltrator extends NPC {
     private static Array<Sprite> hardSprites = new Array<>();
     /** Whether the infiltrators are currently highlighted. */
     private static boolean isHighlighted;
+    /** Flag indicating whether the sprite is a "hard" sprite, needed for encoding. */
+    private boolean isHardSprite;
 
     /**
      * Class constructor.
@@ -37,10 +39,25 @@ public final class Infiltrator extends NPC {
      * @param mapGraph The MapGraph this infiltrator uses to navigate.
      */
     public Infiltrator(
-        final Sprite sprite, final Node node, final MapGraph mapGraph) {
+        final Sprite sprite, final Node node, final MapGraph mapGraph, boolean isHard) {
         super(sprite, node, mapGraph, Config.INFILTRATOR_SPEED);
         this.setPosition(node.getX(), node.getY());
+        this.isHardSprite = isHard;
     }
+
+    /**
+     * Class constructor.
+     * @param sprite The sprite used to draw this Infiltrator.
+     * @param node The Node this infiltrator spawns on.
+     * @param mapGraph The MapGraph this infiltrator uses to navigate.
+     */
+    public Infiltrator(
+        final Sprite sprite, final float x, final float y, final MapGraph mapGraph, boolean isHard) {
+        super(sprite, x, y, mapGraph, Config.INFILTRATOR_SPEED);
+        this.setPosition(x, y);
+        this.isHardSprite = isHard;
+    }
+
     /** If the player is within this distance, stop destroying a system
      * and flee. */
     private static final float PLAYER_ALERT_DISTANCE = 250;
@@ -314,6 +331,14 @@ public final class Infiltrator extends NPC {
         this.isDestroying = newIsDestroying;
     }
 
+    public void setIsInvisible(final boolean newIsInvisible) {
+        this.isInvisible = newIsInvisible;
+    }
+
+    public void setTimeInvisible(final float newTimeInvisible) {
+        this.timeInvisible = newTimeInvisible;
+    }
+
     /** Gets the list of easy sprites.
      * @return the list of easy sprites.
      */
@@ -356,35 +381,19 @@ public final class Infiltrator extends NPC {
         Array<Boolean> isDestroying = new Array<>();
         Array<Boolean> isInvisible = new Array<>();
         Array<Float> timeInvisible = new Array<>();
+        Array<Boolean> isHardSprite = new Array<>();
 
         for (Infiltrator i : infiltrators) {
-            locations.add(new Vector2(i.getX(), i.getY()));
+            locations.add(new Vector2(i.getPreviousNode().getX(), i.getPreviousNode().getY()));
             isDestroying.add(i.isDestroying);
             isInvisible.add(i.isInvisible);
             timeInvisible.add(i.timeInvisible);
+            isHardSprite.add(i.isHardSprite);
         }
 
-        r += locations.toString() + System.lineSeparator() + isDestroying.toString() + System.lineSeparator() + isInvisible.toString() + System.lineSeparator() + timeInvisible.toString();
+        r += locations.toString() + System.lineSeparator() + isDestroying.toString() + System.lineSeparator() + isInvisible.toString() + System.lineSeparator() + timeInvisible.toString() + System.lineSeparator() + isHardSprite.toString();
         
         return r;
-    }
-
-    public static void loadFromEncoding(String coordinate, String isDestroying, String invisible, String timesInvisible) {
-
-        String[] splitCoordinates = coordinate.split(",");
-        // Remove useless stuff
-        for (int i = 0; i < splitCoordinates.length; i++) {
-            splitCoordinates[i] = splitCoordinates[i].replace("[", "");
-            splitCoordinates[i] = splitCoordinates[i].replace("]", "");
-            splitCoordinates[i] = splitCoordinates[i].replace("(", "");
-            splitCoordinates[i] = splitCoordinates[i].replace(")", "");
-        }
-
-        String[] splitDestroyings = isDestroying.split(",");
-        splitDestroyings[0] = splitDestroyings[0].replace("[", "");
-        splitDestroyings[splitDestroyings.length - 1] = splitDestroyings[splitDestroyings.length - 1].replace("]", "");
-        
-
     }
 
 }

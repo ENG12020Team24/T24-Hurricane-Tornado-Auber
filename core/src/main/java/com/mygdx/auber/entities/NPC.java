@@ -54,6 +54,18 @@ public abstract class NPC extends Sprite {
         this.collision = new Collision();
     }
 
+    public NPC(final Sprite sprite, final float x, final float y,
+    final MapGraph newMapGraph, final float speed) {
+    super(sprite);
+
+    this.mapGraph = newMapGraph;
+    this.previousNode = mapGraph.getRandomNode();
+    this.setPosition(x, y);
+    this.setGoal(MapGraph.getRandomNode(), speed);
+    this.collision = new Collision();
+}
+
+
     /**
      * Updates every NPC, to be called in a screens update method.
      * @param p The current instance of the player.
