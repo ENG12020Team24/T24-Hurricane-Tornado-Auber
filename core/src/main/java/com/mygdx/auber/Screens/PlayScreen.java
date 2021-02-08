@@ -2,6 +2,7 @@ package com.mygdx.auber.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -91,6 +92,12 @@ public class PlayScreen implements Screen {
     private ArrayList<PowerUp> powerUpsToRemove;
     /** The list of powerups to add to the game world. */
     private ArrayList<PowerUp> powerUpsToAdd;
+    // /** The siren sound from https://soundbible.com/1577-Siren-Noise.html 
+    //  * Under a creative common's licence
+    // */
+    // private Sound sirenNoise;
+    // /** */
+    // private boolean isSirenRunning = false;
 
     private boolean forcePause = false;
 
@@ -117,6 +124,7 @@ public class PlayScreen implements Screen {
         scrollingBackground = new ScrollingBackground();
         // Creating a new camera, viewport, hud and scrolling background,
         // setting the viewport to camera and virtual height/width
+        //sirenNoise = Gdx.audio.newSound(Gdx.files.internal("Siren_Noise.wav"));
 
         mapLoader = new TmxMapLoader();
 
@@ -471,6 +479,16 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         // Clears the screen and sets it to the colour light blue or whatever
         // colour it is
+
+        // if (Infiltrator.isAlarm && !isSirenRunning){
+        //     if (KeySystemManager.beingDestroyedKeySystemsCount() !=0){
+        //         sirenNoise.loop();}
+        //     else{
+        //         Infiltrator.isAlarm=false;
+        //     }
+        // } else {
+        //     sirenNoise.stop();
+        // }
 
         if (!demo) {
             camera.position.set(
