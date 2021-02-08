@@ -94,7 +94,7 @@ public class NPCCreator {
         }
 
         for (int i = 0; i < splitCoordinates.length; i+= 2) {
-            NPCCreator.createCrew(CrewMembers.selectSprite(), MapGraph.getNode(Float.valueOf(splitCoordinates[i]), Float.valueOf(splitCoordinates[i+1])), mapGraph);
+            NPCCreator.createCrew(CrewMembers.selectSprite(), mapGraph.getNode(Float.valueOf(splitCoordinates[i]), Float.valueOf(splitCoordinates[i+1])), mapGraph);
         }
 
         NPCCreator.lastCrewIndex = Integer.valueOf(lastCrewIndex);

@@ -83,7 +83,7 @@ public final class Infiltrator extends NPC {
                 this.isDestroying = false;
                 this.clearPathQueue();
                 this.setGoal(
-                    MapGraph.getRandomNode(), Config.INFILTRATOR_SPEED);
+                    mapGraph.getRandomNode(), Config.INFILTRATOR_SPEED);
             }
 
             if (Vector2.dst(Player.x, Player.y, this.getX(), this.getY())
@@ -170,7 +170,7 @@ public final class Infiltrator extends NPC {
                 getPreviousNode().getX(), getPreviousNode().getY());
             if (keySystem == null) {
                 this.isDestroying = false;
-                setGoal(MapGraph.getRandomNode(), Config.INFILTRATOR_SPEED);
+                setGoal(mapGraph.getRandomNode(), Config.INFILTRATOR_SPEED);
                 return;
             }
             if (keySystem.isSafe()) {
@@ -186,7 +186,7 @@ public final class Infiltrator extends NPC {
 
         Node newGoal;
         do {
-            newGoal = MapGraph.getNodes().random();
+            newGoal = mapGraph.getNodes().random();
         } while (newGoal == getPreviousNode());
         setGoal(newGoal, Config.INFILTRATOR_SPEED);
         // Set a new goal node and start moving towards it
@@ -237,7 +237,7 @@ public final class Infiltrator extends NPC {
         } // 1/3 chance of using each ability
 
         this.clearPathQueue();
-        this.setGoal(MapGraph.getRandomNode(), Config.INFILTRATOR_SPEED);
+        this.setGoal(mapGraph.getRandomNode(), Config.INFILTRATOR_SPEED);
         // After using an ability, go somewhere random
     }
 
@@ -269,7 +269,6 @@ public final class Infiltrator extends NPC {
      * being able to heal.
      */
     public void stopAuberHealing() {
-        // System.out.println("Stopped healing");
         Player.canHeal = false;
         Player.healStopTime = 0;
     }
