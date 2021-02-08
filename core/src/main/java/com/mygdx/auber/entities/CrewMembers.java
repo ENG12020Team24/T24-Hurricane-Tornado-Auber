@@ -16,6 +16,7 @@ public final class CrewMembers extends NPC {
     private double timeToWait = Math.random() * MAX_WAIT_TIME;
     /** The array of Sprites Crewmates can be. */
     private static Array<Sprite> crewSprites = new Array<>();
+    /** The sprite of this crewmate */
 
     /**
      * Class constructor.
@@ -27,6 +28,9 @@ public final class CrewMembers extends NPC {
         final MapGraph mapGraph) {
         super(sprite, node, mapGraph, Config.CREW_MEMBER_SPEED);
         this.setPosition(node.getX(), node.getY());
+        if (sprite.getHeight()!=32.0f){
+            timeToWait=0;
+        }
     }
 
     /**
@@ -74,7 +78,7 @@ public final class CrewMembers extends NPC {
         } else {
             Node newGoal;
             do {
-                newGoal = MapGraph.getNodes().random();
+                newGoal = mapGraph.getNodes().random();
             } while (newGoal == getPreviousNode());
             setGoal(newGoal, Config.CREW_MEMBER_SPEED);
             // 4/5 chance of going to a random node
@@ -126,4 +130,23 @@ public final class CrewMembers extends NPC {
     public void dispose() {
         crewSprites.clear();
     }
+
+    
+     /**
+     * Encodes data of all crew members into a recognisable string.
+     * @param sprites the set of crew members to encode.
+     * @return the encoded data of the given array of sprites.
+     */
+    public static String encode(Array<CrewMembers> crew) {
+        String r = "";
+
+        Array<Vector2> locations = new Array<>();
+        for (CrewMembers i : crew) {
+            locations.add(new Vector2(i.getPreviousNode().getX(), i.getPreviousNode().getY()));
+        }
+
+        r += locations.toString();
+        return r;
+    }
+
 }

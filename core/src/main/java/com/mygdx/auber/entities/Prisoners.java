@@ -1,5 +1,12 @@
 package com.mygdx.auber.entities;
 
+
+import java.util.Arrays;
+
+import javax.print.event.PrintEvent;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -11,6 +18,12 @@ public class Prisoners {
     private static Array<Vector2> positions;
     /** The array of prisoners. */
     private static Array<Sprite> prisoners;
+    /**Sound from https://soundbible.com/1774-Laser-Machine-Gun.html
+     * by: Mike Koenig
+     * Edits- length of sound cropped
+     * Covered by Attribution 3.0: https://creativecommons.org/licenses/by/3.0/
+     */
+    private static Sound lazerGun = Gdx.audio.newSound(Gdx.files.internal("lazer-gun.wav"));
 
     /** Class constructor.
      * @param layer The layer that the prison tiles are on.
@@ -53,7 +66,9 @@ public class Prisoners {
      * Adds a prisoner to the list of prisoners and spawns them in the brig.
      * @param sprite Sprite of npc to put in prison
      */
-    public static void addPrisoner(final Sprite sprite) {
+
+    public static void addPrisoner(Sprite sprite) {
+        lazerGun.play();
         prisoners.add(sprite);
         sprite.setPosition(positions.random().x, positions.random().y);
     }

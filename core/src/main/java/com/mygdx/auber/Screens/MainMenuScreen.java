@@ -1,5 +1,9 @@
 package com.mygdx.auber.Screens;
 
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -109,7 +113,20 @@ public class MainMenuScreen implements Screen {
             @Override
             public void clicked(final InputEvent event, final float x,
                 final float y) {
-                //KYLE THIS IS YOURS NOW
+                
+                    JFileChooser chooser = new JFileChooser();
+                    FileNameExtensionFilter filter = new FileNameExtensionFilter("Game Files", "gme");
+                    chooser.setFileFilter(filter);
+                    JFrame f = new JFrame();
+                    f.setVisible(true);
+                    f.toFront();
+                    f.setVisible(false);
+                    int res = chooser.showSaveDialog(f);
+                    f.dispose();
+                    if (res == JFileChooser.APPROVE_OPTION) {
+                        currentGame.setScreen(new PlayScreen(currentGame, false, chooser.getSelectedFile().toString()));
+                    }
+        
             }
 
             @Override

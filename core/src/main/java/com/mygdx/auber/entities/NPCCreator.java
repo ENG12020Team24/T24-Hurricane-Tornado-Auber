@@ -1,6 +1,7 @@
 package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
@@ -17,6 +18,89 @@ public class NPCCreator {
     /** The last index given to a crewmember. */
     private static int lastCrewIndex = 0;
 
+   
+    /**
+     * Encodes all of the NPCs in the game into a recognisable string.
+     * @return encoded data of all the NPCs in the game.
+     */
+    public static String encode() {
+        String r = "";
+        // Encode infiltrator related data.
+        r += Infiltrator.encode(NPCCreator.infiltrators) + System.lineSeparator();
+        r += String.valueOf(lastInfiltratorIndex) + System.lineSeparator();
+        r += CrewMembers.encode(NPCCreator.crew) + System.lineSeparator();
+        r += String.valueOf(lastCrewIndex);
+        return r;
+    }
+
+    public static void loadInfiltratorsFromEncoding(String coordinate, String isDestroying, String invisible, String timesInvisible, String isHardSprites, String lastInfiltratorIndex, MapGraph mapGraph) {
+
+
+        // Parse the input strings
+
+        String[] splitCoordinates = coordinate.split(",");
+        for (int i = 0; i < splitCoordinates.length; i++) {
+            splitCoordinates[i] = splitCoordinates[i].replace("[", "");
+            splitCoordinates[i] = splitCoordinates[i].replace("]", "");
+            splitCoordinates[i] = splitCoordinates[i].replace("(", "");
+            splitCoordinates[i] = splitCoordinates[i].replace(")", "");
+        }
+
+        String[] splitDestroyings = isDestroying.split(",");
+        splitDestroyings[0] = splitDestroyings[0].replace("[", "");
+        splitDestroyings[splitDestroyings.length - 1] = splitDestroyings[splitDestroyings.length - 1].replace("]", "");
+
+        String[] splitInvisibles = invisible.split(",");
+        splitInvisibles[0] = splitInvisibles[0].replace("[", "");
+        splitInvisibles[splitInvisibles.length - 1] = splitInvisibles[splitInvisibles.length - 1].replace("]", "");
+        
+        String[] splitTimeInvisible = timesInvisible.split(",");
+        splitTimeInvisible[0] = splitTimeInvisible[0].replace("[", "");
+        splitTimeInvisible[splitTimeInvisible.length - 1] = splitTimeInvisible[splitTimeInvisible.length - 1].replace("]", "");
+
+        // last infiltrator index does not need to be parsed.
+
+        String[] splitIsHardSprites = isHardSprites.split(",");
+        splitIsHardSprites[0] = splitIsHardSprites[0].replace("[", "");
+        splitIsHardSprites[splitIsHardSprites.length - 1] = splitIsHardSprites[splitIsHardSprites.length - 1].replace("]", "");
+
+        // end of parsing.
+
+        for (int i = 0; i < splitDestroyings.length; i++) {
+            Sprite sprite;
+            if (Boolean.valueOf(splitIsHardSprites[i]) == true) {
+                sprite = Infiltrator.getHardSprites().random();
+            } else {
+                sprite = Infiltrator.getEasySprites().random();
+            }
+            NPCCreator.createInfiltrator(sprite, Float.valueOf(splitCoordinates[2*i]), Float.valueOf(splitCoordinates[(2*i)+1]), mapGraph);
+            NPCCreator.getInfiltrators().get(i).setDestroying(Boolean.valueOf(splitDestroyings[i]));
+            NPCCreator.getInfiltrators().get(i).setIsInvisible(Boolean.valueOf(splitInvisibles[i]));
+            NPCCreator.getInfiltrators().get(i).setTimeInvisible(Float.valueOf(splitTimeInvisible[i]));
+        }
+
+        NPCCreator.lastInfiltratorIndex = Integer.valueOf(lastInfiltratorIndex);
+        
+    }
+
+    public static void LoadCrewFromEncoding(String coordinate, String lastCrewIndex, MapGraph mapGraph) {
+        // Parse coordinates.
+        String[] splitCoordinates = coordinate.split(",");
+        for (int i = 0; i < splitCoordinates.length; i++) {
+            splitCoordinates[i] = splitCoordinates[i].replace("[", "");
+            splitCoordinates[i] = splitCoordinates[i].replace("]", "");
+            splitCoordinates[i] = splitCoordinates[i].replace("(", "");
+            splitCoordinates[i] = splitCoordinates[i].replace(")", "");
+        }
+
+        for (int i = 0; i < splitCoordinates.length; i+= 2) {
+            NPCCreator.createCrew(CrewMembers.selectSprite(), mapGraph.getNode(Float.valueOf(splitCoordinates[i]), Float.valueOf(splitCoordinates[i+1])), mapGraph);
+        }
+
+        NPCCreator.lastCrewIndex = Integer.valueOf(lastCrewIndex);
+    }
+
+
     /**
      * Creates infiltrators, adds them to the array, sets its index and
      * increments the index counter.
@@ -26,7 +110,25 @@ public class NPCCreator {
      */
     public static void createInfiltrator(
         final Sprite sprite, final Node start, final MapGraph graph) {
-        Infiltrator infiltrator = new Infiltrator(sprite, start, graph);
+        boolean isHard = Infiltrator.getHardSprites().contains(sprite, false);
+        Infiltrator infiltrator = new Infiltrator(sprite, start, graph, isHard);
+        infiltrators.add(infiltrator);
+        infiltrator.setIndex(lastInfiltratorIndex);
+        lastInfiltratorIndex++;
+    }
+
+    /**
+     * Creates infiltrators, adds them to the array, sets its index and
+     * increments the index counter.
+     * @param sprite Sprite to give infiltrator
+     * @param x  Start x coordinate for the infiltrator.
+     * @param y Start y coordinate for the infiltrator.
+     * @param graph  MapGraph for the infiltrator to reference
+     */
+    public static void createInfiltrator(
+        final Sprite sprite, final Float x, final Float y, final MapGraph graph) {
+        boolean isHard = Infiltrator.getHardSprites().contains(sprite, false);
+        Infiltrator infiltrator = new Infiltrator(sprite, graph.getNode(x, y), graph, isHard);
         infiltrators.add(infiltrator);
         infiltrator.setIndex(lastInfiltratorIndex);
         lastInfiltratorIndex++;
