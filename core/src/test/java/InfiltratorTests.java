@@ -53,7 +53,7 @@ public class InfiltratorTests {
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get("Tile Layer 1"));
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2));
         player = new Player(sprite, playerCollisionLayers,true);
-        infiltrator_damage=new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph);
+        infiltrator_damage=new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph, false);
         infiltrator_damage.damageAuber(player,Infiltrator.AUBER_DAMAGE_VALUE);
         assertEquals("Error: Player not damaged by infiltrator",
             100-Infiltrator.AUBER_DAMAGE_VALUE,player.getHealth(),0.000001);
@@ -67,7 +67,7 @@ public class InfiltratorTests {
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get("Tile Layer 1"));
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2));
         player = new Player(sprite, playerCollisionLayers,false);
-        infiltrator_stop_healing=new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph);
+        infiltrator_stop_healing=new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph, false);
         infiltrator_stop_healing.stopAuberHealing();
         player.takeDamage(30);
         player.heal(20);
@@ -83,7 +83,7 @@ public class InfiltratorTests {
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get("Tile Layer 1"));
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2));
         player = new Player(sprite, playerCollisionLayers,false);
-        infiltrator_stop_healing=new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph);
+        infiltrator_stop_healing=new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph, false);
         infiltrator_stop_healing.stopAuberHealing();
         player.takeDamage(30);
         player.update(16);
@@ -100,7 +100,7 @@ public class InfiltratorTests {
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get("Tile Layer 1"));
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2));
         player = new Player(sprite, playerCollisionLayers,true);
-        infiltrator_stop_healing=new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph);
+        infiltrator_stop_healing=new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph, false);
         infiltrator_stop_healing.stopAuberHealing();
         player.takeDamage(30);
         player.update(16);
@@ -114,7 +114,7 @@ public class InfiltratorTests {
      */
     @Test
     public void InfiltratorTurnInvisible(){
-        infiltrator_invisible=new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph);
+        infiltrator_invisible=new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph, false);
         infiltrator_invisible.goInvisible();
         assertEquals("Error: Infiltrator still visible whislt invisible", 
             "ffffff0c",infiltrator_invisible.getColor().toString());
@@ -127,7 +127,7 @@ public class InfiltratorTests {
      */
     @Test
     public void NotDestroyingWhilstInvisible(){
-        infiltrator_invisible=new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph);
+        infiltrator_invisible=new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph, false);
         infiltrator_invisible.setIsDestroying();
         infiltrator_invisible.goInvisible();
         assertEquals("Error: Infiltrator still destroying whislt invisible", 

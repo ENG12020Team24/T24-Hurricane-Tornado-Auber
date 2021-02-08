@@ -61,7 +61,7 @@ public abstract class NPC extends Sprite {
     this.mapGraph = newMapGraph;
     this.previousNode = mapGraph.getRandomNode();
     this.setPosition(x, y);
-    this.setGoal(MapGraph.getRandomNode(), speed);
+    this.setGoal(mapGraph.getRandomNode(), speed);
     this.collision = new Collision();
 }
 

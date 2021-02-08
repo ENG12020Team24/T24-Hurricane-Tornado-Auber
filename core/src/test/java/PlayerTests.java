@@ -102,7 +102,7 @@ public class PlayerTests {
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2));
         player = new Player(sprite, playerCollisionLayers, true);
 
-        frozen_infiltrator = new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph);
+        frozen_infiltrator = new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph, false);
         not_frozen_crew = new CrewMembers(sprite, mapGraph.getRandomNode(), mapGraph);
 
         Vector2 not_frozen_velocity = new Vector2(50f,50f);
@@ -144,7 +144,7 @@ public class PlayerTests {
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2));
         player = new Player(sprite, playerCollisionLayers,true);
         player.setPosition(Config.POWERUP_START_X, Config.POWERUP_START_Y);
-        highlighted_infiltrator = new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph);
+        highlighted_infiltrator = new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph, false);
         HighlightUp highlightUp = new HighlightUp(new Vector2(Config.POWERUP_START_X, Config.POWERUP_START_Y));
         highlightUp.update(player);
         highlighted_infiltrator.step(player, 0.1f);
@@ -165,7 +165,7 @@ public class PlayerTests {
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2));
         player = new Player(sprite, playerCollisionLayers,true);
         player.setPosition(Config.POWERUP_START_X, Config.POWERUP_START_Y);
-        highlighted_infiltrator = new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph);
+        highlighted_infiltrator = new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph, false);
         ShieldUp shieldUp = new ShieldUp(new Vector2(Config.POWERUP_START_X, Config.POWERUP_START_Y));
         shieldUp.update(player);
         player.takeDamage(33);
@@ -191,7 +191,7 @@ public class PlayerTests {
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2));
         player = new Player(sprite, playerCollisionLayers,true);
         player.setPosition(Config.POWERUP_START_X, Config.POWERUP_START_Y);
-        highlighted_infiltrator = new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph);
+        highlighted_infiltrator = new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph, false);
         SpeedUp speedUp = new SpeedUp(new Vector2(Config.POWERUP_START_X, Config.POWERUP_START_Y));
         speedUp.update(player);
         player.update(0.01f);
