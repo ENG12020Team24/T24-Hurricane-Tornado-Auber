@@ -497,6 +497,26 @@ public class Player extends Sprite implements InputProcessor {
     public float getHealth() {
         return health;
     }
+    
+    public void setHealth(float value) {
+        this.health = value;
+    }
+    
+    public void setCanHeal(boolean value) {
+        this.canHeal = value;
+    }
+
+    public void setHealStopTime(float value) {
+        this.healStopTime = value;
+    }
+
+    public void setUsingArrestPowerUp(boolean value) {
+        this.usingArrestPowerUp = value;
+    }
+
+    public void setUsingSpeedPowerUp(boolean value) {
+        this.usingSpeedPowerUp = value;
+    }
 
     public void arrestUp(boolean inUse) {
         usingArrestPowerUp = inUse;
