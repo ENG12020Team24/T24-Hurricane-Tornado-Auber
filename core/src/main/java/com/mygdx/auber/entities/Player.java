@@ -34,6 +34,7 @@ public class Player extends Sprite implements InputProcessor {
 
     public static boolean canHeal = true;
     public static float healStopTime;
+    private float speed;
 
     private boolean isWHeld;
     private boolean isAHeld;
@@ -203,7 +204,7 @@ public class Player extends Sprite implements InputProcessor {
             heal(1);
         }
 
-        float speed;
+
         if (!usingSpeedPowerUp) {
             speed = Config.NORMAL_PLAYER_SPEED;
         } else {

@@ -134,30 +134,30 @@ public class InfiltratorTests {
             false,infiltrator_invisible.getIsDestroying());
     }
 
-    /**
-     * Tests that the infiltrators can damage systems
-     */
-    @Test
-    public void DestroySystemsTest() {
-        MapGraph mapGraph = graphCreator.getMapGraph();
+    // /**
+    //  * Tests that the infiltrators can damage systems
+    //  */
+    // @Test
+    // public void DestroySystemsTest() {
+    //     MapGraph mapGraph = graphCreator.getMapGraph();
 
-        playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get("Tile Layer 1"));
-        playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2));
-        player = new Player(sprite, playerCollisionLayers, true);
+    //     playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get("Tile Layer 1"));
+    //     playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2));
+    //     player = new Player(sprite, playerCollisionLayers, true);
 
-        infiltrator_damage_system = new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph);
+    //     infiltrator_damage_system = new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph);
 
-        infiltrator_damage_system.destroyKeySystem();
-        infiltrator_damage_system.setIsDestroying();
+    //     infiltrator_damage_system.destroyKeySystem();
+    //     infiltrator_damage_system.setIsDestroying();
 
-        for (int i=0; i==10000000; i++){
-            infiltrator_damage_system.step(player,100000);
-        }
+    //     for (int i=0; i==10000000; i++){
+    //         infiltrator_damage_system.step(player,100000);
+    //     }
 
-        // System.out.println(KeySystemManager.beingDestroyedKeySystemsCount());
-        // System.out.println(KeySystemManager.destroyedKeySystemsCount());
-        // assertEquals("Error: Infiltrators cannot detroy systems",
-        //     true, KeySystemManager.beingDestroyedKeySystemsCount() > 0 &&  KeySystemManager.destroyedKeySystemsCount() > 0);
-    }
+    //     // System.out.println(KeySystemManager.beingDestroyedKeySystemsCount());
+    //     // System.out.println(KeySystemManager.destroyedKeySystemsCount());
+    //     // assertEquals("Error: Infiltrators cannot detroy systems",
+    //     //     true, KeySystemManager.beingDestroyedKeySystemsCount() > 0 &&  KeySystemManager.destroyedKeySystemsCount() > 0);
+    // }
 
 }

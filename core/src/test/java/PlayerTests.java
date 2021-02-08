@@ -1,5 +1,8 @@
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
+import java.util.concurrent.TimeUnit;
 
 import com.mygdx.auber.Screens.PlayScreen;
 import com.mygdx.auber.entities.CrewMembers;
@@ -15,6 +18,8 @@ import com.mygdx.auber.Pathfinding.Node;
 import com.mygdx.auber.Powerups.ArrestUp;
 import com.mygdx.auber.Powerups.FreezeUp;
 import com.mygdx.auber.Powerups.HighlightUp;
+import com.mygdx.auber.Powerups.ShieldUp;
+import com.mygdx.auber.Powerups.SpeedUp;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.Texture;
@@ -39,8 +44,12 @@ public class PlayerTests {
     KeySystemManager keySystemManager = new KeySystemManager((TiledMapTileLayer) map.getLayers().get("Systems"));
     GraphCreator graphCreator = new GraphCreator( (TiledMapTileLayer) map.getLayers().get("Tile Layer 1"));
 
-    Infiltrator frozen_infiltrator, infiltrator_damage_system;
+    Infiltrator frozen_infiltrator, infiltrator_damage_system, highlighted_infiltrator;
     CrewMembers not_frozen_crew;
+    @Before
+    public void before(){
+        
+    }
 
     /**
      * Tests that players can take damage
@@ -126,19 +135,68 @@ public class PlayerTests {
 
 
     /**
-     * Tests that the powerup HighlightUp freezes infiltrators
+     * Tests that the powerup HighlightUp highlights infiltrators
      */
     @Test
     public void HighlightUpTest(){
+        MapGraph mapGraph = graphCreator.getMapGraph();
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get("Tile Layer 1"));
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2));
         player = new Player(sprite, playerCollisionLayers,true);
         player.setPosition(Config.POWERUP_START_X, Config.POWERUP_START_Y);
+        highlighted_infiltrator = new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph);
         HighlightUp highlightUp = new HighlightUp(new Vector2(Config.POWERUP_START_X, Config.POWERUP_START_Y));
         highlightUp.update(player);
-        //highlighted_infiltrator=
-        // assertEquals("Error: FreezeUp powerup doesn't freeze infiltrators (still have x velocity)",
-        //     " ", ((Vector2) Whitebox.getInternalState(player, "velocity")).x, 0.1f);
+        highlighted_infiltrator.step(player, 0.1f);
+        assertEquals("Error: HighlightUp powerup doesn't highlight infiltrators.",
+            true, Infiltrator.isHighlighted());
     }
 
+    /**
+     * Tests that the powerup SheildUp stops the player from taking damage during
+     * duration
+     * 
+     * @throws InterruptedException
+     */
+    @Test
+    public void SheildUpTest(){
+        MapGraph mapGraph = graphCreator.getMapGraph();
+        playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get("Tile Layer 1"));
+        playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2));
+        player = new Player(sprite, playerCollisionLayers,true);
+        player.setPosition(Config.POWERUP_START_X, Config.POWERUP_START_Y);
+        highlighted_infiltrator = new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph);
+        ShieldUp shieldUp = new ShieldUp(new Vector2(Config.POWERUP_START_X, Config.POWERUP_START_Y));
+        shieldUp.update(player);
+        player.takeDamage(33);
+        player.update(0.01f);
+        float healthDuringShield = player.getHealth();
+        player.shieldUp(false);
+        player.takeDamage(33);
+        float healthAfterShield = player.getHealth();
+
+        assertEquals("Error: ShieldUp powerup doesn't protect player from damage.",
+            100, healthDuringShield, 0.01f);
+        assertEquals("Error: ShieldUp powerup doesn't stop working.",
+            67, healthAfterShield, 0.01f);
+    }
+
+    /**
+     * Tests that the powerup SpeedUp increases the player speed.
+     */
+    @Test
+    public void SpeedUpTest(){
+        MapGraph mapGraph = graphCreator.getMapGraph();
+        playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get("Tile Layer 1"));
+        playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2));
+        player = new Player(sprite, playerCollisionLayers,true);
+        player.setPosition(Config.POWERUP_START_X, Config.POWERUP_START_Y);
+        highlighted_infiltrator = new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph);
+        SpeedUp speedUp = new SpeedUp(new Vector2(Config.POWERUP_START_X, Config.POWERUP_START_Y));
+        speedUp.update(player);
+        player.update(0.01f);
+
+        assertEquals("Error: Speedup powerup doesn't speed up the player.",
+            150, (float) Whitebox.getInternalState(player, "speed"), 0.01f);
+    }
 }
