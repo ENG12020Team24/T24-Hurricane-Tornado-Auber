@@ -31,6 +31,8 @@ public final class Infiltrator extends NPC {
     private static boolean isHighlighted;
     /** Flag indicating whether the sprite is a "hard" sprite, needed for encoding. */
     private boolean isHardSprite;
+    /** flag indicating that an alarm should be occuring*/
+    public static boolean isAlarm;
 
     /**
      * Class constructor.
@@ -76,6 +78,7 @@ public final class Infiltrator extends NPC {
         this.moveNPC(delta); // Moves the npc and sets their scale
 
         if (isDestroying) {
+            isAlarm=true;
             KeySystem keySystem = KeySystemManager.getClosestKeySystem(
                 getPreviousNode().getX(), getPreviousNode().getY());
 
