@@ -13,14 +13,14 @@ public class MapGraph implements IndexedGraph<Node> {
     /** The heuristic to use for pathfinding on this map. */
     private PathHeuristic pathHeuristic = new PathHeuristic();
     /** Array holding all nodes on map. */
-    private static Array<Node> nodes = new Array<>();
+    private Array<Node> nodes = new Array<>();
     /** Array holding all paths on map. */
-    private static Array<Path> paths = new Array<>();
+    private Array<Path> paths = new Array<>();
     /** An ObjectMap that links nodes to the connections from them. */
     private static ObjectMap<Node, Array<Connection<Node>>> pathsMap = new
         ObjectMap<>();
     /** Increment counter to give each node a unique index. */
-    private static int lastNodeIndex = 0;
+    private int lastNodeIndex = 0;
 
     /**
      * Adds a node to the list of nodes in the graph, sets the node index and
@@ -42,7 +42,7 @@ public class MapGraph implements IndexedGraph<Node> {
      * @param y Y coord of the node to find.
      * @return The node at x,y.
      */
-    public static Node getNode(final float x, final float y) {
+    public Node getNode(final float x, final float y) {
         /* Searches every node for x,y coordinate, returns node with matching
          coords. */
         for (Node node : nodes) {
@@ -73,11 +73,11 @@ public class MapGraph implements IndexedGraph<Node> {
     /**
      * Called when this object is deleted.
      */
-    public static void dispose() {
+    public void dispose() {
         nodes.clear();
         paths.clear();
         pathsMap.clear();
-        lastNodeIndex = 0;
+        //lastNodeIndex = 0;
     }
 
     /**
@@ -131,7 +131,7 @@ public class MapGraph implements IndexedGraph<Node> {
      * Returns a random node from this MapGraph.
      * @return A random Node from this MapGraph.
      */
-    public static Node getRandomNode() {
+    public Node getRandomNode() {
         return nodes.random();
     }
 
@@ -139,7 +139,7 @@ public class MapGraph implements IndexedGraph<Node> {
      * The Nodes in this MapGraph.
      * @return An Array of nodes in this graph.
      */
-    public static Array<Node> getNodes() {
+    public Array<Node> getNodes() {
         return nodes;
     }
 
@@ -147,7 +147,7 @@ public class MapGraph implements IndexedGraph<Node> {
      * The connections in this MapGraph.
      * @return An Array of connections in this graph.
      */
-    public static Array<Path> getPaths() {
+    public Array<Path> getPaths() {
         return paths;
     }
 }
