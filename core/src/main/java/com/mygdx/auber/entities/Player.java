@@ -160,7 +160,7 @@ public final class Player extends Sprite implements InputProcessor {
 
     /**
      * Draws the arrest radius for Auber.
-     * @param shapeRenderer Shape renderer to be used for drawing shapes.
+     * @param shapeRenderer
      */
     public void drawCircle(final ShapeRenderer shapeRenderer) {
         if (Gdx.input.getX() != Gdx.input.getX()
