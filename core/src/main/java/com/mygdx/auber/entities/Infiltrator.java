@@ -78,7 +78,7 @@ public final class Infiltrator extends NPC {
         this.moveNPC(delta); // Moves the npc and sets their scale
 
         if (isDestroying) {
-            isAlarm=true;
+            isAlarm = true;
             KeySystem keySystem = KeySystemManager.getClosestKeySystem(
                 getPreviousNode().getX(), getPreviousNode().getY());
 
@@ -89,7 +89,8 @@ public final class Infiltrator extends NPC {
                     mapGraph.getRandomNode(), Config.INFILTRATOR_SPEED);
             }
 
-            if (Vector2.dst(Player.x, Player.y, this.getX(), this.getY())
+            if (Vector2.dst(p.getPosition().x, p.getPosition().y, this.getX(),
+                this.getY())
                 < PLAYER_ALERT_DISTANCE) {
                 keySystem.stopDestroy();
                 this.useAbility(p);
@@ -236,7 +237,7 @@ public final class Infiltrator extends NPC {
         } else if (chance >= 1 && chance < 2) {
             this.damageAuber(p, AUBER_DAMAGE_VALUE);
         } else {
-            this.stopAuberHealing();
+            this.stopAuberHealing(p);
         } // 1/3 chance of using each ability
 
         this.clearPathQueue();
@@ -270,10 +271,12 @@ public final class Infiltrator extends NPC {
     /**
      * Sets canHeal to false in player, records the time at which he stopped
      * being able to heal.
+     * @param p The current instance of the player.
      */
-    public void stopAuberHealing() {
-        Player.canHeal = false;
-        Player.healStopTime = 0;
+    public void stopAuberHealing(final Player p) {
+        // System.out.println("Stopped healing");
+        Player.setCanHeal(false);
+        p.resetHealStopTime();
     }
 
     /**
@@ -360,16 +363,15 @@ public final class Infiltrator extends NPC {
      * Gets if infiltrator is destroying. Used for testing.
      * @return if this infiltrator is destroying
      */
-    public boolean getIsDestroying(){
+    public boolean getIsDestroying() {
         return isDestroying;
     }
 
     /**
      * Sets if infiltrator is destroying. Used for testing ONLY.
-     * @return if this infiltrator is destroying
      */
-    public void setIsDestroying(){
-        this.isDestroying=true;
+    public void setIsDestroying() {
+        this.isDestroying = true;
     }
 
      /**
@@ -387,15 +389,19 @@ public final class Infiltrator extends NPC {
         Array<Boolean> isHardSprite = new Array<>();
 
         for (Infiltrator i : infiltrators) {
-            locations.add(new Vector2(i.getPreviousNode().getX(), i.getPreviousNode().getY()));
+            locations.add(new Vector2(i.getPreviousNode().getX(),
+            i.getPreviousNode().getY()));
             isDestroying.add(i.isDestroying);
             isInvisible.add(i.isInvisible);
             timeInvisible.add(i.timeInvisible);
             isHardSprite.add(i.isHardSprite);
         }
 
-        r += locations.toString() + System.lineSeparator() + isDestroying.toString() + System.lineSeparator() + isInvisible.toString() + System.lineSeparator() + timeInvisible.toString() + System.lineSeparator() + isHardSprite.toString();
-        
+        r += locations.toString() + System.lineSeparator()
+        + isDestroying.toString() + System.lineSeparator()
+        + isInvisible.toString() + System.lineSeparator()
+        + timeInvisible.toString() + System.lineSeparator()
+        + isHardSprite.toString();
         return r;
     }
 

@@ -201,8 +201,8 @@ public class PlayScreen implements Screen {
         player.findInfirmary(
             (TiledMapTileLayer) map.getLayers().get("Systems"));
         // Finds infirmary
-        player.teleporters = Player.getTeleporterLocations(
-            (TiledMapTileLayer) map.getLayers().get("Systems"));
+        player.setTeleporters(Player.getTeleporterLocations(
+            (TiledMapTileLayer) map.getLayers().get("Systems")));
 
         renderer = new OrthogonalTiledMapRenderer(map);
         // Creates a new renderer with the given map
@@ -306,7 +306,7 @@ public class PlayScreen implements Screen {
                 new Texture("AuberStand.png")), mapGraph.getRandomNode(),
                     graphCreator.getMapGraph());
         }
-        
+
 
         NPCCreator.LoadCrewFromEncoding(e7, e8, graphCreator.getMapGraph());
 
@@ -318,13 +318,15 @@ public class PlayScreen implements Screen {
 
 
         String[] splitPlayer = encodedPlayer.split(",");
-                
+
         splitPlayer[0] = splitPlayer[0].replace("[", "");
-        splitPlayer[splitPlayer.length - 1] = splitPlayer[splitPlayer.length - 1].replace("]", "");
+        splitPlayer[splitPlayer.length - 1]
+            = splitPlayer[splitPlayer.length - 1].replace("]", "");
 
         player = new Player(new Sprite(
             new Texture("AuberStand.png")), playerCollisionLayers, isDemo);
-        player.setPosition(Float.valueOf(splitPlayer[0]), Float.valueOf(splitPlayer[1]));
+        player.setPosition(Float.valueOf(splitPlayer[0]),
+            Float.valueOf(splitPlayer[1]));
         player.setHealth(Float.valueOf(splitPlayer[2]));
         player.setCanHeal(Boolean.valueOf(splitPlayer[3]));
         player.setHealStopTime(Float.valueOf(splitPlayer[4]));
@@ -334,8 +336,8 @@ public class PlayScreen implements Screen {
         player.findInfirmary(
             (TiledMapTileLayer) map.getLayers().get("Systems"));
         // Finds infirmary
-        player.teleporters = Player.getTeleporterLocations(
-            (TiledMapTileLayer) map.getLayers().get("Systems"));
+        player.setTeleporters(Player.getTeleporterLocations(
+            (TiledMapTileLayer) map.getLayers().get("Systems")));
 
         renderer = new OrthogonalTiledMapRenderer(map);
         // Creates a new renderer with the given map
@@ -381,13 +383,14 @@ public class PlayScreen implements Screen {
      */
     public void update(final float time) {
 
-        if (player.getRequestedSave()) { // If the player has requested for the game to be saved.
-            
+        if (player.getRequestedSave()) {
+            // If the player has requested for the game to be saved.
             // First we have to force pause the game, otherwise we have issues.
             this.forcePause = true;
 
             JFileChooser chooser = new JFileChooser();
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("Game Files", "gme");
+            FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "Game Files", "gme");
             chooser.setFileFilter(filter);
             JFrame f = new JFrame();
             f.setVisible(true);
@@ -396,16 +399,23 @@ public class PlayScreen implements Screen {
             int res = chooser.showSaveDialog(f);
             f.dispose();
             if (res == JFileChooser.APPROVE_OPTION) {
-                this.SaveGame(chooser.getSelectedFile().toString() + ".gme");
+                this.saveGame(chooser.getSelectedFile().toString() + ".gme");
             }
 
-            player.HandledSave();   // Tell the player that saving has been handled so that the flag is reset.
+            player.handledSave();
+            // Tell the player that saving has been handled so that the flag is
+            // reset.
         } else {
-            if (player.getRequestedPause() || player.getRequestedSave()) {   // If the player has requested for the game to be paused we need to update differently.
+            if (player.getRequestedPause() || player.getRequestedSave()) {
+                // If the player has requested for the game to be paused we
+                // need to update differently.
                 renderer.setView(camera);
                 /**
-                *   TODO: render a pause screen instead of the game world, with resume game, save game, and exit buttons. Currently the game just freezes and user inputs
-                *       are all ignored (except for escape clicks) until the game is unpaused.
+                *   TODO: render a pause screen instead of the game world, with
+                * resume game, save game, and exit buttons. Currently the game
+                * just freezes and user inputs
+                * are all ignored (except for escape clicks) until the game is
+                * unpaused.
                 */
             } else {
                 NPC.updateNPC(player, time);
@@ -413,20 +423,21 @@ public class PlayScreen implements Screen {
                 hud.update(player);
                 camera.update();
                 // Updating everything that needs to be updated
-    
+
                 // debugText();
-    
+
                 renderer.setView(camera); // Needed for some reason
-    
+
                 if (powerUps.size() == 0 && powerUpsToAdd.size() > 0) {
                     powerUps.add(powerUpsToAdd.remove(0));
                 }
-    
+
                 if (gameOver()) {
                     System.out.println("Lose");
                     game.setScreen(new GameOverScreen(game, false));
                     return;
-                } // If game over, show game over screen and dispose of all assets
+                }
+                // If game over, show game over screen and dispose of all assets
                 if (gameWin()) {
                     System.out.println("Win");
                     game.setScreen(new GameOverScreen(game, true));
@@ -434,25 +445,30 @@ public class PlayScreen implements Screen {
                 } // If game won, show game win screen and dispose of all assets
             }
         }
-        
 
-        
+
+
     }
 
-    // TODO: Save the list of power ups in the game, the power ups to remove, and the power ups to add.
-    //         Also need to save the state of the Infiltrator and CrewMembers singleton classes, unsure as to why these are singleton?
-    private void SaveGame(String path) {
+    // TODO: Save the list of power ups in the game, the power ups to remove,
+    // and the power ups to add.
+    // Also need to save the state of the Infiltrator and CrewMembers
+    // singleton classes, unsure as to why these are singleton?
+    /** Saves the game.
+     * @param path The file to save the game to.
+     */
+    private void saveGame(final String path) {
         File gameFile = new File(path);
         try {
             if (gameFile.createNewFile()) {
                 FileWriter writer = new FileWriter(path);
-                
                 // write file now
                 writer.write(this.player.encode());
                 writer.write(System.lineSeparator());
                 writer.write(String.valueOf(this.difficulty));
                 writer.write(System.lineSeparator());
-                writer.write(NPCCreator.encode());                  // Saves encoded data of all the NPCs in the game.
+                writer.write(NPCCreator.encode());
+                // Saves encoded data of all the NPCs in the game.
                 // end of writing file
 
                 writer.close();
