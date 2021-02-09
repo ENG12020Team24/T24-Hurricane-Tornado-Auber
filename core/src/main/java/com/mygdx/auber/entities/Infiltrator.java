@@ -1,8 +1,12 @@
 package com.mygdx.auber.entities;
 
+import javax.swing.Painter;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Quaternion;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.auber.Pathfinding.GraphCreator;
@@ -25,6 +29,10 @@ public final class Infiltrator extends NPC {
     private static Array<Sprite> hardSprites = new Array<>();
     /** Whether the infiltrators are currently highlighted. */
     private static boolean isHighlighted;
+    /** Flag indicating whether the sprite is a "hard" sprite, needed for encoding. */
+    private boolean isHardSprite;
+    /** flag indicating that an alarm should be occuring*/
+    public static boolean isAlarm;
 
     /**
      * Class constructor.
@@ -33,10 +41,25 @@ public final class Infiltrator extends NPC {
      * @param mapGraph The MapGraph this infiltrator uses to navigate.
      */
     public Infiltrator(
-        final Sprite sprite, final Node node, final MapGraph mapGraph) {
+        final Sprite sprite, final Node node, final MapGraph mapGraph, boolean isHard) {
         super(sprite, node, mapGraph, Config.INFILTRATOR_SPEED);
         this.setPosition(node.getX(), node.getY());
+        this.isHardSprite = isHard;
     }
+
+    /**
+     * Class constructor.
+     * @param sprite The sprite used to draw this Infiltrator.
+     * @param node The Node this infiltrator spawns on.
+     * @param mapGraph The MapGraph this infiltrator uses to navigate.
+     */
+    public Infiltrator(
+        final Sprite sprite, final float x, final float y, final MapGraph mapGraph, boolean isHard) {
+        super(sprite, x, y, mapGraph, Config.INFILTRATOR_SPEED);
+        this.setPosition(x, y);
+        this.isHardSprite = isHard;
+    }
+
     /** If the player is within this distance, stop destroying a system
      * and flee. */
     private static final float PLAYER_ALERT_DISTANCE = 250;
@@ -55,6 +78,7 @@ public final class Infiltrator extends NPC {
         this.moveNPC(delta); // Moves the npc and sets their scale
 
         if (isDestroying) {
+            isAlarm=true;
             KeySystem keySystem = KeySystemManager.getClosestKeySystem(
                 getPreviousNode().getX(), getPreviousNode().getY());
 
@@ -62,7 +86,7 @@ public final class Infiltrator extends NPC {
                 this.isDestroying = false;
                 this.clearPathQueue();
                 this.setGoal(
-                    MapGraph.getRandomNode(), Config.INFILTRATOR_SPEED);
+                    mapGraph.getRandomNode(), Config.INFILTRATOR_SPEED);
             }
 
             if (Vector2.dst(p.getPosition().x, p.getPosition().y, this.getX(),
@@ -150,7 +174,7 @@ public final class Infiltrator extends NPC {
                 getPreviousNode().getX(), getPreviousNode().getY());
             if (keySystem == null) {
                 this.isDestroying = false;
-                setGoal(MapGraph.getRandomNode(), Config.INFILTRATOR_SPEED);
+                setGoal(mapGraph.getRandomNode(), Config.INFILTRATOR_SPEED);
                 return;
             }
             if (keySystem.isSafe()) {
@@ -166,7 +190,7 @@ public final class Infiltrator extends NPC {
 
         Node newGoal;
         do {
-            newGoal = MapGraph.getNodes().random();
+            newGoal = mapGraph.getNodes().random();
         } while (newGoal == getPreviousNode());
         setGoal(newGoal, Config.INFILTRATOR_SPEED);
         // Set a new goal node and start moving towards it
@@ -217,7 +241,7 @@ public final class Infiltrator extends NPC {
         } // 1/3 chance of using each ability
 
         this.clearPathQueue();
-        this.setGoal(MapGraph.getRandomNode(), Config.INFILTRATOR_SPEED);
+        this.setGoal(mapGraph.getRandomNode(), Config.INFILTRATOR_SPEED);
         // After using an ability, go somewhere random
     }
 
@@ -313,6 +337,14 @@ public final class Infiltrator extends NPC {
         this.isDestroying = newIsDestroying;
     }
 
+    public void setIsInvisible(final boolean newIsInvisible) {
+        this.isInvisible = newIsInvisible;
+    }
+
+    public void setTimeInvisible(final float newTimeInvisible) {
+        this.timeInvisible = newTimeInvisible;
+    }
+
     /** Gets the list of easy sprites.
      * @return the list of easy sprites.
      */
@@ -341,4 +373,32 @@ public final class Infiltrator extends NPC {
     public void setIsDestroying() {
         this.isDestroying = true;
     }
+
+     /**
+     * Encodes data of all infiltrators into a recognisable string.
+     * @param sprites the set of infiltrators to encode.
+     * @return the encoded data of the given array of sprites.
+     */
+    public static String encode(Array<Infiltrator> infiltrators) {
+        String r = "";
+
+        Array<Vector2> locations = new Array<>();
+        Array<Boolean> isDestroying = new Array<>();
+        Array<Boolean> isInvisible = new Array<>();
+        Array<Float> timeInvisible = new Array<>();
+        Array<Boolean> isHardSprite = new Array<>();
+
+        for (Infiltrator i : infiltrators) {
+            locations.add(new Vector2(i.getPreviousNode().getX(), i.getPreviousNode().getY()));
+            isDestroying.add(i.isDestroying);
+            isInvisible.add(i.isInvisible);
+            timeInvisible.add(i.timeInvisible);
+            isHardSprite.add(i.isHardSprite);
+        }
+
+        r += locations.toString() + System.lineSeparator() + isDestroying.toString() + System.lineSeparator() + isInvisible.toString() + System.lineSeparator() + timeInvisible.toString() + System.lineSeparator() + isHardSprite.toString();
+        
+        return r;
+    }
+
 }

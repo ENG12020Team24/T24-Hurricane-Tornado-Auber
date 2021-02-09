@@ -39,6 +39,7 @@ public final class Player extends Sprite implements InputProcessor {
     private static boolean canHeal = true;
     /** How long Auber's healing has been stopped for. */
     private static float healStopTime;
+    private float speed;
 
     /** Stores whether the W key is held. */
     private boolean isWHeld;
@@ -263,8 +264,7 @@ public final class Player extends Sprite implements InputProcessor {
             heal(1);
         }
 
-        float speed;
-        if (!isUsingSpeedPowerUp) {
+        if (!usingSpeedPowerUp) {
             speed = Config.NORMAL_PLAYER_SPEED;
         } else {
             speed = Config.FAST_PLAYER_SPEED;
@@ -584,6 +584,26 @@ public final class Player extends Sprite implements InputProcessor {
      */
     public float getHealth() {
         return health;
+    }
+    
+    public void setHealth(float value) {
+        this.health = value;
+    }
+    
+    public void setCanHeal(boolean value) {
+        this.canHeal = value;
+    }
+
+    public void setHealStopTime(float value) {
+        this.healStopTime = value;
+    }
+
+    public void setUsingArrestPowerUp(boolean value) {
+        this.usingArrestPowerUp = value;
+    }
+
+    public void setUsingSpeedPowerUp(boolean value) {
+        this.usingSpeedPowerUp = value;
     }
 
     /** Sets whether the player is using the arrest powerup.

@@ -2,6 +2,7 @@ package com.mygdx.auber.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -38,9 +39,11 @@ import com.mygdx.auber.entities.NPC;
 import com.mygdx.auber.entities.NPCCreator;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -89,6 +92,12 @@ public class PlayScreen implements Screen {
     private ArrayList<PowerUp> powerUpsToRemove;
     /** The list of powerups to add to the game world. */
     private ArrayList<PowerUp> powerUpsToAdd;
+    // /** The siren sound from https://soundbible.com/1577-Siren-Noise.html 
+    //  * Under a creative common's licence
+    // */
+    // private Sound sirenNoise;
+    // /** */
+    // private boolean isSirenRunning = false;
 
     private boolean forcePause = false;
 
@@ -108,6 +117,145 @@ public class PlayScreen implements Screen {
             * (gameDifficulty + 1);
         this.maxIncorrectArrests = Config.INCORRECT_ARREST_DIFFICULTY_MULTIPLIER
             * (Config.INCORRECT_ARREST_DIFFICULTY_MULTIPLIER - gameDifficulty);
+        camera = new OrthographicCamera();
+        viewport = new ExtendViewport(
+            Auber.VIRTUAL_WIDTH, Auber.VIRTUAL_HEIGHT, camera);
+        shapeRenderer = new ShapeRenderer();
+        scrollingBackground = new ScrollingBackground();
+        // Creating a new camera, viewport, hud and scrolling background,
+        // setting the viewport to camera and virtual height/width
+        //sirenNoise = Gdx.audio.newSound(Gdx.files.internal("Siren_Noise.wav"));
+
+        mapLoader = new TmxMapLoader();
+
+        map = mapLoader.load("AuberMap.tmx");
+        // Creates a new map loader and loads the map into map
+
+        Infiltrator.createInfiltratorSprites();
+        CrewMembers.createCrewSprites();
+        // Generates the infiltrator and crewmember sprites
+
+        graphCreator = new GraphCreator(
+            (TiledMapTileLayer) map.getLayers().get("Tile Layer 1"));
+        // Generates all the nodes and paths for the given map layer
+        keySystemManager = new KeySystemManager(
+            (TiledMapTileLayer) map.getLayers().get("Systems"));
+        // Generates key systems
+        prisoners = new Prisoners(
+            (TiledMapTileLayer) map.getLayers().get("OutsideWalls+Lining"));
+
+        MapGraph mapGraph = graphCreator.getMapGraph();
+
+        powerUps = new ArrayList<PowerUp>();
+        powerUpsToRemove = new ArrayList<PowerUp>();
+        powerUpsToAdd = new ArrayList<PowerUp>();
+
+        powerUpsToAdd.add(new ArrestUp(
+            new Vector2(Config.POWERUP_START_X, Config.POWERUP_START_Y)));
+        powerUpsToAdd.add(new SpeedUp(
+            new Vector2(Config.POWERUP_START_X, Config.POWERUP_START_Y)));
+        powerUpsToAdd.add(new FreezeUp(
+            new Vector2(Config.POWERUP_START_X, Config.POWERUP_START_Y)));
+        powerUpsToAdd.add(new ShieldUp(
+            new Vector2(Config.POWERUP_START_X, Config.POWERUP_START_Y)));
+        powerUpsToAdd.add(new HighlightUp(
+            new Vector2(Config.POWERUP_START_X, Config.POWERUP_START_Y)));
+
+        for (int i = 0; i < NUMBER_OF_INFILTRATORS; i++) {
+            // System.out.println("Infiltrator created!");
+            if (i == NUMBER_OF_INFILTRATORS - 1) {
+                NPCCreator.createInfiltrator(
+                    Infiltrator.getHardSprites().random(),
+                    mapGraph.getRandomNode(),
+                    graphCreator.getMapGraph());
+                break;
+            }
+            NPCCreator.createInfiltrator(
+                Infiltrator.getEasySprites().random(), mapGraph.getRandomNode(),
+                    graphCreator.getMapGraph());
+        } // Creates numberOfInfiltrators infiltrators, gives them a random
+          // hard or easy sprite
+
+        if (isDemo) {
+            NPCCreator.createCrew(new Sprite(
+                new Texture("AuberStand.png")), mapGraph.getRandomNode(),
+                    graphCreator.getMapGraph());
+        }
+
+        for (int i = 0; i < numberOfCrew; i++) {
+            NPCCreator.createCrew(
+                CrewMembers.selectSprite(), mapGraph.getRandomNode(),
+                graphCreator.getMapGraph());
+        } // Creates numberOfCrew crewmembers, gives them a random sprite
+
+        Array<TiledMapTileLayer> playerCollisionLayers = new Array<>();
+        playerCollisionLayers.add(
+            (TiledMapTileLayer) map.getLayers().get("Tile Layer 1"));
+        playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2));
+        // The layers on which the player will collide
+
+        player = new Player(new Sprite(
+            new Texture("AuberStand.png")), playerCollisionLayers, isDemo);
+        player.setPosition(Config.PLAYER_START_X, Config.PLAYER_START_Y);
+        // Creates a player and sets him to the given position
+        player.findInfirmary(
+            (TiledMapTileLayer) map.getLayers().get("Systems"));
+        // Finds infirmary
+        player.setTeleporters(Player.getTeleporterLocations(
+            (TiledMapTileLayer) map.getLayers().get("Systems")));
+
+        renderer = new OrthogonalTiledMapRenderer(map);
+        // Creates a new renderer with the given map
+
+        camera.position.set(player.getX(), player.getY(), 0);
+        // Sets the camera position to the player
+
+        Gdx.input.setInputProcessor(player);
+        // Sets the input to be handled by the player class
+        hud = new Hud(currentGame.getBatch(), this, player);
+
+    }
+
+   /**
+     * Class constructor.
+     * @param currentGame    The currently running instance of the game.
+     * @param isDemo         Whether the game is running in demo mode or not.
+     * @param gameDifficulty The difficulty of the game.
+     * @param path The file path of the game file to be loaded.
+     */
+    public PlayScreen(
+        final Auber currentGame, final boolean isDemo,
+            String path) {
+        this.game = currentGame;
+        this.demo = isDemo;
+        
+
+        String encodedPlayer = "", diff = "", e1 = "", e2 = "", e3 = "", e4 = "", e5 = "", e6 = "", e7 = "", e8 = "";
+        try {
+            File file = new File(path);
+            Scanner reader = new Scanner(file);
+            encodedPlayer = reader.nextLine();
+            diff = reader.nextLine();
+            e1 = reader.nextLine(); // Infiltrator locations.
+            e2 = reader.nextLine(); // Infiltrator is destroying
+            e3 = reader.nextLine(); // Infiltrator is invisible.
+            e4 = reader.nextLine(); // Infiltratpr time invisible.
+            e5 = reader.nextLine(); // Infiltrator is hard sprite.
+            e6 = reader.nextLine(); // Last infiltrator index.
+            e7 = reader.nextLine(); // Locations of all crew members.
+            e8 = reader.nextLine(); // Last crew index.
+            reader.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+              System.out.println("Unrecognisable file type.");
+        }
+
+        this.difficulty = Integer.valueOf(diff);
+        this.numberOfCrew = Config.CREW_COUNT_DIFFICULTY_MULTIPLIER
+            * (this.difficulty + 1);
+        this.maxIncorrectArrests = Config.INCORRECT_ARREST_DIFFICULTY_MULTIPLIER
+            * (Config.INCORRECT_ARREST_DIFFICULTY_MULTIPLIER - this.difficulty);
         camera = new OrthographicCamera();
         viewport = new ExtendViewport(
             Auber.VIRTUAL_WIDTH, Auber.VIRTUAL_HEIGHT, camera);
@@ -149,32 +297,18 @@ public class PlayScreen implements Screen {
         powerUpsToAdd.add(new HighlightUp(
             new Vector2(Config.POWERUP_START_X, Config.POWERUP_START_Y)));
 
-        for (int i = 0; i < NUMBER_OF_INFILTRATORS; i++) {
-            // System.out.println("Infiltrator created!");
-            if (i == NUMBER_OF_INFILTRATORS - 1) {
-                NPCCreator.createInfiltrator(
-                    Infiltrator.getHardSprites().random(),
-                    MapGraph.getRandomNode(),
-                    graphCreator.getMapGraph());
-                break;
-            }
-            NPCCreator.createInfiltrator(
-                Infiltrator.getEasySprites().random(), MapGraph.getRandomNode(),
-                    graphCreator.getMapGraph());
-        } // Creates numberOfInfiltrators infiltrators, gives them a random
-          // hard or easy sprite
+       NPCCreator.loadInfiltratorsFromEncoding(e1, e2, e3, e4, e5, e6, graphCreator.getMapGraph());
+
+       MapGraph mapGraph = graphCreator.getMapGraph();
 
         if (isDemo) {
             NPCCreator.createCrew(new Sprite(
-                new Texture("AuberStand.png")), MapGraph.getRandomNode(),
+                new Texture("AuberStand.png")), mapGraph.getRandomNode(),
                     graphCreator.getMapGraph());
         }
+        
 
-        for (int i = 0; i < numberOfCrew; i++) {
-            NPCCreator.createCrew(
-                CrewMembers.selectSprite(), MapGraph.getRandomNode(),
-                graphCreator.getMapGraph());
-        } // Creates numberOfCrew crewmembers, gives them a random sprite
+        NPCCreator.LoadCrewFromEncoding(e7, e8, graphCreator.getMapGraph());
 
         Array<TiledMapTileLayer> playerCollisionLayers = new Array<>();
         playerCollisionLayers.add(
@@ -182,15 +316,26 @@ public class PlayScreen implements Screen {
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2));
         // The layers on which the player will collide
 
+
+        String[] splitPlayer = encodedPlayer.split(",");
+                
+        splitPlayer[0] = splitPlayer[0].replace("[", "");
+        splitPlayer[splitPlayer.length - 1] = splitPlayer[splitPlayer.length - 1].replace("]", "");
+
         player = new Player(new Sprite(
             new Texture("AuberStand.png")), playerCollisionLayers, isDemo);
-        player.setPosition(Config.PLAYER_START_X, Config.PLAYER_START_Y);
+        player.setPosition(Float.valueOf(splitPlayer[0]), Float.valueOf(splitPlayer[1]));
+        player.setHealth(Float.valueOf(splitPlayer[2]));
+        player.setCanHeal(Boolean.valueOf(splitPlayer[3]));
+        player.setHealStopTime(Float.valueOf(splitPlayer[4]));
+        player.setUsingArrestPowerUp(Boolean.valueOf(splitPlayer[5]));
+        player.setUsingSpeedPowerUp(Boolean.valueOf(splitPlayer[6]));
         // Creates a player and sets him to the given position
         player.findInfirmary(
             (TiledMapTileLayer) map.getLayers().get("Systems"));
         // Finds infirmary
-        player.setTeleporters(Player.getTeleporterLocations(
-            (TiledMapTileLayer) map.getLayers().get("Systems")));
+        player.teleporters = Player.getTeleporterLocations(
+            (TiledMapTileLayer) map.getLayers().get("Systems"));
 
         renderer = new OrthogonalTiledMapRenderer(map);
         // Creates a new renderer with the given map
@@ -203,7 +348,6 @@ public class PlayScreen implements Screen {
         hud = new Hud(currentGame.getBatch(), this, player);
 
     }
-
     /**
      * Method implemented from abstract superclass.
      */
@@ -317,16 +461,11 @@ public class PlayScreen implements Screen {
             if (gameFile.createNewFile()) {
                 FileWriter writer = new FileWriter(path);
                 // write file now
-                writer.write(Prisoners.encode());
-                writer.write(System.lineSeparator());
                 writer.write(this.player.encode());
-                writer.write(System.lineSeparator());
-                writer.write(String.valueOf(this.numberOfCrew));
-                writer.write(System.lineSeparator());
-                writer.write(String.valueOf(maxIncorrectArrests));
                 writer.write(System.lineSeparator());
                 writer.write(String.valueOf(this.difficulty));
                 writer.write(System.lineSeparator());
+                writer.write(NPCCreator.encode());                  // Saves encoded data of all the NPCs in the game.
                 // end of writing file
 
                 writer.close();
@@ -353,6 +492,16 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         // Clears the screen and sets it to the colour light blue or whatever
         // colour it is
+
+        // if (Infiltrator.isAlarm && !isSirenRunning){
+        //     if (KeySystemManager.beingDestroyedKeySystemsCount() !=0){
+        //         sirenNoise.loop();}
+        //     else{
+        //         Infiltrator.isAlarm=false;
+        //     }
+        // } else {
+        //     sirenNoise.stop();
+        // }
 
         if (!demo) {
             camera.position.set(
@@ -522,4 +671,5 @@ public class PlayScreen implements Screen {
     public static OrthographicCamera getCamera() {
         return camera;
     }
+
 }

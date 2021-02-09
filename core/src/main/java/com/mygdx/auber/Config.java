@@ -77,33 +77,33 @@ public final class Config {
     /** The y position the powerups spawn at. */
     public static final int POWERUP_START_Y = 2800;
 
-    /** The red component of the arrestup powerup's default colour. */
+    /** The red component of the FreezeUp powerup's default colour. */
     public static final float DEFAULT_FREEZEUP_RED = 0.5f;
-    /** The green component of the arrestup powerup's default colour. */
+    /** The green component of the FreezeUp powerup's default colour. */
     public static final float DEFAULT_FREEZEUP_GREEN = 0.5f;
-    /** The blue component of the arrestup powerup's default colour. */
+    /** The blue component of the FreezeUp powerup's default colour. */
     public static final float DEFAULT_FREEZEUP_BLUE = 0.9f;
-    /** The time that the arrestup powerup affects the player for in
+    /** The time that the FreezeUp powerup affects the player for in
      * seconds. */
     public static final float FREEZEUP_TIME = 10f;
 
-    /** The red component of the arrestup powerup's default colour. */
+    /** The red component of the ShieldUp powerup's default colour. */
     public static final float DEFAULT_SHIELDUP_RED = 0.4f;
-    /** The green component of the arrestup powerup's default colour. */
+    /** The green component of the ShieldUp powerup's default colour. */
     public static final float DEFAULT_SHIELDUP_GREEN = 0.4f;
-    /** The blue component of the arrestup powerup's default colour. */
+    /** The blue component of the ShieldUp powerup's default colour. */
     public static final float DEFAULT_SHIELDUP_BLUE = 0.4f;
-    /** The time that the arrestup powerup affects the player for in
+    /** The time that the ShieldUp powerup affects the player for in
      * seconds. */
     public static final float SHIELDUP_TIME = 10f;
 
-    /** The red component of the arrestup powerup's default colour. */
+    /** The red component of the HighlightUp powerup's default colour. */
     public static final float DEFAULT_HIGHLIGHTUP_RED = 0.9f;
-    /** The green component of the arrestup powerup's default colour. */
+    /** The green component of the HighlightUp powerup's default colour. */
     public static final float DEFAULT_HIGHLIGHTUP_GREEN = 0.1f;
-    /** The blue component of the arrestup powerup's default colour. */
+    /** The blue component of the HighlightUp powerup's default colour. */
     public static final float DEFAULT_HIGHLIGHTUP_BLUE = 0.1f;
-    /** The time that the arrestup powerup affects the player for in
+    /** The time that the HighlightUp powerup affects the player for in
      * seconds. */
     public static final float HIGHLIGHTUP_TIME = 10f;
 

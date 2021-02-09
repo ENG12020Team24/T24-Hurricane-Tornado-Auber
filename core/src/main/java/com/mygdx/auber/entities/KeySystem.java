@@ -25,6 +25,7 @@ public class KeySystem {
         this.cell = newCell;
         this.name = newName;
         this.position = newPosition;
+        //System.out.println(position);
     }
 
     /**
