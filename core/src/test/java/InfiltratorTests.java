@@ -105,8 +105,8 @@ public class InfiltratorTests {
         player.takeDamage(30);
         player.update(16);
         player.heal(20);
-        assertEquals("Error: Player can heal whilst healing is blocked",
-            100, player.getHealth(), 0.000001);
+        assertEquals("Error: Player can't heal when not blocked",
+            90, player.getHealth(), 3);
     }
 
     /**
