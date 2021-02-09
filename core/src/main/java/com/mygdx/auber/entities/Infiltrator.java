@@ -92,7 +92,8 @@ public final class Infiltrator extends NPC {
                     mapGraph.getRandomNode(), Config.INFILTRATOR_SPEED);
             }
 
-            if (Vector2.dst(Player.x, Player.y, this.getX(), this.getY())
+            if (Vector2.dst(p.getPosition().x, p.getPosition().y, this.getX(),
+                this.getY())
                 < PLAYER_ALERT_DISTANCE) {
                 keySystem.stopDestroy();
                 this.useAbility(p);
@@ -239,7 +240,7 @@ public final class Infiltrator extends NPC {
         } else if (chance >= 1 && chance < 2) {
             this.damageAuber(p, AUBER_DAMAGE_VALUE);
         } else {
-            this.stopAuberHealing();
+            this.stopAuberHealing(p);
         } // 1/3 chance of using each ability
 
         this.clearPathQueue();
@@ -273,10 +274,12 @@ public final class Infiltrator extends NPC {
     /**
      * Sets canHeal to false in player, records the time at which he stopped
      * being able to heal.
+     * @param p The current instance of the player.
      */
-    public void stopAuberHealing() {
-        Player.canHeal = false;
-        Player.healStopTime = 0;
+    public void stopAuberHealing(final Player p) {
+        // System.out.println("Stopped healing");
+        Player.setCanHeal(false);
+        p.resetHealStopTime();
     }
 
     /**
@@ -408,8 +411,8 @@ public final class Infiltrator extends NPC {
         r += locations.toString() + System.lineSeparator()
         + isDestroying.toString() + System.lineSeparator()
         + isInvisible.toString() + System.lineSeparator()
-        + timeInvisible.toString();
-
+        + timeInvisible.toString() + System.lineSeparator()
+        + isHardSprite.toString();
         return r;
     }
 

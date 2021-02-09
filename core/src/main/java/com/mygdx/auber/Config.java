@@ -114,4 +114,8 @@ public final class Config {
 
     /** The time to destroy a system in milliseconds. */
     public static final float SYSTEM_DESTRUCTION_TIME = 30000;
+    /** When Auber's healing is stopped, this is how long it is stopped for. */
+    public static final float AUBER_HEAL_STOP_TIME = 15f;
+    /** The radius within which Auber can arrest NPCs. */
+    public static final int AUBER_CIRCLE_SEGMENTS = 900;
 }

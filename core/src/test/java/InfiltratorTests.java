@@ -68,7 +68,7 @@ public class InfiltratorTests {
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2));
         player = new Player(sprite, playerCollisionLayers,false);
         infiltrator_stop_healing=new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph, false);
-        infiltrator_stop_healing.stopAuberHealing();
+        infiltrator_stop_healing.stopAuberHealing(player);
         player.takeDamage(30);
         player.heal(20);
         assertEquals("Error: Player can heal whilst healing is blocked",
@@ -84,7 +84,7 @@ public class InfiltratorTests {
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2));
         player = new Player(sprite, playerCollisionLayers,false);
         infiltrator_stop_healing=new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph, false);
-        infiltrator_stop_healing.stopAuberHealing();
+        infiltrator_stop_healing.stopAuberHealing(player);
         player.takeDamage(30);
         player.update(16);
         player.heal(20);
@@ -101,12 +101,12 @@ public class InfiltratorTests {
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2));
         player = new Player(sprite, playerCollisionLayers,true);
         infiltrator_stop_healing=new Infiltrator(sprite, mapGraph.getRandomNode(), mapGraph, false);
-        infiltrator_stop_healing.stopAuberHealing();
+        infiltrator_stop_healing.stopAuberHealing(player);
         player.takeDamage(30);
         player.update(16);
         player.heal(20);
-        assertEquals("Error: Player can heal whilst healing is blocked",
-            100, player.getHealth(),0.000001);
+        assertEquals("Error: Player can't heal when not blocked",
+            90, player.getHealth(), 3);
     }
 
     /**
