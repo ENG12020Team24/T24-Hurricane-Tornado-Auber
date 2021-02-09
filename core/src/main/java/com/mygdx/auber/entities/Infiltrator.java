@@ -1,12 +1,9 @@
 package com.mygdx.auber.entities;
 
-import javax.swing.Painter;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Quaternion;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.auber.Pathfinding.GraphCreator;
@@ -29,19 +26,22 @@ public final class Infiltrator extends NPC {
     private static Array<Sprite> hardSprites = new Array<>();
     /** Whether the infiltrators are currently highlighted. */
     private static boolean isHighlighted;
-    /** Flag indicating whether the sprite is a "hard" sprite, needed for encoding. */
+    /** Flag indicating whether the sprite is a "hard" sprite, needed for
+     * encoding. */
     private boolean isHardSprite;
-    /** flag indicating that an alarm should be occuring*/
-    public static boolean isAlarm;
+    /** flag indicating that an alarm should be occuring. */
+    private static boolean isAlarm;
 
     /**
      * Class constructor.
      * @param sprite The sprite used to draw this Infiltrator.
      * @param node The Node this infiltrator spawns on.
      * @param mapGraph The MapGraph this infiltrator uses to navigate.
+     * @param isHard Whether this infiltrator uses a hard sprite.
      */
     public Infiltrator(
-        final Sprite sprite, final Node node, final MapGraph mapGraph, boolean isHard) {
+        final Sprite sprite, final Node node, final MapGraph mapGraph,
+        final boolean isHard) {
         super(sprite, node, mapGraph, Config.INFILTRATOR_SPEED);
         this.setPosition(node.getX(), node.getY());
         this.isHardSprite = isHard;
@@ -50,11 +50,14 @@ public final class Infiltrator extends NPC {
     /**
      * Class constructor.
      * @param sprite The sprite used to draw this Infiltrator.
-     * @param node The Node this infiltrator spawns on.
+     * @param x The x coordinate this infiltrator spawns at.
+     * @param y The y coordinate this infiltrator spawns at.
      * @param mapGraph The MapGraph this infiltrator uses to navigate.
+     * @param isHard Whether this infiltrator uses a hard sprite.
      */
     public Infiltrator(
-        final Sprite sprite, final float x, final float y, final MapGraph mapGraph, boolean isHard) {
+        final Sprite sprite, final float x, final float y,
+        final MapGraph mapGraph, final boolean isHard) {
         super(sprite, x, y, mapGraph, Config.INFILTRATOR_SPEED);
         this.setPosition(x, y);
         this.isHardSprite = isHard;
@@ -337,10 +340,18 @@ public final class Infiltrator extends NPC {
         this.isDestroying = newIsDestroying;
     }
 
+    /** Sets whether this infiltrator is invisible.
+     * @param newIsInvisible Whether this infiltrator should be invisible.
+     */
     public void setIsInvisible(final boolean newIsInvisible) {
         this.isInvisible = newIsInvisible;
     }
 
+    /**
+     * Sets how long this infiltrator has been invisible for.
+     * @param newTimeInvisible How long this infiltrator has been invisible
+     * for.
+     */
     public void setTimeInvisible(final float newTimeInvisible) {
         this.timeInvisible = newTimeInvisible;
     }
@@ -376,10 +387,10 @@ public final class Infiltrator extends NPC {
 
      /**
      * Encodes data of all infiltrators into a recognisable string.
-     * @param sprites the set of infiltrators to encode.
+     * @param infiltrators the set of infiltrators to encode.
      * @return the encoded data of the given array of sprites.
      */
-    public static String encode(Array<Infiltrator> infiltrators) {
+    public static String encode(final Array<Infiltrator> infiltrators) {
         String r = "";
 
         Array<Vector2> locations = new Array<>();
@@ -403,6 +414,34 @@ public final class Infiltrator extends NPC {
         + timeInvisible.toString() + System.lineSeparator()
         + isHardSprite.toString();
         return r;
+    }
+
+    /**
+     * @param coordinate The coordinates of the Infiltrators.
+     * @param isDestroying Whether the Infiltrator is destroying a system.
+     * @param invisible Whether the Infiltrator is invisible.
+     * @param timesInvisible How many times this Infiltrator has turned
+     * invisible.
+     */
+    public static void loadFromEncoding(final String coordinate,
+        final String isDestroying, final String invisible,
+        final String timesInvisible) {
+
+        String[] splitCoordinates = coordinate.split(",");
+        // Remove useless stuff
+        for (int i = 0; i < splitCoordinates.length; i++) {
+            splitCoordinates[i] = splitCoordinates[i].replace("[", "");
+            splitCoordinates[i] = splitCoordinates[i].replace("]", "");
+            splitCoordinates[i] = splitCoordinates[i].replace("(", "");
+            splitCoordinates[i] = splitCoordinates[i].replace(")", "");
+        }
+
+        String[] splitDestroyings = isDestroying.split(",");
+        splitDestroyings[0] = splitDestroyings[0].replace("[", "");
+        splitDestroyings[splitDestroyings.length - 1]
+            = splitDestroyings[splitDestroyings.length - 1].replace("]", "");
+
+
     }
 
 }

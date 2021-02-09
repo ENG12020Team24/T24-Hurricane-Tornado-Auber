@@ -220,17 +220,17 @@ public class PlayScreen implements Screen {
      * Class constructor.
      * @param currentGame    The currently running instance of the game.
      * @param isDemo         Whether the game is running in demo mode or not.
-     * @param gameDifficulty The difficulty of the game.
      * @param path The file path of the game file to be loaded.
      */
     public PlayScreen(
         final Auber currentGame, final boolean isDemo,
-            String path) {
+            final String path) {
         this.game = currentGame;
         this.demo = isDemo;
-        
 
-        String encodedPlayer = "", diff = "", e1 = "", e2 = "", e3 = "", e4 = "", e5 = "", e6 = "", e7 = "", e8 = "";
+
+        String encodedPlayer = "", diff = "", e1 = "", e2 = "", e3 = "",
+            e4 = "", e5 = "", e6 = "", e7 = "", e8 = "";
         try {
             File file = new File(path);
             Scanner reader = new Scanner(file);

@@ -39,6 +39,7 @@ public final class Player extends Sprite implements InputProcessor {
     private static boolean canHeal = true;
     /** How long Auber's healing has been stopped for. */
     private static float healStopTime;
+    /** The current speed of the player. */
     private float speed;
 
     /** Stores whether the W key is held. */
@@ -373,8 +374,8 @@ public final class Player extends Sprite implements InputProcessor {
      * Called when a mouse left click is clicked.
      * @param screenX X Screen coordinate of mouse press
      * @param screenY Y Screen coordinate of mouse press
-     * @param pointer
-     * @param button
+     * @param pointer The pointer for the event.
+     * @param button The button.
      * @return True if successful
      */
     @Override

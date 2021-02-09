@@ -145,7 +145,7 @@ public final class GraphCreator extends ApplicationAdapter {
 
     /**
      * Sets the nodePath for this GraphCreator.
-     * @param inputNodePath
+     * @param inputNodePath The new node path for this GraphCreator.
      */
     public static void setNodePath(final GraphPath<Node> inputNodePath) {
         GraphCreator.nodePath = inputNodePath;

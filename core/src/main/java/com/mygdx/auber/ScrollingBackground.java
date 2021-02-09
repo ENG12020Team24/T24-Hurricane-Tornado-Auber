@@ -54,8 +54,8 @@ public class ScrollingBackground {
 
     /**
      * Resets the size of the background.
-     * @param width
-     * @param height
+     * @param width The new width of this background.
+     * @param height The new height of this background.
      */
     public void resize(final int width, final int height) {
         imageScale = 1;
