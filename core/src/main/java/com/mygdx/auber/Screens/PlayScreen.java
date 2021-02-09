@@ -306,7 +306,7 @@ public class PlayScreen implements Screen {
                 new Texture("AuberStand.png")), mapGraph.getRandomNode(),
                     graphCreator.getMapGraph());
         }
-        
+
 
         NPCCreator.LoadCrewFromEncoding(e7, e8, graphCreator.getMapGraph());
 
@@ -318,13 +318,15 @@ public class PlayScreen implements Screen {
 
 
         String[] splitPlayer = encodedPlayer.split(",");
-                
+
         splitPlayer[0] = splitPlayer[0].replace("[", "");
-        splitPlayer[splitPlayer.length - 1] = splitPlayer[splitPlayer.length - 1].replace("]", "");
+        splitPlayer[splitPlayer.length - 1]
+            = splitPlayer[splitPlayer.length - 1].replace("]", "");
 
         player = new Player(new Sprite(
             new Texture("AuberStand.png")), playerCollisionLayers, isDemo);
-        player.setPosition(Float.valueOf(splitPlayer[0]), Float.valueOf(splitPlayer[1]));
+        player.setPosition(Float.valueOf(splitPlayer[0]),
+            Float.valueOf(splitPlayer[1]));
         player.setHealth(Float.valueOf(splitPlayer[2]));
         player.setCanHeal(Boolean.valueOf(splitPlayer[3]));
         player.setHealStopTime(Float.valueOf(splitPlayer[4]));
@@ -334,8 +336,8 @@ public class PlayScreen implements Screen {
         player.findInfirmary(
             (TiledMapTileLayer) map.getLayers().get("Systems"));
         // Finds infirmary
-        player.teleporters = Player.getTeleporterLocations(
-            (TiledMapTileLayer) map.getLayers().get("Systems"));
+        player.setTeleporters(Player.getTeleporterLocations(
+            (TiledMapTileLayer) map.getLayers().get("Systems")));
 
         renderer = new OrthogonalTiledMapRenderer(map);
         // Creates a new renderer with the given map
@@ -465,7 +467,8 @@ public class PlayScreen implements Screen {
                 writer.write(System.lineSeparator());
                 writer.write(String.valueOf(this.difficulty));
                 writer.write(System.lineSeparator());
-                writer.write(NPCCreator.encode());                  // Saves encoded data of all the NPCs in the game.
+                writer.write(NPCCreator.encode());
+                // Saves encoded data of all the NPCs in the game.
                 // end of writing file
 
                 writer.close();

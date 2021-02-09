@@ -78,7 +78,7 @@ public final class Infiltrator extends NPC {
         this.moveNPC(delta); // Moves the npc and sets their scale
 
         if (isDestroying) {
-            isAlarm=true;
+            isAlarm = true;
             KeySystem keySystem = KeySystemManager.getClosestKeySystem(
                 getPreviousNode().getX(), getPreviousNode().getY());
 
@@ -389,15 +389,19 @@ public final class Infiltrator extends NPC {
         Array<Boolean> isHardSprite = new Array<>();
 
         for (Infiltrator i : infiltrators) {
-            locations.add(new Vector2(i.getPreviousNode().getX(), i.getPreviousNode().getY()));
+            locations.add(new Vector2(i.getPreviousNode().getX(),
+            i.getPreviousNode().getY()));
             isDestroying.add(i.isDestroying);
             isInvisible.add(i.isInvisible);
             timeInvisible.add(i.timeInvisible);
             isHardSprite.add(i.isHardSprite);
         }
 
-        r += locations.toString() + System.lineSeparator() + isDestroying.toString() + System.lineSeparator() + isInvisible.toString() + System.lineSeparator() + timeInvisible.toString() + System.lineSeparator() + isHardSprite.toString();
-        
+        r += locations.toString() + System.lineSeparator()
+        + isDestroying.toString() + System.lineSeparator()
+        + isInvisible.toString() + System.lineSeparator()
+        + timeInvisible.toString() + System.lineSeparator()
+        + isHardSprite.toString();
         return r;
     }
 

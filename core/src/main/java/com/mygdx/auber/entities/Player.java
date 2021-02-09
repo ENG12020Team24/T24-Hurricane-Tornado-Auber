@@ -264,7 +264,7 @@ public final class Player extends Sprite implements InputProcessor {
             heal(1);
         }
 
-        if (!usingSpeedPowerUp) {
+        if (!this.isUsingSpeedPowerUp) {
             speed = Config.NORMAL_PLAYER_SPEED;
         } else {
             speed = Config.FAST_PLAYER_SPEED;
@@ -585,25 +585,36 @@ public final class Player extends Sprite implements InputProcessor {
     public float getHealth() {
         return health;
     }
-    
-    public void setHealth(float value) {
-        this.health = value;
-    }
-    
-    public void setCanHeal(boolean value) {
-        this.canHeal = value;
+
+    /** Sets this player's health.
+     * @param newHealth The new value of the player's health.
+     */
+    public void setHealth(final float newHealth) {
+        this.health = newHealth;
     }
 
-    public void setHealStopTime(float value) {
+    /**
+     * Sets when the player stopped healing.
+     * @param value When the player stopped healing.
+     */
+    public void setHealStopTime(final float value) {
         this.healStopTime = value;
     }
 
-    public void setUsingArrestPowerUp(boolean value) {
-        this.usingArrestPowerUp = value;
+    /**
+     * Sets whether the player is using the arrest powerup.
+     * @param newArrestPowerUp Whether the player is using the arrest powerup.
+     */
+    public void setUsingArrestPowerUp(final boolean newArrestPowerUp) {
+        this.isUsingArrestPowerUp = newArrestPowerUp;
     }
 
-    public void setUsingSpeedPowerUp(boolean value) {
-        this.usingSpeedPowerUp = value;
+    /**
+     * Sets whether the player is using the speed powerup.
+     * @param newSpeedPowerUp Whether the player is using the speed powerup.
+     */
+    public void setUsingSpeedPowerUp(final boolean newSpeedPowerUp) {
+        this.isUsingSpeedPowerUp = newSpeedPowerUp;
     }
 
     /** Sets whether the player is using the arrest powerup.
