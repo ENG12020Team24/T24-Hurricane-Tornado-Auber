@@ -333,24 +333,23 @@ public final class Infiltrator extends NPC {
      * Gets if infiltrator is destroying. Used for testing.
      * @return if this infiltrator is destroying
      */
-    public boolean getIsDestroying(){
+    public boolean getIsDestroying() {
         return isDestroying;
     }
 
     /**
      * Sets if infiltrator is destroying. Used for testing ONLY.
-     * @return if this infiltrator is destroying
      */
-    public void setIsDestroying(){
-        this.isDestroying=true;
+    public void setIsDestroying() {
+        this.isDestroying = true;
     }
 
      /**
      * Encodes data of all infiltrators into a recognisable string.
-     * @param sprites the set of infiltrators to encode.
+     * @param infiltrators the set of infiltrators to encode.
      * @return the encoded data of the given array of sprites.
      */
-    public static String encode(Array<Infiltrator> infiltrators) {
+    public static String encode(final Array<Infiltrator> infiltrators) {
         String r = "";
 
         Array<Vector2> locations = new Array<>();
@@ -365,12 +364,24 @@ public final class Infiltrator extends NPC {
             timeInvisible.add(i.timeInvisible);
         }
 
-        r += locations.toString() + System.lineSeparator() + isDestroying.toString() + System.lineSeparator() + isInvisible.toString() + System.lineSeparator() + timeInvisible.toString();
-        
+        r += locations.toString() + System.lineSeparator()
+        + isDestroying.toString() + System.lineSeparator()
+        + isInvisible.toString() + System.lineSeparator()
+        + timeInvisible.toString();
+
         return r;
     }
 
-    public static void loadFromEncoding(String coordinate, String isDestroying, String invisible, String timesInvisible) {
+    /**
+     * @param coordinate The coordinates of the Infiltrators.
+     * @param isDestroying Whether the Infiltrator is destroying a system.
+     * @param invisible Whether the Infiltrator is invisible.
+     * @param timesInvisible How many times this Infiltrator has turned
+     * invisible.
+     */
+    public static void loadFromEncoding(final String coordinate,
+        final String isDestroying, final String invisible,
+        final String timesInvisible) {
 
         String[] splitCoordinates = coordinate.split(",");
         // Remove useless stuff
@@ -383,8 +394,9 @@ public final class Infiltrator extends NPC {
 
         String[] splitDestroyings = isDestroying.split(",");
         splitDestroyings[0] = splitDestroyings[0].replace("[", "");
-        splitDestroyings[splitDestroyings.length - 1] = splitDestroyings[splitDestroyings.length - 1].replace("]", "");
-        
+        splitDestroyings[splitDestroyings.length - 1]
+            = splitDestroyings[splitDestroyings.length - 1].replace("]", "");
+
 
     }
 
